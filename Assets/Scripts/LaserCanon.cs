@@ -10,27 +10,43 @@ public class LaserCanon : MonoBehaviour
 	public LineRenderer aimingLine;
 	private Vector3 mousePosition;
 	public Transform tipMarker;
+	public float projectileSpeed = 600;
 
-	void OnLook(InputAction.CallbackContext context)
-	{
-		if (context.canceled)
-		{
-			LookPosition = Vector2.zero;
-		}
-		else
-		{
-			LookPosition = context.ReadValue<Vector2>();
+	private Vector3 lastAimDirection;
 
-		}
-	}
+	// TODO: pool
+	public Rigidbody2D projectilePrefab;
 
 	private void Awake()
 	{
 		controls = new();
-		controls.Player.Look.performed += OnLook;
-		controls.Player.Look.canceled += OnLook;
+
+		controls.Player.Attack.performed += OnAttack;
 	}
 
+	private void OnEnable()
+	{
+		controls.Player.Enable();
+	}
+
+	private void OnDisable()
+	{
+		controls.Player.Disable();
+	}
+
+	private void OnAttack(InputAction.CallbackContext context)
+	{
+		Debug.Log("attack!");
+
+		var bullet = Object.Instantiate(projectilePrefab);
+		bullet.transform.position = tipMarker.position;
+
+		bullet.gameObject.SetActive(true);
+		var rotatedDirection = Quaternion.Euler(0, 0, 0) * lastAimDirection;
+		//bullet.AddForce(projectileSpeed * rotatedDirection);
+
+		bullet.linearVelocity = projectileSpeed * rotatedDirection;
+	}
 
 	void Update()
 	{
@@ -47,7 +63,9 @@ public class LaserCanon : MonoBehaviour
 		var diff = mousePosition - transform.position;
 		diff.Normalize();
 		var rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-		transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+
+		lastAimDirection = diff;
+		transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90.0f);
 	}
 
 }
