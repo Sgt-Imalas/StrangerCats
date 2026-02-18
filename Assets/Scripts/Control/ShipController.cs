@@ -64,7 +64,8 @@ public class ShipController : MonoBehaviour
 	{
 		controls.Player.Disable();
 	}
-	private void Update()
+
+	private void FixedUpdate()
 	{
 		// rotation
 		Vector2 direction = movementDirection;

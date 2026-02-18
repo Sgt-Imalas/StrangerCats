@@ -1,16 +1,18 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
+// simpler direct controls for the smaller ship
 public class ShipControllerDirect : MonoBehaviour
 {
 	private PlayerControls controls;
 	public Camera mainCamera;
 	public float RotationSpeed = 180;
+	public float MaxTilt = 10.0f;
+	public float TiltSpeed = 10.0f;
 	public float AccellerationSpeed = 28f;
 	public float MaxVelocity = 60f;
 	public Vector2 movementDirection, LookPosition;
+	public Transform shipBody;
 
 	private Rigidbody2D rb;
 
@@ -48,8 +50,6 @@ public class ShipControllerDirect : MonoBehaviour
 
 	private void Update()
 	{
-
-
 		rb.AddForce(AccellerationSpeed * rb.mass * movementDirection);
 
 		if (rb.linearVelocity.magnitude > MaxVelocity)
@@ -57,5 +57,7 @@ public class ShipControllerDirect : MonoBehaviour
 			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
 		}
 
+		var targetRotation = rb.linearVelocityX;
+		shipBody.rotation = Quaternion.Euler(0f, 0f, targetRotation);
 	}
 }
