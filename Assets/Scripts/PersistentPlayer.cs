@@ -28,11 +28,6 @@ namespace Assets.Scripts
 			Instance = this;
 
 			attributes = GetComponent<Attributes>();
-
-			// initializing an attribute with default values.
-			// if modding without calling this first, mods will not take effect
-			attributes.SetBaseValue(AttributeType.FireRate, 1.0f, 0.01f, 10f);
-			attributes.SetBaseValue(AttributeType.ExplosionRadius, 1.0f, 0f, 10f);
 		}
 
 		void Start()

@@ -1,7 +1,9 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Attribute))]
 public class Bullet : MonoBehaviour
 {
+	public Attributes attributes;
 	public float lifeTime = 1.0f;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created

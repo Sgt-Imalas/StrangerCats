@@ -2,6 +2,7 @@ using Assets.Scripts;
 using System;
 using UnityEngine;
 
+[Serializable]
 public class Attribute
 {
 	public AttributeType id;

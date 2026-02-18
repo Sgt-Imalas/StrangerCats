@@ -380,6 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f012db23d7b7144c9d6532a23174acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attributes
+  baseValues: []
 --- !u!1 &945011212
 GameObject:
   m_ObjectHideFlags: 0
@@ -121816,6 +121817,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f012db23d7b7144c9d6532a23174acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attributes
+  baseValues:
+  - id: 0
+    name: 
+    tooltip: 
+    minValue: 0.01
+    maxValue: 10
+    value: 1
 --- !u!114 &2111965885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121828,6 +121836,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8eb06f373e2b74458565258ec8f0d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PersistentPlayer
+  attributes: {fileID: 0}
+  testMod: 0
 --- !u!4 &2111965886
 Transform:
   m_ObjectHideFlags: 0

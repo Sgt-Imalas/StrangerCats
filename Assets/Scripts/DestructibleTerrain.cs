@@ -42,6 +42,22 @@ public class DestructibleTerrain : MonoBehaviour
 
 		var cell = tileMap.WorldToCell(insetHitPosition);
 
+		if (collision.collider.TryGetComponent(out Attributes attributes))
+		{
+			var radius = (int)attributes.Get(Assets.Scripts.AttributeType.ExplosionRadius);
+			if (radius > 0)
+			{
+				// TODO: manhattan or smth
+				for (var x = -radius; x < radius; x++)
+				{
+					for (var y = -radius; y < radius; y++)
+					{
+						queuedToDamage.Add(cell + new Vector3Int(x, y));
+					}
+				}
+			}
+		}
+
 		queuedToDamage.Add(cell);
 		dirty = true;
 	}

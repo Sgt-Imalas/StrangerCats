@@ -6,7 +6,7 @@ public class Attributes : MonoBehaviour
 {
 	public OnAttributeChangedDelegate OnAttributeChanged;
 
-	public Dictionary<AttributeType, Attribute> baseValues = new();
+	public List<Attribute> baseValues = new();
 	public Dictionary<AttributeType, float> currentValues = new();
 	public List<AttributeModifier> mods = new();
 
@@ -19,14 +19,12 @@ public class Attributes : MonoBehaviour
 
 	public void SetBaseValue(AttributeType attributeId, float value, float minValue, float maxValue)
 	{
-		if (baseValues.TryGetValue(attributeId, out var baseValue))
-		{
-			baseValue.Set(value);
-		}
+		var attr = GetBaseAttribute(attributeId, false);
+
+		if (attr == null)
+			baseValues.Add(new Attribute(attributeId, value, minValue, maxValue));
 		else
-		{
-			baseValues.Add(attributeId, new Attribute(attributeId, value, minValue, maxValue));
-		}
+			attr.Set(value);
 
 		OnAttributeChanged?.Invoke(attributeId, value);
 	}
@@ -68,12 +66,27 @@ public class Attributes : MonoBehaviour
 		UpdateMods();
 	}
 
+	private Attribute GetBaseAttribute(AttributeType type, bool warnIfMissing = true)
+	{
+		var idx = baseValues.FindIndex(attr => attr.id == type);
+
+		if (idx == -1)
+		{
+			if (warnIfMissing)
+				Debug.LogWarning($"There is no attribute id {type} on {name}");
+
+			return null;
+		}
+
+		return baseValues[idx];
+	}
+
 	private void UpdateMods()
 	{
 		currentValues.Clear();
 
 		foreach (var key in baseValues)
-			currentValues[key.Key] = key.Value.value;
+			currentValues[key.id] = key.value;
 
 		foreach (var mod in mods)
 		{
@@ -82,7 +95,7 @@ public class Attributes : MonoBehaviour
 			if (!currentValues.ContainsKey(attributeId))
 				currentValues[attributeId] = 0.0f;
 
-			var defaultAttr = baseValues[attributeId];
+			var defaultAttr = GetBaseAttribute(attributeId);
 
 			var value = mod.multiplier ? (defaultAttr.value * mod.value) : currentValues[attributeId] + mod.value;
 			value = Mathf.Clamp(value, defaultAttr.minValue, defaultAttr.maxValue);

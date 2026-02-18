@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 6421930045930840464}
   - component: {fileID: 3948127177318951826}
   - component: {fileID: 2632791459215621337}
+  - component: {fileID: 2239739120527683378}
   m_Layer: 7
   m_Name: MiningProjectile
   m_TagString: Untagged
@@ -321,4 +322,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb785fec049f44f4eaf60dbe89626c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  attributes: {fileID: 0}
   lifeTime: 1
+--- !u!114 &2239739120527683378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8147607797814629959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f012db23d7b7144c9d6532a23174acb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Attributes
+  baseValues:
+  - id: 1
+    name: Explosion Radius
+    tooltip: 
+    minValue: 0
+    maxValue: 12
+    value: 2

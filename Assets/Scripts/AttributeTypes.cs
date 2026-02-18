@@ -3,9 +3,7 @@
 	public enum AttributeType
 	{
 		FireRate,
-		Health,
 		ExplosionRadius,
-		Damage,
-		MovementSpeed
+		LifeTime
 	}
 }
