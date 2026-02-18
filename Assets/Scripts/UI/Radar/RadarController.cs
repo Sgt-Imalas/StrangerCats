@@ -54,7 +54,7 @@ public class RadarController : MonoBehaviour
 		}
 	}
 
-	public static void AddPointer(GameObject target) => Instance?.AddPointerInternal(target);
+	public static void AddPointer(GameObject target, Color? optionalTint) => Instance?.AddPointerInternal(target);
 	void AddPointerInternal(GameObject target)
     {
         if(PointerPrefab == null)
@@ -80,7 +80,8 @@ public class RadarController : MonoBehaviour
     {
         if(TrackedTargets.TryGetValue(target, out var pointer))
         {
-            Destroy(pointer.gameObject);
+			if(pointer != null)
+				Destroy(pointer.gameObject);
             TrackedTargets.Remove(target);
 		}
 	}
