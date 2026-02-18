@@ -16,7 +16,8 @@ public class RadarPointer : MonoBehaviour
 	[SerializeField]
 	GameObject ImageGO;
 	Image Image;
-	public float DistanceThreshold = 50;
+	//hide pointer below
+	public float CutofffDistanceThreshold = 50;
 
 	private void Start()
 	{
@@ -36,7 +37,7 @@ public class RadarPointer : MonoBehaviour
 
 	protected virtual void ToggleVisBelowThreshold()
 	{
-			ImageGO.SetActive(CurrentDistance >= DistanceThreshold);
+			ImageGO.SetActive(CurrentDistance >= CutofffDistanceThreshold);
 	}
 
 	float UpdatePointerPosAndRotation()
