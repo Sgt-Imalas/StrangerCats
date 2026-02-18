@@ -321,7 +321,7 @@ MonoBehaviour:
   TargetPosition: {x: 0, y: 0, z: 0}
   CurrentDistance: 3.4028235e+38
   ImageGO: {fileID: 1610181448}
-  CutofffDistanceThreshold: 50
+  CutofffDistanceThreshold: 18
 --- !u!1 &183223014
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,6 +430,7 @@ GameObject:
   - component: {fileID: 229524356}
   - component: {fileID: 229524359}
   - component: {fileID: 229524360}
+  - component: {fileID: 229524361}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -480,7 +481,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 1.4716667
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -570,6 +571,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Follower
   Target: {fileID: 1045476043}
   Offset: -20
+--- !u!114 &229524361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229524355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.PixelPerfectCamera
+  m_ComponentVersion: 1
+  m_AssetsPPU: 100
+  m_RefResolutionX: 320
+  m_RefResolutionY: 180
+  m_CropFrame: 0
+  m_GridSnapping: 0
+  m_FilterMode: 0
+  m_UpscaleRT: 0
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!1 &250421866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1619,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1045476044}
   - component: {fileID: 1045476046}
-  - component: {fileID: 1045476047}
+  - component: {fileID: 1045476050}
   - component: {fileID: 1045476048}
   - component: {fileID: 1045476049}
   m_Layer: 0
@@ -1636,25 +1661,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1045476043}
   m_CullTransparentMesh: 1
---- !u!114 &1045476047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1045476043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c8c36507c8ccd04592805ca12f7bccb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShipController
-  mainCamera: {fileID: 229524357}
-  RotationSpeed: 240
-  AccellerationSpeed: 32
-  MaxVelocity: 120
-  FlyTowardsMouseMode: 1
-  movementDirection: {x: 0, y: 0}
-  LookPosition: {x: 0, y: 0}
 --- !u!50 &1045476048
 Rigidbody2D:
   serializedVersion: 5
@@ -1718,6 +1724,25 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.3
+--- !u!114 &1045476050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045476043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9f74dadba71c9489dac9e35d976262, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipControllerStarmap
+  mainCamera: {fileID: 229524357}
+  RotationSpeed: 240
+  AccellerationSpeed: 32
+  MaxVelocity: 120
+  PrecisionFlyMode: 1
+  movementDirection: {x: 0, y: 0}
+  LookPosition: {x: 0, y: 0}
 --- !u!1 &1062657306
 GameObject:
   m_ObjectHideFlags: 0
@@ -8166,11 +8191,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9b602e158f83434bbbb9d2b7b8cc292, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Starfield
-  MaxStars: 200
+  MaxStars: 400
   StarSize: 0.1
   StarSizeRange: 0.5
-  FieldWidth: 25
-  FieldHeight: 25
+  FieldWidth: 50
+  FieldHeight: 50
   MaxStarDistance: 30
   MaxStarClipDistance: 40
   MainCam: {fileID: 0}

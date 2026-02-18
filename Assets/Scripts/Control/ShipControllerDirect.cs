@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 // simpler direct controls for the smaller ship
 public class ShipControllerDirect : MonoBehaviour
@@ -24,6 +25,13 @@ public class ShipControllerDirect : MonoBehaviour
 
 		controls.Player.Move.performed += OnMove;
 		controls.Player.Move.canceled += OnMove;
+		
+		//temp measure to return to starmap
+		controls.Player.Jump.performed += OnExit;
+	}
+	void OnExit(InputAction.CallbackContext context)
+	{
+		SceneManager.LoadScene("Starmap");
 	}
 
 	void OnMove(InputAction.CallbackContext context)
