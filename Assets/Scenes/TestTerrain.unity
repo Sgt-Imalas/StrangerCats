@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 870740499}
   - component: {fileID: 870740503}
   - component: {fileID: 870740504}
+  - component: {fileID: 870740505}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -367,6 +368,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1.02
+--- !u!114 &870740505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870740498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f012db23d7b7144c9d6532a23174acb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Attributes
 --- !u!1 &945011212
 GameObject:
   m_ObjectHideFlags: 0
@@ -121773,6 +121786,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   target: {fileID: 870740502}
   maxDistanceDelta: 10
+--- !u!1 &2111965883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2111965886}
+  - component: {fileID: 2111965885}
+  - component: {fileID: 2111965884}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2111965884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111965883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f012db23d7b7144c9d6532a23174acb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Attributes
+--- !u!114 &2111965885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111965883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8eb06f373e2b74458565258ec8f0d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PersistentPlayer
+--- !u!4 &2111965886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111965883}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.70598, y: 3.29191, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -121780,3 +121850,4 @@ SceneRoots:
   - {fileID: 2102457981}
   - {fileID: 1042986961}
   - {fileID: 870740502}
+  - {fileID: 2111965886}

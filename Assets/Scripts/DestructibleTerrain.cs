@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,9 +8,29 @@ public class DestructibleTerrain : MonoBehaviour
 	Tilemap tileMap;
 	public float penetrationTest = -0.1f;
 
+	public HashSet<Vector3Int> queuedToDamage;
+	private bool dirty;
+
 	void Start()
 	{
 		tileMap = GetComponent<Tilemap>();
+		queuedToDamage = new HashSet<Vector3Int>();
+	}
+
+	void Update()
+	{
+		if (dirty)
+		{
+			foreach (var cell in queuedToDamage)
+			{
+				tileMap.SetTile(cell, null);
+			}
+
+			tileMap.RefreshAllTiles();
+			tileMap.CompressBounds();
+
+			dirty = false;
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)
@@ -21,10 +42,7 @@ public class DestructibleTerrain : MonoBehaviour
 
 		var cell = tileMap.WorldToCell(insetHitPosition);
 
-		tileMap.SetTile(cell, null);
-
-		tileMap.RefreshTile(cell);
-		tileMap.RefreshAllTiles();
-		tileMap.CompressBounds();
+		queuedToDamage.Add(cell);
+		dirty = true;
 	}
 }

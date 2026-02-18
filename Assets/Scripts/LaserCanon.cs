@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,8 +24,22 @@ public class LaserCanon : MonoBehaviour
 	private void Awake()
 	{
 		controls = new();
+	}
 
-		controls.Player.Attack.performed += OnAttack;
+	void Start()
+	{
+		PersistentPlayer.Instance.attributes.OnAttributeChanged += OnPlayerAttributeChanged;
+		projectileCooldown = PersistentPlayer.Instance.attributes.Get(AttributeType.FireRate);
+	}
+
+	private void OnPlayerAttributeChanged(AttributeType attributeId, float value)
+	{
+		switch (attributeId)
+		{
+			case AttributeType.FireRate:
+				projectileCooldown = PersistentPlayer.Instance.attributes.Get(AttributeType.FireRate);
+				break;
+		}
 	}
 
 	private void OnEnable()
@@ -39,8 +54,6 @@ public class LaserCanon : MonoBehaviour
 
 	private void OnAttack(InputAction.CallbackContext context)
 	{
-		Debug.Log("attack!");
-
 		var bullet = Object.Instantiate(projectilePrefab);
 		bullet.transform.position = tipMarker.position;
 
