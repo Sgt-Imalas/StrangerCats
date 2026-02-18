@@ -38,9 +38,6 @@ public class ShipController : MonoBehaviour
 			LookPosition = context.ReadValue<Vector2>();
 
 		}
-		//lookDirection.x -= transform.position.x;
-		//lookDirection.y -= transform.position.y;
-
 	}
 
 	private void Awake()

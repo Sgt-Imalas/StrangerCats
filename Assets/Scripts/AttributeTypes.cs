@@ -4,6 +4,11 @@
 	{
 		FireRate,
 		ExplosionRadius,
-		LifeTime
+		LifeTime,
+
+		RadarRange,
+
+		SpaceshipAccelleration,
+		SpaceshipMaxSpeed,
 	}
 }

@@ -45,5 +45,8 @@ namespace Assets.Scripts
 				testMod = false;
 			}
 		}
+
+
+		public static float GetAttribute(AttributeType attributeId) => Instance?.attributes.Get(attributeId) ?? 0;
 	}
 }

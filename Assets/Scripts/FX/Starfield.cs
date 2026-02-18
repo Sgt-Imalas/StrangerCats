@@ -16,7 +16,6 @@ public class Starfield : MonoBehaviour
     private float MaxStarDistanceSq;
     public float MaxStarClipDistance = 40f;
     private float MaxStarClipDistanceSq; 
-    public bool Colorize = false;
     public Camera MainCam;
 
     public float yDiff = 10f;
