@@ -12,7 +12,9 @@ public class ShipController : MonoBehaviour
 	public float MaxVelocity = 60f;
 	public bool FlyTowardsMouseMode = true;
 	public Vector2 movementDirection, LookPosition;
+
 	Rigidbody2D rb;
+
 	void OnMove(InputAction.CallbackContext context)
 	{
 		if (context.canceled)
@@ -24,6 +26,7 @@ public class ShipController : MonoBehaviour
 			movementDirection = context.ReadValue<Vector2>();
 		}
 	}
+
 	void OnLook(InputAction.CallbackContext context)
 	{
 		if (context.canceled)
@@ -39,6 +42,7 @@ public class ShipController : MonoBehaviour
 		//lookDirection.y -= transform.position.y;
 
 	}
+
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
@@ -50,6 +54,7 @@ public class ShipController : MonoBehaviour
 		controls.Player.Move.performed += OnMove;
 		controls.Player.Move.canceled += OnMove;
 	}
+
 	private void OnEnable()
 	{
 		controls.Player.Enable();
