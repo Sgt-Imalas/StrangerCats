@@ -167,7 +167,7 @@ public class ShipControllerStarmap : MonoBehaviour
 			if (movementDirection != Vector2.zero)
 				rb.AddForce(60*Time.fixedDeltaTime * AccellerationSpeed * rb.mass * movementDirection);
 			else
-				rb.linearVelocity *= 1f - Time.fixedDeltaTime;
+				rb.linearVelocity *= 1f - 0.5f * Time.fixedDeltaTime;
 		}
 		else if (PrecisionFlyMode)
 		{

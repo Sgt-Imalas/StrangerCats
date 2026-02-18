@@ -18,6 +18,7 @@ public class RadarPointer : MonoBehaviour
 	Image Image;
 	//hide pointer below
 	public float CutofffDistanceThreshold = 50;
+	public bool IgnoreDistanceLimit = false;
 
 	private void Start()
 	{

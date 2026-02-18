@@ -40,7 +40,7 @@ public class RadarController : MonoBehaviour
 				continue;
 			}
 			var distance = Vector3.Distance(PlayerGO.transform.position, target.Key.transform.position);
-			target.Value.gameObject.SetActive(distance <= MaximumRadarRange);
+			target.Value.gameObject.SetActive(target.Value.IgnoreDistanceLimit || distance <= MaximumRadarRange);
 		}
 	}
 
@@ -54,8 +54,8 @@ public class RadarController : MonoBehaviour
 		}
 	}
 
-	public static void AddPointer(GameObject target, Color? optionalTint) => Instance?.AddPointerInternal(target, optionalTint);
-	void AddPointerInternal(GameObject target, Color? optionalTint)
+	public static void AddPointer(GameObject target, Color? optionalTint, bool ignoreRadarLimit = false) => Instance?.AddPointerInternal(target, optionalTint, ignoreRadarLimit);
+	void AddPointerInternal(GameObject target, Color? optionalTint, bool ignoreRadarLimit = false)
     {
         if(PointerPrefab == null)
            Debug.LogError("Pointer prefab is not set on RadarController??");
@@ -70,6 +70,7 @@ public class RadarController : MonoBehaviour
 			{
 				pointer.Tint = optionalTint;
 			}
+			pointer.IgnoreDistanceLimit = ignoreRadarLimit;
 
 			TrackedTargets.Add(target, pointer);
 		}
