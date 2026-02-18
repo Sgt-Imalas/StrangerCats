@@ -54,8 +54,8 @@ public class RadarController : MonoBehaviour
 		}
 	}
 
-	public static void AddPointer(GameObject target, Color? optionalTint) => Instance?.AddPointerInternal(target);
-	void AddPointerInternal(GameObject target)
+	public static void AddPointer(GameObject target, Color? optionalTint) => Instance?.AddPointerInternal(target, optionalTint);
+	void AddPointerInternal(GameObject target, Color? optionalTint)
     {
         if(PointerPrefab == null)
            Debug.LogError("Pointer prefab is not set on RadarController??");
@@ -66,6 +66,10 @@ public class RadarController : MonoBehaviour
 		{
 			pointer.Target = target;
 			pointer.Player = PlayerGO;
+			if (optionalTint.HasValue)
+			{
+				pointer.Tint = optionalTint;
+			}
 
 			TrackedTargets.Add(target, pointer);
 		}
