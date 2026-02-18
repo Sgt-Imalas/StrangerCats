@@ -37,6 +37,7 @@ public class MapGenerator : MonoBehaviour
 			}
 		}
 
+		Debug.Log("generated map");
 		tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });
 	}
 

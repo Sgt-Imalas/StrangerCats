@@ -17,6 +17,9 @@ public class LaserCanon : MonoBehaviour
 	// TODO: pool
 	public Rigidbody2D projectilePrefab;
 
+	public float projectileCooldown = 0.1f;
+	private float _timeSinceLastProjectile;
+
 	private void Awake()
 	{
 		controls = new();
@@ -46,12 +49,21 @@ public class LaserCanon : MonoBehaviour
 		//bullet.AddForce(projectileSpeed * rotatedDirection);
 
 		bullet.linearVelocity = projectileSpeed * rotatedDirection;
+
+		_timeSinceLastProjectile = 0.0f;
 	}
 
 	void Update()
 	{
 		aimingLine.SetPosition(0, tipMarker.position);
 		aimingLine.SetPosition(1, mousePosition);
+
+		if (_timeSinceLastProjectile > projectileCooldown && controls.Player.Attack.ReadValue<float>() > 0.0f)
+		{
+			OnAttack(default);
+		}
+
+		_timeSinceLastProjectile += Time.deltaTime;
 	}
 
 	// Update is called once per frame
