@@ -134,6 +134,11 @@ public class MapGenerator : MonoBehaviour
 
 		Debug.Log("generated map");
 		tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });
+
+
+		if (GlobalEvents.Instance != null)
+			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
+
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -146,9 +151,6 @@ public class MapGenerator : MonoBehaviour
 		if (refresh)
 		{
 			Generate(Random.Range(0, 999999), out var materials);
-
-			if (GlobalEvents.Instance != null)
-				GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
 
 			refresh = false;
 		}

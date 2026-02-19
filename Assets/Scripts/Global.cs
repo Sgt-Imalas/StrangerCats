@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Global
@@ -12,16 +11,19 @@ public class Global
 			return _instance;
 		}
 	}
+
 	public GameSettings Settings = new();
 	public StarmapShip Spaceship = new();
 	public bool LoadingScene = false;
 	public bool InCameraTransition = false;
 	public bool InPauseMenu = false;
-	public bool LockedInputs =>  InCameraTransition || InPauseMenu;
+	public bool LockedInputs => InCameraTransition || InPauseMenu;
+	public DestructibleTerrain activeTerrain;
+	public int WorldSeed;
 
 	public class StarmapShip
 	{
-		public Vector2 Position = new(0,0);
+		public Vector2 Position = new(0, 0);
 		public Quaternion Rotation = new();
 
 		public FlightStats PrecisionMode = new()
@@ -55,7 +57,7 @@ public class Global
 		{
 			get
 			{
-				if(_currentMode == null)
+				if (_currentMode == null)
 				{
 					_currentMode = PrecisionMode;
 				}

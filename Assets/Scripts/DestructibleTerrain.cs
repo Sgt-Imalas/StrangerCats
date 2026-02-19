@@ -19,6 +19,12 @@ public class DestructibleTerrain : MonoBehaviour
 
 	private float elapsed = 0;
 
+	public Vector3 GetTileCenter(Vector3 pos)
+	{
+		var cell = tileMap.WorldToCell(new Vector3(pos.x, pos.y));
+		return tileMap.GetCellCenterWorld(cell);
+	}
+
 	void Start()
 	{
 		queuedToDamage = new Dictionary<Vector3Int, float>();
@@ -26,6 +32,8 @@ public class DestructibleTerrain : MonoBehaviour
 		materials = new Dictionary<Vector3Int, MaterialData>();
 
 		GlobalEvents.Instance.OnNewMapGenerated += OnNewMapGenerated;
+
+		Global.Instance.activeTerrain = this;
 	}
 
 	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials)
@@ -81,8 +89,7 @@ public class DestructibleTerrain : MonoBehaviour
 					queuedToDestroy.Add(tile.Key);
 				else
 				{
-					var materials = Materials.Instance.GetMaterial(mat.idx);
-					var idx = (int)((crackTile.Length) * (mat.currentHp / mat.hp));
+					var idx = (int)((crackTile.Length) * (1.0f - (mat.currentHp / mat.hp)));
 					idx = Mathf.Clamp(idx, 0, crackTile.Length - 1);
 					cracksTileMap.SetTile(tile.Key, crackTile[idx]);
 				}
@@ -144,5 +151,32 @@ public class DestructibleTerrain : MonoBehaviour
 			queuedToDamage.Add(cell, 1.0f);
 
 		dirty = true;
+	}
+
+	internal void DamageTileAt(Vector2 pos, float damage, int radius = 0)
+	{
+		var cell = tileMap.WorldToCell(pos);
+		if (tileMap.HasTile(cell))
+		{
+			if (radius > 0)
+			{
+				// TODO: manhattan or smth
+				for (var x = -radius; x < radius; x++)
+				{
+					for (var y = -radius; y < radius; y++)
+					{
+						queuedToDamage.Add(cell + new Vector3Int(x, y), damage);
+					}
+				}
+			}
+			else
+			{
+
+				queuedToDamage.Add(cell, 1.0f);
+			}
+
+			dirty = true;
+		}
+
 	}
 }

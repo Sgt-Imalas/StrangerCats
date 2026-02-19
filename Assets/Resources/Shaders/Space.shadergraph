@@ -534,12 +534,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalSpriteUnlitSubTarget",
-    "m_ObjectId": "3f2aaa53e1b24a5f95167d45e6392704"
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "45f6c69f8bf24df3a565374fde4e2fac",
     "m_Id": 4,
@@ -777,6 +771,12 @@
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalSpriteUnlitSubTarget",
+    "m_ObjectId": "807be2323bb14baba2eab654ad281a2b"
 }
 
 {
@@ -1138,7 +1138,7 @@
     "m_ObjectId": "f7017b8613c64d0a83bf30dc99ca9e00",
     "m_Datas": [],
     "m_ActiveSubTarget": {
-        "m_Id": "3f2aaa53e1b24a5f95167d45e6392704"
+        "m_Id": "807be2323bb14baba2eab654ad281a2b"
     },
     "m_AllowMaterialOverride": false,
     "m_SurfaceType": 0,

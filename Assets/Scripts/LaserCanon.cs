@@ -1,5 +1,4 @@
 using Assets.Scripts;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +14,13 @@ public class LaserCanon : MonoBehaviour
 	public float projectileSpeed = 600;
 	float explosionRadius = 0;
 
+	public LayerMask layerMask;
+
 	private Vector3 lastAimDirection;
+
+	public Transform selectionMarker;
+	public LineRenderer laserRenderer;
+	public Transform sparkLight;
 
 	// TODO: pool
 	public Rigidbody2D projectilePrefab;
@@ -25,6 +30,9 @@ public class LaserCanon : MonoBehaviour
 
 	bool ControllerAim;
 	float stickDeadzone = 0.1f;
+
+	bool wasLaserActive = false;
+	bool isLaserActive = false;
 
 	private void Awake()
 	{
@@ -75,24 +83,113 @@ public class LaserCanon : MonoBehaviour
 
 	private void OnAttack(InputAction.CallbackContext context)
 	{
-		var bullet = Object.Instantiate(projectilePrefab);
-		bullet.transform.position = tipMarker.position;
+		/*		var bullet = Object.Instantiate(projectilePrefab);
+				bullet.transform.position = tipMarker.position;
 
-		bullet.gameObject.SetActive(true);
-		var rotatedDirection = Quaternion.Euler(0, 0, 0) * lastAimDirection;
-		//bullet.AddForce(projectileSpeed * rotatedDirection);
-		bullet.GetComponent<Attributes>().SetBaseValue(AttributeType.ExplosionRadius, explosionRadius, 0, 999);
-		bullet.linearVelocity = projectileSpeed * rotatedDirection;
+				bullet.gameObject.SetActive(true);
+				var rotatedDirection = Quaternion.Euler(0, 0, 0) * lastAimDirection;
+				//bullet.AddForce(projectileSpeed * rotatedDirection);
+				bullet.GetComponent<Attributes>().SetBaseValue(AttributeType.ExplosionRadius, explosionRadius, 0, 999);
+				bullet.linearVelocity = projectileSpeed * rotatedDirection;
+		*/
+
+
+		var dir = (Vector2)(mousePosition - tipMarker.position);
+
+		var hit = Physics2D.BoxCast(
+					transform.position,
+					new Vector2(0.1f, 0.2f),
+					0f,
+					dir,
+					500.0f,
+					layerMask
+				);
+
+		if (hit.collider != null)
+		{
+			var insidePoint = hit.point - hit.normal;
+			Global.Instance.activeTerrain.DamageTileAt(insidePoint, 0.5f);
+		}
 
 		_timeSinceLastProjectile = 0.0f;
 	}
 
+
 	void Update()
 	{
+		if (!wasLaserActive)
+		{
+			laserRenderer.gameObject.SetActive(true);
+			sparkLight.gameObject.SetActive(true);
+		}
+
 		aimingLine.SetPosition(0, tipMarker.position);
 		aimingLine.SetPosition(1, mousePosition);
 
-		if (_timeSinceLastProjectile > projectileCooldown && controls.Player.Attack.ReadValue<float>() > 0.0f)
+		var dir = (Vector2)(mousePosition - tipMarker.position);
+
+		var hit = Physics2D.BoxCast(
+					transform.position,
+					new Vector2(0.1f, 0.2f),
+					0f,
+					dir,
+					500.0f,
+					layerMask
+				);
+
+		var isHittingTile = hit.collider != null;
+
+		if (isHittingTile)
+		{
+			var insidePoint = hit.point - hit.normal;
+			selectionMarker.gameObject.SetActive(true);
+			selectionMarker.position = Global.Instance.activeTerrain.GetTileCenter(insidePoint);
+		}
+		else
+		{
+			selectionMarker.gameObject.SetActive(false);
+		}
+
+		var isMouseDown = controls.Player.Attack.ReadValue<float>() > 0.0f;
+
+		if (isMouseDown && isHittingTile)
+		{
+			if (!wasLaserActive)
+			{
+				laserRenderer.enabled = true;
+				sparkLight.gameObject.SetActive(true);
+			}
+
+			laserRenderer.SetPosition(0, tipMarker.position);
+			laserRenderer.SetPosition(1, hit.point);
+			sparkLight.transform.position = hit.point;
+
+			wasLaserActive = true;
+		}
+		else if (isMouseDown)
+		{
+			if (!wasLaserActive)
+			{
+				laserRenderer.enabled = true;
+				sparkLight.gameObject.SetActive(true);
+			}
+
+			laserRenderer.SetPosition(0, tipMarker.position);
+
+			laserRenderer.SetPosition(1, tipMarker.position + (Vector3)LookPosition.normalized * 10.0f);
+		}
+		else
+		{
+			if (wasLaserActive)
+			{
+				laserRenderer.enabled = false;
+				sparkLight.gameObject.SetActive(false);
+			}
+
+			wasLaserActive = false;
+		}
+
+		if (isMouseDown && _timeSinceLastProjectile > projectileCooldown && isMouseDown)
 		{
 			OnAttack(default);
 		}
@@ -103,10 +200,10 @@ public class LaserCanon : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		Vector2 direction = LookPosition;
+		var direction = LookPosition;
 		if (!ControllerAim)
 		{
-			Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
+			var mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
 			direction = mouseWorld - transform.position;
 			mousePosition = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 		}
@@ -117,7 +214,7 @@ public class LaserCanon : MonoBehaviour
 		mousePosition.z = transform.position.z;
 		if (direction != Vector2.zero)
 		{
-			float rot_z = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+			var rot_z = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			//float diff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, rot_z));
 
 			lastAimDirection = direction.normalized;
