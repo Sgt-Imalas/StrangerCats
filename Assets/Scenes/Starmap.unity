@@ -879,7 +879,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 0
-  orthographic size: 1.49
+  orthographic size: 1.16
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1257,7 +1257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076e275e63d92c44892fdc86e948b512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Landable
-  SceneToLoad: {fileID: 102900000, guid: fe0c8a6aeed8aee43a5cddd604447f92, type: 3}
+  SceneToLoad: MineableTerrain
 --- !u!58 &328265340
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6809,7 +6809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076e275e63d92c44892fdc86e948b512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Landable
-  SceneToLoad: {fileID: 102900000, guid: fe0c8a6aeed8aee43a5cddd604447f92, type: 3}
+  SceneToLoad: MineableTerrain
 --- !u!1001 &1670685556
 PrefabInstance:
   m_ObjectHideFlags: 0
