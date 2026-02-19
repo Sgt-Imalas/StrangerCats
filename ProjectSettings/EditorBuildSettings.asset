@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Starmap.unity
     guid: 003a98c990afa5741aac58d996feb346
   - enabled: 1
-    path: Assets/Scenes/TestTerrain.unity
+    path: Assets/Scenes/MineableTerrain.unity
     guid: fe0c8a6aeed8aee43a5cddd604447f92
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

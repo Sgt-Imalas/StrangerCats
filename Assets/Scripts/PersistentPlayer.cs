@@ -30,6 +30,16 @@ namespace Assets.Scripts
 			attributes = GetComponent<Attributes>();
 		}
 
+		void Start()
+		{
+			attributes.OnAttributeChanged += OnAttributesChanged;
+		}
+
+		private void OnAttributesChanged(AttributeType type, float finalValue)
+		{
+			GlobalEvents.Instance.OnPlayerAttributesChanged.Invoke(type, finalValue);
+		}
+
 		void Update()
 		{
 			if (testMod)
@@ -37,11 +47,21 @@ namespace Assets.Scripts
 				// adding a mod here
 				// randomizing the id, if the id is shared it overrides the previous mod
 				attributes.AddMod("TestMod" + Random.value.ToString(), AttributeType.FireRate, -0.1f);
+				attributes.AddMod("TestMod2" + Random.value.ToString(), AttributeType.PodSpeed, 10f);
 				testMod = false;
 			}
 		}
 
 
-		public static float GetAttribute(AttributeType attributeId) => Instance?.attributes.Get(attributeId) ?? 0;
+		public static float GetAttribute(AttributeType attributeId, float defaultValue = 0.0f)
+		{
+			if (Instance == null)
+			{
+				Debug.LogWarning("Player Instance is null");
+				return defaultValue;
+			}
+
+			return Instance.attributes.Get(attributeId);
+		}
 	}
 }

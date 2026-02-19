@@ -1,8 +1,10 @@
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 // simpler direct controls for the smaller ship
+[DefaultExecutionOrder(10)]
 public class ShipControllerDirect : MonoBehaviour
 {
 	private PlayerControls controls;
@@ -28,10 +30,22 @@ public class ShipControllerDirect : MonoBehaviour
 		
 		//temp measure to return to starmap
 		controls.Player.Jump.performed += OnExit;
+		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
 	}
 	void OnExit(InputAction.CallbackContext context)
 	{
 		SceneManager.LoadScene("Starmap");
+
+	}
+
+	private void OnPlayerAttributesChanged(AttributeType type, float finalValue)
+	{
+		switch (type)
+		{
+			case AttributeType.PodSpeed:
+				AccellerationSpeed = finalValue;
+				break;
+		}
 	}
 
 	void OnMove(InputAction.CallbackContext context)
@@ -65,7 +79,7 @@ public class ShipControllerDirect : MonoBehaviour
 			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
 		}
 
-		var targetRotation = rb.linearVelocityX;
+		var targetRotation = -rb.linearVelocityX;
 		shipBody.rotation = Quaternion.Euler(0f, 0f, targetRotation);
 	}
 }

@@ -15,6 +15,8 @@ public class Attributes : MonoBehaviour
 	void Start()
 	{
 		UpdateMods();
+		foreach (var baseValue in baseValues)
+			OnAttributeChanged?.Invoke(baseValue.id, baseValue.value);
 	}
 
 	public void SetBaseValue(AttributeType attributeId, float value, float minValue, float maxValue)
@@ -26,7 +28,12 @@ public class Attributes : MonoBehaviour
 		else
 			attr.Set(value);
 
-		OnAttributeChanged?.Invoke(attributeId, value);
+		BroadCastEvent(attributeId);
+	}
+
+	public void BroadCastEvent(AttributeType type)
+	{
+		OnAttributeChanged?.Invoke(type, Get(type));
 	}
 
 	public float Get(AttributeType attribute)
@@ -50,7 +57,7 @@ public class Attributes : MonoBehaviour
 		mods.Add(mod);
 		UpdateMods();
 
-		OnAttributeChanged?.Invoke(mod.attributeId, mod.value);
+		BroadCastEvent(mod.attributeId);
 	}
 
 	public void RemoveMod(string modId)
@@ -60,7 +67,7 @@ public class Attributes : MonoBehaviour
 			return;
 
 		var mod = mods[modIdx];
-		OnAttributeChanged?.Invoke(mod.attributeId, mod.value);
+		BroadCastEvent(mod.attributeId);
 
 		mods.RemoveAt(modIdx);
 		UpdateMods();
