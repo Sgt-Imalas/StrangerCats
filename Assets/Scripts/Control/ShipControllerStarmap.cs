@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.ParticleSystem;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ShipControllerStarmap : MonoBehaviour
@@ -13,10 +17,62 @@ public class ShipControllerStarmap : MonoBehaviour
 	public float MaxVelocity = 60f;
 	public bool PrecisionFlyMode = true;
 	public Vector2 movementDirection, LookPosition;
+	public CameraAnimator CameraAnimator;
 
 	Rigidbody2D rb;
-	Follower CamFollower;
+	Vector2 CurrentThrust;
 
+	List<ParticleSystem> CruiseEngineEmissions;
+	List<ParticleSystem> PrecisionEngineEmissions;
+	private void Awake()
+	{
+		rb = GetComponent<Rigidbody2D>();
+		CameraAnimator = mainCamera.GetComponent<CameraAnimator>();
+
+		controls = new();
+		controls.Player.Look.performed += OnLook;
+		controls.Player.Look.canceled += OnLook;
+
+		controls.Player.Move.performed += OnMove;
+		controls.Player.Move.canceled += OnMove;
+
+		controls.Player.Jump.performed += OnModeChange;
+
+		ApplyModeChanges(Global.Instance.Spaceship.PrecisionMode);
+		PrecisionEngineEmissions = transform.GetComponentsInChildren<ParticleSystem>()
+			.Where(ps => ps.tag == "PrecisionModeEngine")
+			.ToList();
+		CruiseEngineEmissions = transform.GetComponentsInChildren<ParticleSystem>()
+			.Where(ps => ps.tag == "CruiseModeEngine")
+			.ToList();
+	}
+
+	private void Start()
+	{
+		CameraAnimator.SetCameraOffset(-0.3f);
+		CameraAnimator.AnimateOffsetChange(Global.Instance.Spaceship.CurrentMode.CameraOffset, 0.5f);
+	}
+	private void OnEnable()
+	{
+		controls.Player.Enable();
+		LoadPosition();
+	}
+
+	private void OnDisable()
+	{
+		SavePosition();
+		controls.Player.Disable();
+	}
+	void LoadPosition()
+	{
+		transform.localPosition = Global.Instance.Spaceship.Position;
+		transform.rotation = Global.Instance.Spaceship.Rotation;
+	}
+	void SavePosition()
+	{
+		Global.Instance.Spaceship.Position = transform.localPosition;
+		Global.Instance.Spaceship.Rotation = transform.rotation;
+	}
 	void OnMove(InputAction.CallbackContext context)
 	{
 		if (context.canceled)
@@ -43,9 +99,12 @@ public class ShipControllerStarmap : MonoBehaviour
 
 	void OnModeChange(InputAction.CallbackContext context)
 	{
-		Debug.Log("Mode change");
 		if (!Global.Instance.Spaceship.CruiseMode.Unlocked)
 			return;
+
+		if (!PrecisionFlyMode && Global.Instance.Spaceship.CurrentVelocity > Global.Instance.Spaceship.PrecisionMode.MaxVelocity)
+			return;
+
 
 		PrecisionFlyMode = !PrecisionFlyMode;
 		Global.Instance.Spaceship.InPrecisionFlightMode = PrecisionFlyMode;
@@ -66,77 +125,16 @@ public class ShipControllerStarmap : MonoBehaviour
 
 		rb.linearDamping = mode.LinearDampening;
 
-		if (CamFollower != null)
-			StartCoroutine(ChangeCameraZoom(mode.CameraOffset));
-	}
+		Global.Instance.Spaceship.CurrentMode = mode;
 
-	IEnumerator ChangeCameraZoom(float targetOffset)
-	{
-		if (CamFollower == null)
-			yield break;
-
-		float currentOffset = CamFollower.Offset;
-		if(currentOffset == targetOffset)
-			yield break;
-		if (currentOffset < targetOffset)
-		{
-			while(CamFollower.Offset < targetOffset)
-			{
-				CamFollower.Offset++;
-				yield return new WaitForSeconds(0.01f);
-			}
-		}
-		else if (currentOffset > targetOffset)
-		{
-			while (CamFollower.Offset > targetOffset)
-			{
-				CamFollower.Offset--;
-				yield return new WaitForSeconds(0.01f);
-			}
-		}
-	}
-
-	private void Awake()
-	{
-		rb = GetComponent<Rigidbody2D>();
-		CamFollower = mainCamera.GetComponent<Follower>();
-
-		controls = new();
-		controls.Player.Look.performed += OnLook;
-		controls.Player.Look.canceled += OnLook;
-
-		controls.Player.Move.performed += OnMove;
-		controls.Player.Move.canceled += OnMove;
-
-		controls.Player.Jump.performed += OnModeChange;
-
-		ApplyModeChanges(Global.Instance.Spaceship.PrecisionMode);
-	}
-
-	private void OnEnable()
-	{
-		controls.Player.Enable();
-		LoadPosition();
-	}
-
-	private void OnDisable()
-	{
-		SavePosition();
-		controls.Player.Disable();
-	}
-	void LoadPosition()
-	{
-		transform.localPosition = Global.Instance.Spaceship.Position;
-		transform.rotation = Global.Instance.Spaceship.Rotation;
-	}
-	void SavePosition()
-	{
-		Global.Instance.Spaceship.Position = transform.localPosition;
-		Global.Instance.Spaceship.Rotation = transform.rotation;
+		if (CameraAnimator != null)
+			CameraAnimator.AnimateOffsetChange(mode.CameraOffset, 0.25f);
 	}
 
 	private void FixedUpdate()
 	{
+		if(Global.Instance.LockedInputs) return;
+
 		// rotation
 		Vector2 direction = movementDirection;
 		if (PrecisionFlyMode)
@@ -150,7 +148,8 @@ public class ShipControllerStarmap : MonoBehaviour
 		{
 			float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			float currentAngle = transform.eulerAngles.z;
-			if (Mathf.Abs((currentAngle - targetAngle) % 360) > 45f)
+			float diff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, targetAngle));
+			if (diff > 45f)
 				stillRotating = true;
 			float newAngle = Mathf.MoveTowardsAngle(
 				currentAngle,
@@ -162,24 +161,47 @@ public class ShipControllerStarmap : MonoBehaviour
 		}
 
 		//movement
+		CurrentThrust = Vector2.zero;
 		if (!PrecisionFlyMode && !stillRotating)
 		{
 			if (movementDirection != Vector2.zero)
-				rb.AddForce(60*Time.fixedDeltaTime * AccellerationSpeed * rb.mass * movementDirection);
+				CurrentThrust = 60 * Time.fixedDeltaTime * AccellerationSpeed * rb.mass * movementDirection;
 			else
 				rb.linearVelocity *= 1f - 0.5f * Time.fixedDeltaTime;
 		}
 		else if (PrecisionFlyMode)
 		{
 			var rotatedDirection = Quaternion.Euler(0, 0, -90) * (transform.rotation * movementDirection);
-			rb.AddForce(AccellerationSpeed * rb.mass * rotatedDirection);
+			CurrentThrust = 60 * Time.fixedDeltaTime * AccellerationSpeed * rb.mass * rotatedDirection;
 		}
 
+		if (CurrentThrust != Vector2.zero)
+		{
+			rb.AddForce(CurrentThrust);
+		}
+		RefreshEngineParticles();
 
 		if (rb.linearVelocity.magnitude > MaxVelocity)
 		{
 			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
 		}
+		Global.Instance.Spaceship.CurrentVelocity = rb.linearVelocity.magnitude;
 
+	}
+	void RefreshEngineParticles()
+	{
+		float emissionRate = CurrentThrust.magnitude;
+		for (int i = 0; i < PrecisionEngineEmissions.Count; i++)
+		{
+			var emission = PrecisionEngineEmissions[i].emission;
+			emission.rateOverTime = 0; // PrecisionFlyMode ? emissionRate : 0;
+			emission.rateOverDistance = PrecisionFlyMode ? emissionRate : 0;
+		}
+		for (int i = 0; i < CruiseEngineEmissions.Count; i++)
+		{
+			var emission = CruiseEngineEmissions[i].emission;
+			emission.rateOverTime = 0; // PrecisionFlyMode ? 0 : emissionRate;
+			emission.rateOverDistance = PrecisionFlyMode ? 0 : emissionRate;
+		}
 	}
 }

@@ -14,6 +14,8 @@ public class Global
 	}
 	public StarmapShip Spaceship = new();
 	public bool LoadingScene = false;
+	public bool InCameraTransition = false;
+	public bool LockedInputs =>  InCameraTransition;
 
 	public class StarmapShip
 	{
@@ -27,7 +29,7 @@ public class Global
 			Accelleration = 26f,
 			RotationSpeed = 240f,
 			LinearDampening = 0.5f,
-			CameraOffset = -20
+			CameraOffset = -25
 		};
 		public FlightStats CruiseMode = new()
 		{
@@ -36,12 +38,29 @@ public class Global
 			Accelleration = 100f,
 			RotationSpeed = 180f,
 			LinearDampening = 0.5f,
-			CameraOffset = -50
+			CameraOffset = -45
 		};
 
+		public float CurrentVelocity;
 		public bool InPrecisionFlightMode = true;
 		public bool CanLand = true;
-		public bool BlockedFromLanding => !CanLand || !InPrecisionFlightMode;
+		public bool TooFastToLand => CurrentVelocity > 15f;
+		public bool BlockedFromLanding => !CanLand || !InPrecisionFlightMode || TooFastToLand;
+
+		//starts off in precision mode, set by the shipcontroller
+		private FlightStats _currentMode;
+		public FlightStats CurrentMode
+		{
+			get
+			{
+				if(_currentMode == null)
+				{
+					_currentMode = PrecisionMode;
+				}
+				return _currentMode;
+			}
+			set => _currentMode = value;
+		}
 	}
 	public class FlightStats
 	{
