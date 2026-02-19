@@ -44,7 +44,7 @@ public class RadarPointer : MonoBehaviour
 	float UpdatePointerPosAndRotation()
 	{
 		var startPos = Player.transform.position;
-		var targetPos = Target?.transform.position ?? TargetPosition;
+		var targetPos = Target != null ? Target.transform.position : TargetPosition;
 		var distanceVector = targetPos - startPos;
 		float targetAngle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
 		//farther away from the ship position to visualize distance;

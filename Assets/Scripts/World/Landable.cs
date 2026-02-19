@@ -33,7 +33,7 @@ public class Landable : MonoBehaviour
 
 		if (Camera.main.TryGetComponent<CameraAnimator>(out var animator))
 		{
-			animator.AnimateOffsetChange(-0.3f,0.5f, StartLoadingScene);
+			animator.AnimateOffsetChange(-0.3f,0.5f, StartLoadingScene, true);
 		}
 		else
 		{

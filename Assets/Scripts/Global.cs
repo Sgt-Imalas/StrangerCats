@@ -12,10 +12,12 @@ public class Global
 			return _instance;
 		}
 	}
+	public GameSettings Settings = new();
 	public StarmapShip Spaceship = new();
 	public bool LoadingScene = false;
 	public bool InCameraTransition = false;
-	public bool LockedInputs =>  InCameraTransition;
+	public bool InPauseMenu = false;
+	public bool LockedInputs =>  InCameraTransition || InPauseMenu;
 
 	public class StarmapShip
 	{
@@ -70,5 +72,10 @@ public class Global
 		public float RotationSpeed;
 		public float LinearDampening;
 		public float CameraOffset = -20;
+	}
+	public class GameSettings
+	{
+		public float MusicVolume = 1f;
+		public float SfxVolume = 1f;
 	}
 }

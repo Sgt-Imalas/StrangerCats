@@ -21,7 +21,7 @@ public class CameraAnimator : MonoBehaviour
 			Global.Instance.InCameraTransition = true;
 		}
 
-		StartCoroutine(OffsetChange(targetOffset, duration, onComplete));
+		StartCoroutine(OffsetChange(targetOffset, duration, onComplete,LockInputs));
 	}
     IEnumerator OffsetChange(float targetOffset, float duration, System.Action onComplete = null, bool unlock = false)
 	{
@@ -46,12 +46,11 @@ public class CameraAnimator : MonoBehaviour
 				yield return new WaitForSeconds(timePerStep);
 			}
 		}
-		if(onComplete != null)
+		if (unlock)
+			Global.Instance.InCameraTransition = false;
+		if (onComplete != null)
 			onComplete.Invoke();
 
-		if (unlock)
-		{
-			Global.Instance.InCameraTransition = false;
-		}
+		
 	}
 }

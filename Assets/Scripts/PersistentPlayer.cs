@@ -30,11 +30,6 @@ namespace Assets.Scripts
 			attributes = GetComponent<Attributes>();
 		}
 
-		void Start()
-		{
-
-		}
-
 		void Update()
 		{
 			if (testMod)
