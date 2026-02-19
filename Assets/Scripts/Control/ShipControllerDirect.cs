@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // simpler direct controls for the smaller ship
+[DefaultExecutionOrder(10)]
 public class ShipControllerDirect : MonoBehaviour
 {
 	private PlayerControls controls;

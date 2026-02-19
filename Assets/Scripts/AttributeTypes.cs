@@ -5,6 +5,7 @@
 		FireRate,
 		ExplosionRadius,
 		LifeTime,
+		DigDamage,
 
 		PodSpeed,
 

@@ -2,6 +2,7 @@
 
 namespace Assets.Scripts
 {
+	[DefaultExecutionOrder(0)]
 	public class GlobalEvents : MonoBehaviour
 	{
 		public static GlobalEvents Instance { get; private set; }

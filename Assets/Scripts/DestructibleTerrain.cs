@@ -12,7 +12,7 @@ public class DestructibleTerrain : MonoBehaviour
 
 	public float penetrationTest = -0.1f;
 
-	public HashSet<Vector3Int> queuedToDamage;
+	public Dictionary<Vector3Int, float> queuedToDamage;
 	public HashSet<Vector3Int> queuedToDestroy;
 	private bool dirty;
 	public float updateFrequency = 0.05f;
@@ -23,7 +23,7 @@ public class DestructibleTerrain : MonoBehaviour
 
 	void Start()
 	{
-		queuedToDamage = new HashSet<Vector3Int>();
+		queuedToDamage = new Dictionary<Vector3Int, float>();
 		queuedToDestroy = new HashSet<Vector3Int>();
 		damageValues = new Dictionary<Vector3Int, float>();
 	}
@@ -35,24 +35,24 @@ public class DestructibleTerrain : MonoBehaviour
 			foreach (var tile in queuedToDamage)
 			{
 				var existingDamage = 0.0f;
-				if (damageValues.TryGetValue(tile, out var damage))
+				if (damageValues.TryGetValue(tile.Key, out var damage))
 					existingDamage += damage;
 
-				existingDamage += 0.2f;
+				existingDamage += tile.Value;
 
 				if (existingDamage > 1.0f)
-					queuedToDestroy.Add(tile);
+					queuedToDestroy.Add(tile.Key);
 				else
 				{
-					damageValues[tile] = existingDamage;
+					damageValues[tile.Key] = existingDamage;
 
 					var idx = (int)((crackTile.Length) * existingDamage);
 					idx = Mathf.Clamp(idx, 0, crackTile.Length - 1);
-					cracksTileMap.SetTile(tile, crackTile[idx]);
-					cracksTileMap.SetColor(tile, new Color(1.0f, 1.0f, 1.0f, existingDamage));
+					cracksTileMap.SetTile(tile.Key, crackTile[idx]);
+					cracksTileMap.SetColor(tile.Key, new Color(1.0f, 1.0f, 1.0f, existingDamage));
 				}
 
-				digParticles.transform.position = tile;
+				digParticles.transform.position = tile.Key;
 				digParticles.Emit();
 			}
 
@@ -97,7 +97,8 @@ public class DestructibleTerrain : MonoBehaviour
 
 		if (collision.collider.TryGetComponent(out Attributes attributes))
 		{
-			var radius = (int)attributes.Get(Assets.Scripts.AttributeType.ExplosionRadius);
+			var radius = (int)attributes.Get(AttributeType.ExplosionRadius);
+			var damage = attributes.Get(AttributeType.DigDamage);
 			if (radius > 0)
 			{
 				// TODO: manhattan or smth
@@ -105,13 +106,14 @@ public class DestructibleTerrain : MonoBehaviour
 				{
 					for (var y = -radius; y < radius; y++)
 					{
-						queuedToDamage.Add(cell + new Vector3Int(x, y));
+						queuedToDamage.Add(cell + new Vector3Int(x, y), damage);
 					}
 				}
 			}
 		}
+		else
+			queuedToDamage.Add(cell, 1.0f);
 
-		queuedToDamage.Add(cell);
 		dirty = true;
 	}
 }

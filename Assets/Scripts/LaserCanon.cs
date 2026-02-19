@@ -12,6 +12,7 @@ public class LaserCanon : MonoBehaviour
 	private Vector3 mousePosition;
 	public Transform tipMarker;
 	public float projectileSpeed = 600;
+	float explosionRadius = 0;
 
 	private Vector3 lastAimDirection;
 
@@ -37,7 +38,10 @@ public class LaserCanon : MonoBehaviour
 		switch (attributeId)
 		{
 			case AttributeType.FireRate:
-				projectileCooldown = PersistentPlayer.GetAttribute(AttributeType.FireRate, 1.0f);
+				projectileCooldown = value;
+				break;
+			case AttributeType.ExplosionRadius:
+				explosionRadius = value;
 				break;
 		}
 	}
@@ -60,7 +64,7 @@ public class LaserCanon : MonoBehaviour
 		bullet.gameObject.SetActive(true);
 		var rotatedDirection = Quaternion.Euler(0, 0, 0) * lastAimDirection;
 		//bullet.AddForce(projectileSpeed * rotatedDirection);
-
+		bullet.GetComponent<Attributes>().SetBaseValue(AttributeType.ExplosionRadius, explosionRadius, 0, 999);
 		bullet.linearVelocity = projectileSpeed * rotatedDirection;
 
 		_timeSinceLastProjectile = 0.0f;
