@@ -10,22 +10,57 @@ public class DestructibleTerrain : MonoBehaviour
 	public TileBase[] crackTile;
 	public DigParticles digParticles;
 
-	public float penetrationTest = -0.1f;
-
 	public Dictionary<Vector3Int, float> queuedToDamage;
 	public HashSet<Vector3Int> queuedToDestroy;
 	private bool dirty;
 	public float updateFrequency = 0.05f;
 
-	private float elapsed = 0;
+	public Dictionary<Vector3Int, MaterialData> materials;
 
-	private Dictionary<Vector3Int, float> damageValues;
+	private float elapsed = 0;
 
 	void Start()
 	{
 		queuedToDamage = new Dictionary<Vector3Int, float>();
 		queuedToDestroy = new HashSet<Vector3Int>();
-		damageValues = new Dictionary<Vector3Int, float>();
+		materials = new Dictionary<Vector3Int, MaterialData>();
+
+		GlobalEvents.Instance.OnNewMapGenerated += OnNewMapGenerated;
+	}
+
+	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials)
+	{
+		this.materials.Clear();
+
+		foreach (var mat in materials)
+		{
+			var material = Materials.Instance.GetMaterial(mat.Value);
+			if (material == null)
+			{
+				Debug.LogWarning($"Not a valid element {mat.Value}");
+				continue;
+			}
+
+			this.materials[mat.Key] = new MaterialData()
+			{
+				idx = material.hash,
+				hp = material.hardness,
+				currentHp = material.hardness
+			};
+		}
+
+		queuedToDamage.Clear();
+		queuedToDestroy.Clear();
+
+		elapsed = 0.0f;
+		dirty = false;
+	}
+
+	public class MaterialData
+	{
+		public int idx;
+		public float hp;
+		public float currentHp;
 	}
 
 	void Update()
@@ -34,22 +69,22 @@ public class DestructibleTerrain : MonoBehaviour
 		{
 			foreach (var tile in queuedToDamage)
 			{
-				var existingDamage = 0.0f;
-				if (damageValues.TryGetValue(tile.Key, out var damage))
-					existingDamage += damage;
+				if (!materials.TryGetValue(tile.Key, out var mat))
+				{
+					Debug.LogWarning($"trying to damage a tile that doesn't exist {tile.Key}");
+					continue;
+				}
 
-				existingDamage += tile.Value;
+				mat.currentHp -= tile.Value;
 
-				if (existingDamage > 1.0f)
+				if (mat.currentHp <= 0.0f)
 					queuedToDestroy.Add(tile.Key);
 				else
 				{
-					damageValues[tile.Key] = existingDamage;
-
-					var idx = (int)((crackTile.Length) * existingDamage);
+					var materials = Materials.Instance.GetMaterial(mat.idx);
+					var idx = (int)((crackTile.Length) * (mat.currentHp / mat.hp));
 					idx = Mathf.Clamp(idx, 0, crackTile.Length - 1);
 					cracksTileMap.SetTile(tile.Key, crackTile[idx]);
-					cracksTileMap.SetColor(tile.Key, new Color(1.0f, 1.0f, 1.0f, existingDamage));
 				}
 
 				digParticles.transform.position = tile.Key;
@@ -65,16 +100,10 @@ public class DestructibleTerrain : MonoBehaviour
 				foreach (var cell in queuedToDestroy)
 				{
 					data[i++] = new TileChangeData(cell, null, Color.white, Matrix4x4.identity);
-					//tileMap.SetTile(cell, null);
-					//tileMap.RefreshTile(cell);
 					cracksTileMap.SetTile(cell, null);
 				}
 
 				tileMap.SetTiles(data, false);
-				//cracksTileMap.SetTiles(data, false);
-
-				//tileMap.RefreshAllTiles();
-				//tileMap.CompressBounds();
 			}
 
 			cracksTileMap.RefreshAllTiles();
@@ -91,7 +120,7 @@ public class DestructibleTerrain : MonoBehaviour
 		var point = collision.GetContact(0).point;
 		var normal = collision.GetContact(0).normal;
 
-		var insetHitPosition = point - normal * penetrationTest;
+		var insetHitPosition = point - normal * -0.1f;
 
 		var cell = tileMap.WorldToCell(insetHitPosition);
 

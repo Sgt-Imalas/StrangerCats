@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -8,7 +9,9 @@ namespace Assets.Scripts
 		public static GlobalEvents Instance { get; private set; }
 
 		public Attributes.OnAttributeChangedDelegate OnPlayerAttributesChanged;
+		public OnNewMapGeneratedDelegate OnNewMapGenerated;
 
+		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials);
 
 		private void OnDestroy()
 		{

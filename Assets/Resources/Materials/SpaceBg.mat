@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SpaceBg
-  m_Shader: {fileID: -6465566751694194690, guid: cf74b0d305ee62644b96026c3867b3d8, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 04fd5cfc7af15a34392c64bc99b7e187, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -70,7 +70,7 @@ Material:
     - _Pixelate: 8
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 32
+    - _Scale: 64
     - _Scale_1: 0
     - _ZWrite: 0
     m_Colors:

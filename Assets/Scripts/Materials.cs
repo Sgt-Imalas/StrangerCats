@@ -3,11 +3,16 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+	[DefaultExecutionOrder(0)]
 	public class Materials : MonoBehaviour
 	{
 		public static Materials Instance; // TODO move to global
 
 		public Dictionary<int, TerrainMaterial> materials;
+
+		public static int
+			Bone = "Bone".GetHashCode(),
+			Meat = "Meat".GetHashCode();
 
 		private void Awake()
 		{

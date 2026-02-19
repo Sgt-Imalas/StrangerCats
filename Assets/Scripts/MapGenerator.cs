@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -22,19 +23,14 @@ public class MapGenerator : MonoBehaviour
 	public Texture2D backgroundTextureMask;
 
 
-	public void Generate(string map)
+	public void Generate(int seed, out Dictionary<Vector3Int, int> materials)
 	{
-		if (map == "MeatPlanet")
-		{
+		materials = new Dictionary<Vector3Int, int>();
 
-		}
-	}
-
-	public void Generate(int seed)
-	{
 		noise = new FastNoiseLite(seed);
 		noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
 
+		// doesn't work for some reason, so using a cached PNG
 		/*		var boneNoise = new FastNoiseLite(seed + 2);
 				boneNoise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2S);
 				boneNoise.SetFractalType(FastNoiseLite.FractalType.PingPong);
@@ -68,11 +64,8 @@ public class MapGenerator : MonoBehaviour
 
 		var center = new Vector2(radius + 5, radius + 5);
 
-		//var test = new Texture2D(size, size, TextureFormat.RGBA32, false);
-
 		if (boneMap.width != boneMap.height)
 			Debug.LogWarning("Bonemap needs to be square");
-
 
 		var maxOffset = boneMap.width - size - 1;
 		var boneOffsetX = Random.Range(0, maxOffset);
@@ -96,32 +89,28 @@ public class MapGenerator : MonoBehaviour
 				var value = noise.GetNoise(x * noiseScale, y * noiseScale);
 				value *= value;
 
-				//var boneValue = noise.GetNoise((float)(x * boneNoiseScale), (float)(y * boneNoiseScale)) * boneAmpl;
-
 				var bx = (int)Mathf.Clamp(x * boneNoiseScale, 0, boneMap.width - 1);
 				var by = (int)Mathf.Clamp(y * boneNoiseScale, 0, boneMap.height - 1);
 				var boneValue = boneMap.GetPixel(boneOffsetX + bx, boneOffsetY + by).r;
-				//boneValue = Mathf.Min(boneNoiseMask.GetNoise(scaledX, scaledY));
-				//boneValue = Mathf.Min(bonenoiseShadow.GetNoise(scaledX, scaledY));
 
 				if (value > noiseThreshold)
-				{
-					//tilePositions.Add(new Vector3Int(x, y, 0));
 					tileMap.SetTile(new Vector3Int(x, y, 0), terrainTile);
 
-				}
-
-				//test.SetPixel(x, y, new Color(boneValue, -boneValue, boneValue, 1.0f));
-
 				if (boneValue > boneThreshold)
+				{
+					materials[new Vector3Int(x, y)] = Materials.Bone;
 					tex.SetPixel(x, y, bone);
+				}
 				else
+				{
+					materials[new Vector3Int(x, y)] = Materials.Meat;
 					tex.SetPixel(x, y, meat);
+				}
 			}
 		}
 
 		tex.Apply();
-		//test.Apply();
+
 		backgroundTextureMask.Apply();
 
 		Shader.SetGlobalTexture("_AsteroidBGMask", backgroundTextureMask);
@@ -130,7 +119,6 @@ public class MapGenerator : MonoBehaviour
 		var bounds = tileMap.localBounds;
 
 		var min = Vector3.zero;
-		//tileMap.transform.TransformPoint(bounds.min);
 		var max = tileMap.transform.TransformPoint(bounds.max);
 
 		var material = tileMap.GetComponent<TilemapRenderer>().material;
@@ -138,14 +126,11 @@ public class MapGenerator : MonoBehaviour
 		Shader.SetGlobalVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
 		Shader.SetGlobalVector("_TilemapMax", new Vector4(max.x + 5, max.y + 5, 0, 0));
 
-		//material.SetVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
-		//material.SetVector("_TilemapMax", new Vector4(max.x + 5, max.y + 5, 0, 0));
-
 		// dont have to worry about adding more later, we assume we can only destroy, not place
 		material.SetTexture("_TerrainIndex", tex);
 
-		var itemBGBytes = backgroundTextureMask.EncodeToPNG();
-		System.IO.File.WriteAllBytes("C:/Users/Aki/Documents/Unity Projects/StrangerCats/Assets/Resources/Textures/bg.png", itemBGBytes);
+		//var itemBGBytes = backgroundTextureMask.EncodeToPNG();
+		//System.IO.File.WriteAllBytes("C:/Users/Aki/Documents/Unity Projects/StrangerCats/Assets/Resources/Textures/bg.png", itemBGBytes);
 
 		Debug.Log("generated map");
 		tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });
@@ -156,12 +141,15 @@ public class MapGenerator : MonoBehaviour
 	{
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		if (refresh)
 		{
-			Generate(Random.Range(0, 999999));
+			Generate(Random.Range(0, 999999), out var materials);
+
+			if (GlobalEvents.Instance != null)
+				GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
+
 			refresh = false;
 		}
 	}
