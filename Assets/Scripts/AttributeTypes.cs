@@ -6,6 +6,8 @@
 		ExplosionRadius,
 		LifeTime,
 
+		PodSpeed,
+
 		RadarRange,
 
 		SpaceshipAccelleration,

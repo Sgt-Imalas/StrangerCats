@@ -32,7 +32,12 @@ namespace Assets.Scripts
 
 		void Start()
 		{
+			attributes.OnAttributeChanged += OnAttributesChanged;
+		}
 
+		private void OnAttributesChanged(AttributeType type, float finalValue)
+		{
+			GlobalEvents.Instance.OnPlayerAttributesChanged.Invoke(type, finalValue);
 		}
 
 		void Update()
@@ -42,6 +47,7 @@ namespace Assets.Scripts
 				// adding a mod here
 				// randomizing the id, if the id is shared it overrides the previous mod
 				attributes.AddMod("TestMod" + Random.value.ToString(), AttributeType.FireRate, -0.1f);
+				attributes.AddMod("TestMod2" + Random.value.ToString(), AttributeType.PodSpeed, 10f);
 				testMod = false;
 			}
 		}

@@ -6,12 +6,14 @@ using UnityEngine.Tilemaps;
 public class MapGenerator : MonoBehaviour
 {
 	private FastNoiseLite noise;
-	public Vector2Int size;
+	public int radius;
 	public Tilemap tileMap;
 	public float noiseScale;
 	public float noiseThreshold;
 	public TileBase terrainTile;
 	public bool refresh;
+	public float bumpinessFrequency = 1.0f;
+	public float bumpinessAmplitude = 1.0f;
 
 	public Texture terrainTexture;
 
@@ -34,19 +36,28 @@ public class MapGenerator : MonoBehaviour
 
 		tileMap.ClearAllTiles();
 
-		var tex = new Texture2D(size.x, size.y, TextureFormat.RGBA32, false);
+		var size = radius * 2 + 10;
+		var tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
 
 
 
 		var tilePositions = new List<Vector3Int>();
 
 		var meat = new Color32(0, 0, 0, 0);
-		var bone = new Color32(255, 0, 0, 0);
+		var bone = new Color32(1, 0, 0, 0);
 
-		for (var x = 0; x < size.x; x++)
+		var center = new Vector2(radius + 5, radius + 5);
+
+		for (var x = 0; x < size; x++)
 		{
-			for (var y = 0; y < size.y; y++)
+			for (var y = 0; y < size; y++)
 			{
+				var dist = Vector2.Distance(new Vector2(x, y), center);
+
+				var noise2 = noise.GetNoise(x * bumpinessFrequency, y * bumpinessFrequency) * bumpinessAmplitude;
+				if (dist + noise2 > radius)
+					continue;
+
 				var value = noise.GetNoise(x * noiseScale, y * noiseScale);
 				value *= value;
 
@@ -68,21 +79,23 @@ public class MapGenerator : MonoBehaviour
 
 		tex.Apply();
 
+		tileMap.CompressBounds();
 		var bounds = tileMap.localBounds;
 
-		var min = tileMap.transform.TransformPoint(bounds.min);
+		var min = Vector3.zero;
+		//tileMap.transform.TransformPoint(bounds.min);
 		var max = tileMap.transform.TransformPoint(bounds.max);
 
 		var material = tileMap.GetComponent<TilemapRenderer>().material;
 
 		material.SetVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
-		material.SetVector("_TilemapMax", new Vector4(max.x, max.y, 0, 0));
+		material.SetVector("_TilemapMax", new Vector4(max.x + 5, max.y + 5, 0, 0));
 
 		// dont have to worry about adding more later, we assume we can only destroy, not place
 		material.SetTexture("_TerrainIndex", tex);
 
-		var itemBGBytes = tex.EncodeToPNG();
-		System.IO.File.WriteAllBytes("C:/Users/Aki/Documents/Unity Projects/StrangerCats/Assets/Resources/Textures/terrain_test_texture.png", itemBGBytes);
+		//var itemBGBytes = tex.EncodeToPNG();
+		//System.IO.File.WriteAllBytes("C:/Users/Aki/Documents/Unity Projects/StrangerCats/Assets/Resources/Textures/terrain_test_texture.png", itemBGBytes);
 
 		Debug.Log("generated map");
 		tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });

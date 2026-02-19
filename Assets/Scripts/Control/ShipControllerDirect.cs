@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,18 @@ public class ShipControllerDirect : MonoBehaviour
 
 		controls.Player.Move.performed += OnMove;
 		controls.Player.Move.canceled += OnMove;
+
+		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
+	}
+
+	private void OnPlayerAttributesChanged(AttributeType type, float finalValue)
+	{
+		switch (type)
+		{
+			case AttributeType.PodSpeed:
+				AccellerationSpeed = finalValue;
+				break;
+		}
 	}
 
 	void OnMove(InputAction.CallbackContext context)
@@ -57,7 +70,7 @@ public class ShipControllerDirect : MonoBehaviour
 			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
 		}
 
-		var targetRotation = rb.linearVelocityX;
+		var targetRotation = -rb.linearVelocityX;
 		shipBody.rotation = Quaternion.Euler(0f, 0f, targetRotation);
 	}
 }
