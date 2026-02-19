@@ -1,33 +1,86 @@
+using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(Tilemap))]
 public class DestructibleTerrain : MonoBehaviour
 {
-	Tilemap tileMap;
+	public Tilemap tileMap;
+	public Tilemap cracksTileMap;
+	public TileBase[] crackTile;
+	public DigParticles digParticles;
+
 	public float penetrationTest = -0.1f;
 
 	public HashSet<Vector3Int> queuedToDamage;
+	public HashSet<Vector3Int> queuedToDestroy;
 	private bool dirty;
+	public float updateFrequency = 0.05f;
+
+	private float elapsed = 0;
+
+	private Dictionary<Vector3Int, float> damageValues;
 
 	void Start()
 	{
-		tileMap = GetComponent<Tilemap>();
 		queuedToDamage = new HashSet<Vector3Int>();
+		queuedToDestroy = new HashSet<Vector3Int>();
+		damageValues = new Dictionary<Vector3Int, float>();
 	}
 
 	void Update()
 	{
 		if (dirty)
 		{
-			foreach (var cell in queuedToDamage)
+			foreach (var tile in queuedToDamage)
 			{
-				tileMap.SetTile(cell, null);
+				var existingDamage = 0.0f;
+				if (damageValues.TryGetValue(tile, out var damage))
+					existingDamage += damage;
+
+				existingDamage += 0.2f;
+
+				if (existingDamage > 1.0f)
+					queuedToDestroy.Add(tile);
+				else
+				{
+					damageValues[tile] = existingDamage;
+
+					var idx = (int)((crackTile.Length) * existingDamage);
+					idx = Mathf.Clamp(idx, 0, crackTile.Length - 1);
+					cracksTileMap.SetTile(tile, crackTile[idx]);
+					cracksTileMap.SetColor(tile, new Color(1.0f, 1.0f, 1.0f, existingDamage));
+				}
+
+				digParticles.transform.position = tile;
+				digParticles.Emit();
 			}
 
-			tileMap.RefreshAllTiles();
-			tileMap.CompressBounds();
+
+			if (queuedToDestroy.Count > 0)
+			{
+				var data = new TileChangeData[queuedToDestroy.Count];
+				var i = 0;
+
+				foreach (var cell in queuedToDestroy)
+				{
+					data[i++] = new TileChangeData(cell, null, Color.white, Matrix4x4.identity);
+					//tileMap.SetTile(cell, null);
+					//tileMap.RefreshTile(cell);
+					cracksTileMap.SetTile(cell, null);
+				}
+
+				tileMap.SetTiles(data, false);
+				//cracksTileMap.SetTiles(data, false);
+
+				//tileMap.RefreshAllTiles();
+				//tileMap.CompressBounds();
+			}
+
+			cracksTileMap.RefreshAllTiles();
+
+			queuedToDamage.Clear();
+			queuedToDestroy.Clear();
 
 			dirty = false;
 		}

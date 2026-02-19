@@ -47,6 +47,15 @@ namespace Assets.Scripts
 		}
 
 
-		public static float GetAttribute(AttributeType attributeId) => Instance?.attributes.Get(attributeId) ?? 0;
+		public static float GetAttribute(AttributeType attributeId, float defaultValue = 0.0f)
+		{
+			if (Instance == null)
+			{
+				Debug.LogWarning("Player Instance is null");
+				return defaultValue;
+			}
+
+			return Instance.attributes.Get(attributeId);
+		}
 	}
 }

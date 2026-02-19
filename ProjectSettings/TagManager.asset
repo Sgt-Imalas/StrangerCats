@@ -41,8 +41,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Player
+  - name: Cracks
     uniqueID: 1338694193
+    locked: 0
+  - name: Fx
+    uniqueID: 583581587
     locked: 0
   m_RenderingLayers:
   - Default

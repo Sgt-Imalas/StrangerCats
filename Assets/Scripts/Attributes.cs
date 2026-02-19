@@ -15,6 +15,8 @@ public class Attributes : MonoBehaviour
 	void Start()
 	{
 		UpdateMods();
+		foreach (var baseValue in baseValues)
+			OnAttributeChanged?.Invoke(baseValue.id, baseValue.value);
 	}
 
 	public void SetBaseValue(AttributeType attributeId, float value, float minValue, float maxValue)

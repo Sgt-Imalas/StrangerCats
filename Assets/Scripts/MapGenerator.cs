@@ -13,15 +13,35 @@ public class MapGenerator : MonoBehaviour
 	public TileBase terrainTile;
 	public bool refresh;
 
+	public Texture terrainTexture;
+
+
+	public void Generate(string map)
+	{
+		if (map == "MeatPlanet")
+		{
+
+		}
+	}
+
 	public void Generate(int seed)
 	{
 		noise = new FastNoiseLite(seed);
-
 		noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
+
+		var bonenoise = new FastNoiseLite(seed + 1);
+		bonenoise.SetFractalType(FastNoiseLite.FractalType.Ridged);
 
 		tileMap.ClearAllTiles();
 
+		var tex = new Texture2D(size.x, size.y, TextureFormat.RGBA32, false);
+
+
+
 		var tilePositions = new List<Vector3Int>();
+
+		var meat = new Color32(0, 0, 0, 0);
+		var bone = new Color32(255, 0, 0, 0);
 
 		for (var x = 0; x < size.x; x++)
 		{
@@ -29,13 +49,40 @@ public class MapGenerator : MonoBehaviour
 			{
 				var value = noise.GetNoise(x * noiseScale, y * noiseScale);
 				value *= value;
+
+				var boneValue = bonenoise.GetNoise(x * noiseScale, y * noiseScale);
+				boneValue *= boneValue;
+
 				if (value > noiseThreshold)
 				{
 					//tilePositions.Add(new Vector3Int(x, y, 0));
 					tileMap.SetTile(new Vector3Int(x, y, 0), terrainTile);
+
 				}
+				if (boneValue < noiseThreshold)
+					tex.SetPixel(x, y, bone);
+				else
+					tex.SetPixel(x, y, meat);
 			}
 		}
+
+		tex.Apply();
+
+		var bounds = tileMap.localBounds;
+
+		var min = tileMap.transform.TransformPoint(bounds.min);
+		var max = tileMap.transform.TransformPoint(bounds.max);
+
+		var material = tileMap.GetComponent<TilemapRenderer>().material;
+
+		material.SetVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
+		material.SetVector("_TilemapMax", new Vector4(max.x, max.y, 0, 0));
+
+		// dont have to worry about adding more later, we assume we can only destroy, not place
+		material.SetTexture("_TerrainIndex", tex);
+
+		var itemBGBytes = tex.EncodeToPNG();
+		System.IO.File.WriteAllBytes("C:/Users/Aki/Documents/Unity Projects/StrangerCats/Assets/Resources/Textures/terrain_test_texture.png", itemBGBytes);
 
 		Debug.Log("generated map");
 		tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });

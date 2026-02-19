@@ -29,7 +29,7 @@ public class LaserCanon : MonoBehaviour
 	void Start()
 	{
 		PersistentPlayer.Instance.attributes.OnAttributeChanged += OnPlayerAttributeChanged;
-		projectileCooldown = PersistentPlayer.Instance.attributes.Get(AttributeType.FireRate);
+		projectileCooldown = PersistentPlayer.GetAttribute(AttributeType.FireRate);
 	}
 
 	private void OnPlayerAttributeChanged(AttributeType attributeId, float value)
@@ -37,7 +37,7 @@ public class LaserCanon : MonoBehaviour
 		switch (attributeId)
 		{
 			case AttributeType.FireRate:
-				projectileCooldown = PersistentPlayer.Instance.attributes.Get(AttributeType.FireRate);
+				projectileCooldown = PersistentPlayer.GetAttribute(AttributeType.FireRate, 1.0f);
 				break;
 		}
 	}

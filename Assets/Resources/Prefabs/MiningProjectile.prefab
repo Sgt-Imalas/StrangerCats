@@ -342,4 +342,4 @@ MonoBehaviour:
     tooltip: 
     minValue: 0
     maxValue: 12
-    value: 2
+    value: 0
