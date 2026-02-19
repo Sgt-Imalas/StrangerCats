@@ -5,7 +5,9 @@ using System.Linq;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XInput;
 using static UnityEngine.ParticleSystem;
+using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ShipControllerStarmap : MonoBehaviour
@@ -24,6 +26,9 @@ public class ShipControllerStarmap : MonoBehaviour
 
 	List<ParticleSystem> CruiseEngineEmissions;
 	List<ParticleSystem> PrecisionEngineEmissions;
+
+	public float stickDeadzone = 0.1f;
+	public bool ControllerAim;
 	private void Awake()
 	{
 		rb = GetComponent<Rigidbody2D>();
@@ -32,6 +37,8 @@ public class ShipControllerStarmap : MonoBehaviour
 		controls = new();
 		controls.Player.Look.performed += OnLook;
 		controls.Player.Look.canceled += OnLook;
+		controls.Player.LookController.performed += OnLook;
+		controls.Player.LookController.canceled += OnLook;
 
 		controls.Player.Move.performed += OnMove;
 		controls.Player.Move.canceled += OnMove;
@@ -75,7 +82,8 @@ public class ShipControllerStarmap : MonoBehaviour
 	}
 	void OnMove(InputAction.CallbackContext context)
 	{
-		if (context.canceled)
+		var value = context.ReadValue<Vector2>();
+		if (context.canceled || value.magnitude < stickDeadzone)
 		{
 			movementDirection = Vector2.zero;
 		}
@@ -87,19 +95,23 @@ public class ShipControllerStarmap : MonoBehaviour
 
 	void OnLook(InputAction.CallbackContext context)
 	{
-		if (context.canceled)
+		ControllerAim = context.control.device is Gamepad;
+		//Debug.Log("Look triggered: " + context.ReadValue<Vector2>()+", device: "+ context.control.device+" is controller: "+ ControllerAim);
+		var value = context.ReadValue<Vector2>();
+		if (context.canceled || value.magnitude < stickDeadzone)
 		{
 			LookPosition = Vector2.zero;
 		}
 		else
 		{
-			LookPosition = context.ReadValue<Vector2>();
+
+			LookPosition = value;
 		}
 	}
 
 	void OnModeChange(InputAction.CallbackContext context)
 	{
-		if (!Global.Instance.Spaceship.CruiseMode.Unlocked)
+		if (!Global.Instance.Spaceship.CruiseMode.Unlocked || Global.Instance.LockedInputs)
 			return;
 
 		if (!PrecisionFlyMode && Global.Instance.Spaceship.CurrentVelocity > Global.Instance.Spaceship.PrecisionMode.MaxVelocity)
@@ -133,11 +145,11 @@ public class ShipControllerStarmap : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if(Global.Instance.LockedInputs) return;
+		if (Global.Instance.LockedInputs) return;
 
 		// rotation
-		Vector2 direction = movementDirection;
-		if (PrecisionFlyMode)
+		Vector2 direction = LookPosition;
+		if (PrecisionFlyMode && !ControllerAim)
 		{
 			Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
 			direction = mouseWorld - transform.position;

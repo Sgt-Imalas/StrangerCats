@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,9 +22,25 @@ public class LaserCanon : MonoBehaviour
 	public float projectileCooldown = 0.1f;
 	private float _timeSinceLastProjectile;
 
+	bool ControllerAim;
+	float stickDeadzone = 0.1f;
+
 	private void Awake()
 	{
 		controls = new();
+
+		controls.Player.Look.performed += OnLook;
+		controls.Player.LookController.performed += OnLook;
+	}
+	void OnLook(InputAction.CallbackContext context)
+	{
+		ControllerAim = context.control.device is Gamepad;
+		//Debug.Log("Look triggered: " + context.ReadValue<Vector2>()+", device: "+ context.control.device+" is controller: "+ ControllerAim);
+		var value = context.ReadValue<Vector2>();
+		if (!context.canceled || value.magnitude >= stickDeadzone)
+		{
+			LookPosition = value;
+		}
 	}
 
 	void Start()
@@ -82,15 +99,27 @@ public class LaserCanon : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		mousePosition = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+		Vector2 direction = LookPosition;
+		if (!ControllerAim)
+		{
+			Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
+			direction = mouseWorld - transform.position;
+			mousePosition = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+		}
+		else
+		{
+			mousePosition = transform.position + (Vector3)(direction.normalized * 15);
+		}
 		mousePosition.z = transform.position.z;
+		if (direction != Vector2.zero)
+		{
+			float rot_z = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+			//float diff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, rot_z));
 
-		var diff = mousePosition - transform.position;
-		diff.Normalize();
-		var rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+			lastAimDirection = direction.normalized;
+			transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90.0f);
 
-		lastAimDirection = diff;
-		transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90.0f);
+		}
 	}
 
 }
