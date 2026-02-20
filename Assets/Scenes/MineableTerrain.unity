@@ -276,21 +276,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 940d42262e1a5ad4a82dc1af697fa947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  radius: 64
   tileMap: {fileID: 1089927602}
-  noiseScale: 1.2
-  noiseThreshold: 0.01
   terrainTile: {fileID: 11400000, guid: 61cad1bfd9a45be40b4f365b02f2696e, type: 2}
   refresh: 0
-  bumpinessFrequency: 1
-  bumpinessAmplitude: 2.97
-  boneNoiseScale: 1.45
-  boneAmpl: 7.78
-  boneThreshold: 0.1
-  pingpong: 8
   terrainTexture: {fileID: 0}
   boneMap: {fileID: 2800000, guid: 7219f3d9b3acf154dbb464b83e9ff06d, type: 3}
   backgroundTextureMask: {fileID: 0}
+  debugPlanetGen: {fileID: 11400000, guid: 6db87838a52429149843fb7351c67d71, type: 2}
 --- !u!4 &158561861
 Transform:
   m_ObjectHideFlags: 0

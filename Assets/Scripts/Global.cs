@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ public class Global
 	public bool LockedInputs => InCameraTransition || InMenu;
 	public DestructibleTerrain activeTerrain;
 	public int WorldSeed;
+	public PlanetDescriptor generateWorld;
 }
 
 public class StarmapShip

@@ -4,23 +4,37 @@ using UnityEngine;
 namespace Assets.Scripts
 {
 	[DefaultExecutionOrder(0)]
+	[ExecuteAlways]
 	public class Materials : MonoBehaviour
 	{
 		public static Materials Instance; // TODO move to global
 
-		public Dictionary<int, TerrainMaterial> materials;
+		public static Dictionary<int, TerrainMaterial> materials;
 
 		public static int
 			Bone = "Bone".GetHashCode(),
 			Meat = "Meat".GetHashCode();
 
-		private void Awake()
+		void Awake()
 		{
-			Instance = this;
+			if (Instance == null)
+			{
+				Instance = this;
+				DontDestroyOnLoad(gameObject);
+				Debug.Log("Materials instance created");
+			}
+			else
+			{
+				Debug.Log("Materials instance already exists, destroying duplicate");
+				Destroy(gameObject);
+				return;
+			}
+
+			Debug.Log("ddfds");
 			Load();
 		}
 
-		public TerrainMaterial GetMaterial(int id)
+		public static TerrainMaterial GetMaterial(int id)
 		{
 			if (materials.TryGetValue(id, out var material)) return material;
 
@@ -34,15 +48,15 @@ namespace Assets.Scripts
 			return GetMaterial(name.GetHashCode());
 		}
 
-		public void Load()
+		public static void Load()
 		{
-			var materials = Resources.LoadAll<TerrainMaterial>("TerrainMaterials");
-			this.materials = new Dictionary<int, TerrainMaterial>();
+			var terrainMaterials = Resources.LoadAll<TerrainMaterial>("TerrainMaterials");
+			materials = new Dictionary<int, TerrainMaterial>();
 
-			foreach (var material in materials)
+			foreach (var material in terrainMaterials)
 			{
 				material.Initialize();
-				this.materials[material.hash] = material;
+				materials[material.hash] = material;
 			}
 		}
 	}
