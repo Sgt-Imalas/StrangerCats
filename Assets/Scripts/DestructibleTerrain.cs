@@ -53,7 +53,8 @@ public class DestructibleTerrain : MonoBehaviour
 			{
 				idx = material.hash,
 				hp = material.hardness,
-				currentHp = material.hardness
+				currentHp = material.hardness,
+				particleColor = material.particlesColor
 			};
 		}
 
@@ -69,6 +70,7 @@ public class DestructibleTerrain : MonoBehaviour
 		public int idx;
 		public float hp;
 		public float currentHp;
+		public Color particleColor;
 	}
 
 	void Update()
@@ -94,6 +96,7 @@ public class DestructibleTerrain : MonoBehaviour
 					cracksTileMap.SetTile(tile.Key, crackTile[idx]);
 				}
 
+				digParticles.Configure(mat.particleColor, 1, 1);
 				digParticles.transform.position = tile.Key;
 				digParticles.Emit();
 			}
@@ -172,7 +175,7 @@ public class DestructibleTerrain : MonoBehaviour
 			else
 			{
 
-				queuedToDamage.Add(cell, 1.0f);
+				queuedToDamage.Add(cell, damage);
 			}
 
 			dirty = true;

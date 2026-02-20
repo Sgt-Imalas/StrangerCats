@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e7820d7d2adc3e4a9c6877c65692210, type: 3}
-  m_Name: TerrainMaterial 1
+  m_Name: Meat
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.TerrainMaterial
-  materialName: Bone
-  hardness: 10
-  textureIdx: 1
+  materialName: Meat
+  hardness: 2
+  textureIdx: 0
+  resourceType: 0
+  resourceAmount: 1
+  particlesColor: {r: 0.8113208, g: 0.14159843, b: 0.14159843, a: 0}

@@ -21,6 +21,7 @@ public class LaserCanon : MonoBehaviour
 	public Transform selectionMarker;
 	public LineRenderer laserRenderer;
 	public Transform sparkLight;
+	public AudioSource impactSparklerSound;
 
 	// TODO: pool
 	public Rigidbody2D projectilePrefab;
@@ -33,6 +34,7 @@ public class LaserCanon : MonoBehaviour
 
 	bool wasLaserActive = false;
 	bool isLaserActive = false;
+	bool wasImpactingGround = false;
 
 	private float cachedLaserRange = 10.0f;
 
@@ -154,47 +156,58 @@ public class LaserCanon : MonoBehaviour
 
 		var isMouseDown = controls.Player.Attack.ReadValue<float>() > 0.0f;
 
-		if (isMouseDown && isHittingTile)
+		if (isMouseDown)
 		{
+			if (isHittingTile)
+			{
+				laserRenderer.SetPosition(0, tipMarker.position);
+				laserRenderer.SetPosition(1, hit.point);
+
+				var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+				sparkLight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, angle + 90f));
+
+				if (!wasImpactingGround)
+					impactSparklerSound.Play();
+
+				wasImpactingGround = true;
+			}
+			else
+			{
+				var endPoint = transform.position + (Vector3)dir.normalized * cachedLaserRange;
+
+				laserRenderer.SetPosition(0, tipMarker.position);
+				laserRenderer.SetPosition(1, endPoint);
+
+				var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+				sparkLight.transform.SetPositionAndRotation(endPoint, Quaternion.Euler(0f, 0f, angle + 90f));
+
+				if (wasImpactingGround)
+					impactSparklerSound.Stop();
+				wasImpactingGround = false;
+			}
+
 			if (!wasLaserActive)
 			{
-				laserRenderer.enabled = true;
+				laserRenderer.gameObject.SetActive(true);
 				sparkLight.gameObject.SetActive(true);
 			}
 
-			laserRenderer.SetPosition(0, tipMarker.position);
-			laserRenderer.SetPosition(1, hit.point);
-
-			var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-			sparkLight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, angle + 90f));
 			wasLaserActive = true;
-		}
-		else if (isMouseDown)
-		{
-			if (!wasLaserActive)
-			{
-				laserRenderer.enabled = true;
-				sparkLight.gameObject.SetActive(true);
-			}
-
-			var endPoint = transform.position + (Vector3)dir.normalized * cachedLaserRange;
-
-			laserRenderer.SetPosition(0, tipMarker.position);
-			laserRenderer.SetPosition(1, endPoint);
-
-			var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-			sparkLight.transform.SetPositionAndRotation(endPoint, Quaternion.Euler(0f, 0f, angle + 90f));
 		}
 		else
 		{
 			if (wasLaserActive)
 			{
-				laserRenderer.enabled = false;
+				laserRenderer.gameObject.SetActive(false);
 				sparkLight.gameObject.SetActive(false);
 			}
 
+			if (wasImpactingGround)
+				impactSparklerSound.Stop();
+
+			wasImpactingGround = false;
 			wasLaserActive = false;
 		}
 

@@ -9,6 +9,9 @@ namespace Assets.Scripts
 		public string materialName;
 		public int hardness;
 		public byte textureIdx;
+		public ResourceType resourceType;
+		public int resourceAmount = 1;
+		public Color particlesColor;
 
 		[NonSerialized] public int hash;
 
