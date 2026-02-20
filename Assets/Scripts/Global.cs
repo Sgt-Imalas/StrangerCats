@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class Global
 {
 	private static Global _instance;
+
 	public static Global Instance
 	{
 		get
@@ -18,6 +15,7 @@ public class Global
 			return _instance;
 		}
 	}
+
 	public StarmapShip Spaceship = new();
 	public MiningResourceStorage SpaceshipResources = new();
 
@@ -27,7 +25,7 @@ public class Global
 	public bool LockedInputs => InCameraTransition || InMenu;
 	public DestructibleTerrain activeTerrain;
 	public int WorldSeed;
-
+}
 public class StarmapShip
 {
 	public Vector2 Position = new(0, 0);
@@ -92,7 +90,7 @@ public enum ResourceType
 
 public class MiningResourceStorage
 {
-	public static Dictionary<ResourceType, Color> ResourceInfos = new ()
+	public static Dictionary<ResourceType, Color> ResourceInfos = new()
 	{
 		{ResourceType.A, Color.red},
 		{ResourceType.B, Color.yellow},
@@ -121,7 +119,7 @@ public class MiningResourceStorage
 			Max[type] = MaxMaterialCap + NumberOfUpgradesPurchased * UpgradeIncrease;
 			OnResourceDiscovered(type);
 		}
-		int collected = Mathf.Clamp(amount + Current[type], 0, Max[type]);
+		var collected = Mathf.Clamp(amount + Current[type], 0, Max[type]);
 		Current[type] = collected;
 		OnResourceCollected(type, collected);
 	}
@@ -129,7 +127,7 @@ public class MiningResourceStorage
 	{
 		if (!Current.ContainsKey(type))
 			return;
-		int spent = Mathf.Clamp(Current[type] - amount, 0, Max[type]);
+		var spent = Mathf.Clamp(Current[type] - amount, 0, Max[type]);
 		Current[type] = spent;
 		OnResourceSpent(type, spent);
 	}
