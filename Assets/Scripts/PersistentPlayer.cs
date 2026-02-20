@@ -11,14 +11,10 @@ namespace Assets.Scripts
 
 		public bool testMod;
 
-		private void OnDestroy()
-		{
-			if (Instance != null)
-				Instance = null;
-		}
 
 		private void Awake()
 		{
+			//first player instantiated is kept across scenes, duplicates are destroyed
 			if (Instance != null)
 			{
 				Destroy(gameObject);

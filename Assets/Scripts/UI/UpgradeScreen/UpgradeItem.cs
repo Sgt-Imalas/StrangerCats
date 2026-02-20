@@ -147,7 +147,7 @@ public class UpgradeItem : MonoBehaviour
 	}
 	void RefreshText()
 	{
-		Title.text = CurrentUpgrade?.Name + " lvl " + CurrentUpgrade?.Level+1;
+		Title.text = CurrentUpgrade?.Name + " lvl " + (CurrentUpgrade?.Level+1);
 
 		UpgradeDesc.SetText(CurrentUpgrade?.GetUpgradeText());
 	}

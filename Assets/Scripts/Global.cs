@@ -203,6 +203,10 @@ public class GameUpgrades
 	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport")
 		.LevelPrice(new(100))
 		.Scale(2f);
+
+	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Lifesupport")
+		.LevelPrice(new(100))
+		.Scale(2f);
 }
 
 public class BuyableUpgrade
