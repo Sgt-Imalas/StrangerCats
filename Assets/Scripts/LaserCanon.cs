@@ -34,6 +34,8 @@ public class LaserCanon : MonoBehaviour
 	bool wasLaserActive = false;
 	bool isLaserActive = false;
 
+	private float cachedLaserRange = 10.0f;
+
 	private void Awake()
 	{
 		controls = new();
@@ -56,6 +58,7 @@ public class LaserCanon : MonoBehaviour
 	{
 		PersistentPlayer.Instance.attributes.OnAttributeChanged += OnPlayerAttributeChanged;
 		projectileCooldown = PersistentPlayer.GetAttribute(AttributeType.FireRate);
+		cachedLaserRange = PersistentPlayer.GetAttribute(AttributeType.LaserRange);
 	}
 
 	private void OnPlayerAttributeChanged(AttributeType attributeId, float value)
@@ -67,6 +70,9 @@ public class LaserCanon : MonoBehaviour
 				break;
 			case AttributeType.ExplosionRadius:
 				explosionRadius = value;
+				break;
+			case AttributeType.LaserRange:
+				cachedLaserRange = value;
 				break;
 		}
 	}
@@ -94,7 +100,9 @@ public class LaserCanon : MonoBehaviour
 		*/
 
 
-		var dir = (Vector2)(mousePosition - tipMarker.position);
+		//var dir = (Vector2)(mousePosition - tipMarker.position);
+
+		var dir = lastAimDirection;
 
 		var hit = Physics2D.BoxCast(
 					transform.position,
@@ -117,12 +125,6 @@ public class LaserCanon : MonoBehaviour
 
 	void Update()
 	{
-		if (!wasLaserActive)
-		{
-			laserRenderer.gameObject.SetActive(true);
-			sparkLight.gameObject.SetActive(true);
-		}
-
 		aimingLine.SetPosition(0, tipMarker.position);
 		aimingLine.SetPosition(1, mousePosition);
 
@@ -133,7 +135,7 @@ public class LaserCanon : MonoBehaviour
 					new Vector2(0.1f, 0.2f),
 					0f,
 					dir,
-					500.0f,
+					cachedLaserRange,
 					layerMask
 				);
 
@@ -162,8 +164,10 @@ public class LaserCanon : MonoBehaviour
 
 			laserRenderer.SetPosition(0, tipMarker.position);
 			laserRenderer.SetPosition(1, hit.point);
-			sparkLight.transform.position = hit.point;
 
+			var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+			sparkLight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, angle + 90f));
 			wasLaserActive = true;
 		}
 		else if (isMouseDown)
@@ -174,9 +178,14 @@ public class LaserCanon : MonoBehaviour
 				sparkLight.gameObject.SetActive(true);
 			}
 
-			laserRenderer.SetPosition(0, tipMarker.position);
+			var endPoint = transform.position + (Vector3)dir.normalized * cachedLaserRange;
 
-			laserRenderer.SetPosition(1, tipMarker.position + (Vector3)LookPosition.normalized * 10.0f);
+			laserRenderer.SetPosition(0, tipMarker.position);
+			laserRenderer.SetPosition(1, endPoint);
+
+			var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+			sparkLight.transform.SetPositionAndRotation(endPoint, Quaternion.Euler(0f, 0f, angle + 90f));
 		}
 		else
 		{
