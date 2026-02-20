@@ -54,5 +54,7 @@ public class Landable : MonoBehaviour
 	{
 		Global.Instance.LoadingScene = false;
 		SceneManager.sceneLoaded -= OnSceneLoadFinished;
+
+		Global.Instance.loadPlanet = planetDescriptor;
 	}
 }

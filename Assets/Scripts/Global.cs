@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[ExecuteAlways]
 public class Global
 {
 	private static Global _instance;
@@ -27,6 +28,7 @@ public class Global
 	public DestructibleTerrain activeTerrain;
 	public int WorldSeed;
 	public PlanetDescriptor generateWorld;
+	public PlanetDescriptor loadPlanet;
 }
 
 public class StarmapShip

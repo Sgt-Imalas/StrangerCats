@@ -18,7 +18,6 @@ public class MapGenerator : MonoBehaviour
 
 	public PlanetDescriptor debugPlanetGen;
 
-
 	public void Apply(Dictionary<Vector3Int, int> materials, int size)
 	{
 		if (Materials.materials == null)
@@ -81,6 +80,14 @@ public class MapGenerator : MonoBehaviour
 
 	void Update()
 	{
+		if (Global.Instance != null && Global.Instance.loadPlanet != null)
+		{
+			Global.Instance.loadPlanet.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, this);
+			Apply(mats, size);
+
+			Global.Instance.loadPlanet = null;
+		}
+
 		if (refresh)
 		{
 			//Generate(Random.Range(0, 999999), 64, out var materials);
