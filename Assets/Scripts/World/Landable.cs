@@ -46,12 +46,14 @@ public class Landable : MonoBehaviour
 	}
 	void StartLoadingScene()
 	{
+		LoadOverlay.ShowOverlay();
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
 		SceneManager.LoadScene(SceneToLoad);
 	}
 
 	void OnSceneLoadFinished(Scene s, LoadSceneMode mode)
 	{
+		LoadOverlay.ShowOverlay(false);
 		Global.Instance.LoadingScene = false;
 		SceneManager.sceneLoaded -= OnSceneLoadFinished;
 		Global.Instance.loadPlanet = planetDescriptor;
