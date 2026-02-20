@@ -12,17 +12,27 @@ public class UpgradeItem : MonoBehaviour
 	public GameObject A, B, C, D;
 	BuyableUpgrade CurrentUpgrade = null;
 	TextMeshProUGUI CostA, CostB, CostC, CostD;
+	bool woke = false;
 	private void Awake()
 	{
 		if (A != null)
-			CostA = A.transform.Find("Cost").GetComponent<TextMeshProUGUI>();
+			CostA = A.transform.GetComponentInChildren<TextMeshProUGUI>();
+		else
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource A");
 		if (B != null)
-			CostB = B.transform.Find("Cost").GetComponent<TextMeshProUGUI>();
+			CostB = B.transform.GetComponentInChildren<TextMeshProUGUI>();
+		else
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource B");
 		if (C != null)
-			CostC = C.transform.Find("Cost").GetComponent<TextMeshProUGUI>();
+			CostC = C.transform.GetComponentInChildren<TextMeshProUGUI>();
+		else
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource C");
 		if (D != null)
-			CostD = D.transform.Find("Cost").GetComponent<TextMeshProUGUI>();
+			CostD = D.transform.GetComponentInChildren<TextMeshProUGUI>();
+		else
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource D");
 		UnlockButton.onHoldComplete.AddListener(BuyingUpgrade);
+		woke = true;
 	}
 
 	public System.Action<Selectable> OnSelect;
@@ -68,6 +78,9 @@ public class UpgradeItem : MonoBehaviour
 
 	void SetUpgradeCosts()
 	{
+		if (!woke)
+			return;
+
 		if(CurrentUpgrade == null)
 		{
 			A.SetActive(false);

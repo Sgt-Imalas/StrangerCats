@@ -57,6 +57,7 @@ public class UpgradeScreen : MonoBehaviour
 		ManeuveringThrusters = GO_ManeuveringThrusters.GetComponent<UpgradeItem>();
 		ResourceYield = GO_ResourceYield.GetComponent<UpgradeItem>();
 
+		Items = new List<UpgradeItem>();
 		Items.Add(Radar);
 		Items.Add(RotationSpeed);
 		Items.Add(SuperCruise);

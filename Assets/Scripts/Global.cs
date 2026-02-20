@@ -216,7 +216,7 @@ public class BuyableUpgrade
 	{
 		Name = name;
 	}
-	public BuyableUpgrade LevelPrice(ResourceLevel costs1)
+	public BuyableUpgrade LevelPrice(ResourceLevel costs)
 	{
 		if (LevelCosts == null)
 			LevelCosts = new();
