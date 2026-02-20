@@ -21,10 +21,11 @@ namespace Assets.Scripts
 		{
 			if (Instance != null)
 			{
-				Debug.LogWarning("PersistentPlayer intance was not null. This should not be reassigned!");
-				Instance = null;
+				Destroy(gameObject);
+				return;
 			}
 
+			DontDestroyOnLoad(gameObject);
 			Instance = this;
 
 			attributes = GetComponent<Attributes>();

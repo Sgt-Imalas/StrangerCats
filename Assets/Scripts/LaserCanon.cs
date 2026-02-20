@@ -31,9 +31,6 @@ public class LaserCanon : MonoBehaviour
 	bool ControllerAim;
 	float stickDeadzone = 0.3f;
 
-	bool wasLaserActive = false;
-	bool isLaserActive = false;
-
 	private float cachedLaserRange = 10.0f;
 
 	private void Awake()
@@ -152,11 +149,11 @@ public class LaserCanon : MonoBehaviour
 			selectionMarker.gameObject.SetActive(false);
 		}
 
-		var isMouseDown = controls.Player.Attack.ReadValue<float>() > 0.0f;
+		var isMouseDown = controls.Player.Attack.IsPressed();
 
 		if (isMouseDown && isHittingTile)
 		{
-			if (!wasLaserActive)
+			if (!laserRenderer.enabled)
 			{
 				laserRenderer.enabled = true;
 				sparkLight.gameObject.SetActive(true);
@@ -168,15 +165,11 @@ public class LaserCanon : MonoBehaviour
 			var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
 			sparkLight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, angle + 90f));
-			wasLaserActive = true;
 		}
 		else if (isMouseDown)
 		{
-			if (!wasLaserActive)
-			{
-				laserRenderer.enabled = true;
-				sparkLight.gameObject.SetActive(true);
-			}
+			laserRenderer.enabled = true;
+			sparkLight.gameObject.SetActive(true);
 
 			var endPoint = transform.position + (Vector3)dir.normalized * cachedLaserRange;
 
@@ -189,13 +182,11 @@ public class LaserCanon : MonoBehaviour
 		}
 		else
 		{
-			if (wasLaserActive)
-			{
-				laserRenderer.enabled = false;
-				sparkLight.gameObject.SetActive(false);
-			}
 
-			wasLaserActive = false;
+			laserRenderer.enabled = false;
+			sparkLight.gameObject.SetActive(false);
+
+
 		}
 
 		if (isMouseDown && _timeSinceLastProjectile > projectileCooldown && isMouseDown)
