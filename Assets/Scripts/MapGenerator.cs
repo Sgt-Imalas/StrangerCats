@@ -10,7 +10,7 @@ public class MapGenerator : MonoBehaviour
 	public Tilemap tileMap;
 	public TileBase terrainTile;
 	public bool refresh;
-
+	public MeshRenderer asteroidBg;
 
 	public Texture terrainTexture;
 	public Texture2D boneMap;
@@ -18,7 +18,7 @@ public class MapGenerator : MonoBehaviour
 
 	public PlanetDescriptor debugPlanetGen;
 
-	public void Apply(Dictionary<Vector3Int, int> materials, int size)
+	public void Apply(Dictionary<Vector3Int, int> materials, int size, PlanetDescriptor descriptor)
 	{
 		if (Materials.materials == null)
 		{
@@ -27,7 +27,6 @@ public class MapGenerator : MonoBehaviour
 
 		tileMap.ClearAllTiles();
 
-		backgroundTextureMask = new Texture2D(size, size, TextureFormat.RGBA32, false);
 
 		var tex = new Texture2D(size, size, TextureFormat.R16, false, true);
 		tex.filterMode = FilterMode.Point;
@@ -53,9 +52,12 @@ public class MapGenerator : MonoBehaviour
 		}
 
 		tex.Apply(false, true);
-		backgroundTextureMask.Apply();
 
-		Shader.SetGlobalTexture("_AsteroidBGMask", backgroundTextureMask);
+		//backgroundTextureMask = new Texture2D(size, size, TextureFormat.RGBA32, false);
+
+		//backgroundTextureMask.Apply();
+
+		//Shader.SetGlobalTexture("_AsteroidBGMask", backgroundTextureMask);
 
 		//tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });
 
@@ -75,6 +77,19 @@ public class MapGenerator : MonoBehaviour
 		Shader.SetGlobalVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
 		Shader.SetGlobalVector("_TilemapMax", new Vector4(max.x, max.y, 0, 0));
 
+		if (asteroidBg != null)
+		{
+			if (descriptor.bg != null)
+			{
+				asteroidBg.gameObject.SetActive(true);
+				asteroidBg.material.mainTexture = descriptor.bg;
+			}
+			else
+			{
+				asteroidBg.gameObject.SetActive(false);
+			}
+		}
+
 		if (GlobalEvents.Instance != null)
 			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
 
@@ -86,7 +101,7 @@ public class MapGenerator : MonoBehaviour
 		if (Global.Instance != null && Global.Instance.loadPlanet != null)
 		{
 			Global.Instance.loadPlanet.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, this);
-			Apply(mats, size);
+			Apply(mats, size, Global.Instance.loadPlanet);
 
 			Global.Instance.loadPlanet = null;
 		}
@@ -97,7 +112,7 @@ public class MapGenerator : MonoBehaviour
 			if (debugPlanetGen != null)
 			{
 				debugPlanetGen.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, this);
-				Apply(mats, size);
+				Apply(mats, size, debugPlanetGen);
 			}
 			else
 				Debug.LogWarning("no debug world defined.");

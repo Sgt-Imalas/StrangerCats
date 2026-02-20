@@ -15,8 +15,9 @@ namespace Assets.Scripts
 			Bone = "Bone".GetHashCode(),
 			Meat = "Meat".GetHashCode(),
 			Plastic = "Plastic".GetHashCode(),
-			Rubber = "Rubber".GetHashCode()
-			;
+			Rubber = "Rubber".GetHashCode(),
+			RustedMetal = "Rusted Metal".GetHashCode(),
+			SteelSheets = "Steel Sheets".GetHashCode();
 
 		void Awake()
 		{

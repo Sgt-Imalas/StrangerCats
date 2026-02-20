@@ -4585,7 +4585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Landable
   SceneToLoad: MineableTerrain
-  planetDescriptor: {fileID: 11400000, guid: 6db87838a52429149843fb7351c67d71, type: 2}
+  planetDescriptor: {fileID: 11400000, guid: a142d6c9970115746a652f1172604514, type: 2}
 --- !u!58 &328265340
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -24407,7 +24407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Landable
   SceneToLoad: MineableTerrain
-  planetDescriptor: {fileID: 0}
+  planetDescriptor: {fileID: 11400000, guid: 6db87838a52429149843fb7351c67d71, type: 2}
 --- !u!1001 &1670685556
 PrefabInstance:
   m_ObjectHideFlags: 0
