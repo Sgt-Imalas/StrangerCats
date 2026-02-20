@@ -1,0 +1,139 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+
+public class HoldButton : CatPawButton
+{
+	bool Selected;
+	public float holdTime = 1f;
+	public UnityEvent onHoldComplete;
+
+	private bool isHolding;
+	private Coroutine holdRoutine;
+	private PlayerControls controls;
+	bool MouseMode = true;
+	public Image FillImage;
+
+	protected override void OnEnable()
+	{
+		base.OnEnable();
+		if (controls != null)
+			controls.UI.Enable();
+		if (controls != null)
+			controls.UI.Submit.performed += ctx => StartHoldIfSelected();
+	}
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+		if (controls != null)
+			controls.UI.Disable();
+	}
+
+
+	public override void OnSelect(BaseEventData eventData)
+	{
+		if (!interactable) return;
+		Selected = true;
+		base.OnSelect(eventData);
+	}
+	public override void OnDeselect(BaseEventData eventData)
+	{
+		if (!interactable) return;
+		Selected = false;
+		base.OnDeselect(eventData);
+	}
+
+	void StartHoldIfSelected()
+	{
+		if (Selected && interactable)
+		{
+			MouseMode = false;
+			StartHold();
+		}
+	}
+
+	protected override void Awake()
+	{
+		base.Awake();
+		controls = new();
+		FillImage = transform.Find("Fill").GetComponent<Image>();
+	}
+	public override void OnPointerDown(PointerEventData eventData)
+	{
+		MouseMode = true;
+		StartHold();
+		base.OnPointerDown(eventData);
+	}
+
+	public override void OnPointerUp(PointerEventData eventData)
+	{
+		CancelHold();
+		base.OnPointerUp(eventData);
+	}
+
+	private void StartHold()
+	{
+		if (isHolding)
+			return;
+
+		isHolding = true;
+		holdRoutine = StartCoroutine(HoldCoroutine());
+	}
+
+	private void CancelHold()
+	{
+		if (!isHolding)
+			return;
+
+		isHolding = false;
+
+		if (holdRoutine != null)
+			StopCoroutine(holdRoutine);
+		FillImage.fillAmount = 0;
+	}
+
+	private IEnumerator HoldCoroutine()
+	{
+		float timer = 0f;
+
+		while (timer < holdTime)
+		{
+			if (!IsSubmitStillPressed())
+			{
+				CancelHold();
+				yield break;
+			}
+
+			timer += Time.unscaledDeltaTime;
+			FillImage.fillAmount = timer / holdTime;
+			yield return null;
+		}
+		CompleteAction();
+	}
+
+	IEnumerator WaitForRelease()
+	{
+		while (IsSubmitStillPressed())
+		{
+			yield return null;
+		}
+
+		isHolding = false;
+		onHoldComplete?.Invoke();
+		FillImage.fillAmount = 0;
+	}
+
+	void CompleteAction()
+	{
+		StartCoroutine(WaitForRelease());
+	}
+
+	private bool IsSubmitStillPressed()
+	{
+		return MouseMode || controls.UI.Submit.IsPressed();
+	}
+}

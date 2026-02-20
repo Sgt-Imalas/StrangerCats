@@ -154,7 +154,7 @@ public class LaserCanon : MonoBehaviour
 			selectionMarker.gameObject.SetActive(false);
 		}
 
-		var isMouseDown = controls.Player.Attack.ReadValue<float>() > 0.0f;
+		var isMouseDown = controls.Player.Attack.IsPressed();
 
 		if (isMouseDown)
 		{
@@ -198,11 +198,10 @@ public class LaserCanon : MonoBehaviour
 		}
 		else
 		{
-			if (wasLaserActive)
-			{
-				laserRenderer.gameObject.SetActive(false);
-				sparkLight.gameObject.SetActive(false);
-			}
+
+			laserRenderer.enabled = false;
+			sparkLight.gameObject.SetActive(false);
+
 
 			if (wasImpactingGround)
 				impactSparklerSound.Stop();

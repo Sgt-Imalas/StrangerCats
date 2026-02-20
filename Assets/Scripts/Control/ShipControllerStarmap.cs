@@ -18,7 +18,8 @@ public class ShipControllerStarmap : MonoBehaviour
 	public float MaxVelocity = 60f;
 	public bool PrecisionFlyMode = true;
 	public Vector2 movementDirection, LookPosition;
-	public CameraAnimator CameraAnimator;
+	CameraAnimator CameraAnimator;
+	public GameObject CruiseFire;
 
 	Rigidbody2D rb;
 	Vector2 CurrentThrust;
@@ -221,5 +222,7 @@ public class ShipControllerStarmap : MonoBehaviour
 			emission.rateOverTime = 0; // PrecisionFlyMode ? 0 : emissionRate;
 			emission.rateOverDistance = PrecisionFlyMode ? 0 : emissionRate;
 		}
+		if (CruiseFire != null)
+			CruiseFire.SetActive(!PrecisionFlyMode && emissionRate > 0);
 	}
 }

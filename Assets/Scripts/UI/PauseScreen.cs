@@ -7,12 +7,21 @@ using UnityEngine.UI;
 
 public class PauseScreen : MonoBehaviour
 {
-	private PlayerControls controls;
 	public GameObject PauseMenuUi;
 	public static bool IsCurrentlyPaused = false, CanCurrentlyPause = true;
 	public Slider MusicSlider, SfxSlider;
 	public Button Resume, Exit;
+	private PlayerControls controls;
 
+	private void OnEnable()
+	{
+		controls.Player.Enable();
+	}
+
+	private void OnDisable()
+	{
+		controls.Player.Disable();
+	}
 
 	private void Awake()
 	{
@@ -40,15 +49,6 @@ public class PauseScreen : MonoBehaviour
 	}
 
 
-	private void OnEnable()
-	{
-		controls.Player.Enable();
-	}
-
-	private void OnDisable()
-	{
-		controls.Player.Disable();
-	}
 
 	private void OnDestroy()
 	{
