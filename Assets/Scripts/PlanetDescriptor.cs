@@ -42,10 +42,7 @@ namespace Assets.Scripts
 		public void GeneratePlasticWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
 		{
 			materials = new Dictionary<Vector3Int, int>();
-			var generator = MapGenerator.Instance;
 
-			var noise = new FastNoiseLite(seed);
-			noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
 			size = radius * 2 + 1;
 			var center = new Vector2(radius, radius);
 
@@ -104,12 +101,11 @@ namespace Assets.Scripts
 					var value = noise.GetNoise(x * noiseScale, y * noiseScale);
 					value *= value;
 
+					if (value > noiseThreshold)
+					{
 						var bx = (int)Mathf.Clamp(x * boneNoiseScale, 0, generator.boneMap.width - 1);
 						var by = (int)Mathf.Clamp(y * boneNoiseScale, 0, generator.boneMap.height - 1);
 						var boneValue = generator.boneMap.GetPixel(boneOffsetX + bx, boneOffsetY + by).r;
-
-					if (value > noiseThreshold)
-						generator.tileMap.SetTile(new Vector3Int(x, y, 0), generator.terrainTile);
 
 						if (boneValue > boneThreshold)
 						{
