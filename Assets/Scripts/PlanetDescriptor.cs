@@ -19,12 +19,55 @@ namespace Assets.Scripts
 
 		public enum GenerationPreset
 		{
-			Meat
+			Meat,
+			Plastic
 		}
 
 		public void GenerateWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
 		{
-			GenerateMeatWorld(seed, out materials, out size, generator);
+			materials = null;
+			size = 0;
+
+			switch (generationPreset)
+			{
+				case GenerationPreset.Meat:
+					GenerateMeatWorld(seed, out materials, out size, generator);
+					break;
+				case GenerationPreset.Plastic:
+					GeneratePlasticWorld(seed, out materials, out size, generator);
+					break;
+			}
+		}
+
+		public void GeneratePlasticWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
+		{
+			materials = new Dictionary<Vector3Int, int>();
+
+			size = radius * 2 + 1;
+			var center = new Vector2(radius, radius);
+
+			var rubberRadius = radius - 12;
+			var emptyRadius = radius - 15;
+
+			for (var x = 0; x < size; x++)
+			{
+				for (var y = 0; y < size; y++)
+				{
+					var dist = Vector2.Distance(new Vector2(x, y), center);
+
+					if (dist < radius && dist > rubberRadius)
+					{
+						if (dist > rubberRadius)
+						{
+							materials[new Vector3Int(x, y)] = Materials.Plastic;
+						}
+						else if (dist > emptyRadius)
+						{
+							materials[new Vector3Int(x, y)] = Materials.Rubber;
+						}
+					}
+				}
+			}
 		}
 
 		public void GenerateMeatWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)

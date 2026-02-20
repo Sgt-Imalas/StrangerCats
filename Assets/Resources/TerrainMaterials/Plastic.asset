@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e7820d7d2adc3e4a9c6877c65692210, type: 3}
-  m_Name: TerrainMaterial
+  m_Name: Plastic
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.TerrainMaterial
-  materialName: Meat
-  hardness: 5
-  textureIdx: 0
+  materialName: Plastic
+  hardness: 30
+  textureIdx: 2

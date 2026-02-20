@@ -13,7 +13,10 @@ namespace Assets.Scripts
 
 		public static int
 			Bone = "Bone".GetHashCode(),
-			Meat = "Meat".GetHashCode();
+			Meat = "Meat".GetHashCode(),
+			Plastic = "Plastic".GetHashCode(),
+			Rubber = "Rubber".GetHashCode()
+			;
 
 		void Awake()
 		{
