@@ -32,9 +32,6 @@ public class LaserCanon : MonoBehaviour
 	bool ControllerAim;
 	float stickDeadzone = 0.3f;
 
-	bool wasLaserActive = false;
-	bool isLaserActive = false;
-	bool wasImpactingGround = false;
 
 	private float cachedLaserRange = 10.0f;
 
@@ -167,10 +164,8 @@ public class LaserCanon : MonoBehaviour
 
 				sparkLight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, angle + 90f));
 
-				if (!wasImpactingGround)
+				if (!impactSparklerSound.isPlaying)
 					impactSparklerSound.Play();
-
-				wasImpactingGround = true;
 			}
 			else
 			{
@@ -182,32 +177,22 @@ public class LaserCanon : MonoBehaviour
 				var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
 				sparkLight.transform.SetPositionAndRotation(endPoint, Quaternion.Euler(0f, 0f, angle + 90f));
-
-				if (wasImpactingGround)
-					impactSparklerSound.Stop();
-				wasImpactingGround = false;
+				
+				impactSparklerSound.Stop();
 			}
 
-			if (!wasLaserActive)
+			if (!laserRenderer.gameObject.activeSelf)
 			{
 				laserRenderer.gameObject.SetActive(true);
 				sparkLight.gameObject.SetActive(true);
 			}
-
-			wasLaserActive = true;
 		}
 		else
 		{
 
-			laserRenderer.enabled = false;
+			laserRenderer.gameObject.SetActive(false);
 			sparkLight.gameObject.SetActive(false);
-
-
-			if (wasImpactingGround)
-				impactSparklerSound.Stop();
-
-			wasImpactingGround = false;
-			wasLaserActive = false;
+			impactSparklerSound.Stop();
 		}
 
 		if (isMouseDown && _timeSinceLastProjectile > projectileCooldown && isMouseDown)

@@ -132,7 +132,6 @@ public class UpgradeItem : MonoBehaviour
 
 		UpgradeDesc.SetText(upgrade?.GetUpgradeText());
 		SetUpgradeCosts();
-		Debug.Log("Set upgrade: " + upgrade?.Name);
 	}
 	public void Refresh() => SetUpgrade(CurrentUpgrade);
 }
