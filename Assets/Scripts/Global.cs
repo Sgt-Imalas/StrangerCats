@@ -26,6 +26,7 @@ public class Global
 	public DestructibleTerrain activeTerrain;
 	public int WorldSeed;
 }
+
 public class StarmapShip
 {
 	public Vector2 Position = new(0, 0);

@@ -6,6 +6,7 @@
 		ExplosionRadius,
 		LifeTime,
 		DigDamage,
+		LaserRange,
 
 		PodSpeed,
 
