@@ -8,11 +8,9 @@ using UnityEngine.UI;
 
 public class HoldButton : CatPawButton
 {
-	bool pressed,Selected;
-	public float holdTime = 2f;
+	bool Selected;
+	public float holdTime = 1f;
 	public UnityEvent onHoldComplete;
-
-	//public InputActionReference submitAction;
 
 	private bool isHolding;
 	private Coroutine holdRoutine;
@@ -23,38 +21,43 @@ public class HoldButton : CatPawButton
 	protected override void OnEnable()
 	{
 		base.OnEnable();
-		controls.UI.Enable();
-		controls.UI.Submit.performed += ctx => StartHoldIfSelected();
+		if (controls != null)
+			controls.UI.Enable();
+		if (controls != null)
+			controls.UI.Submit.performed += ctx => StartHoldIfSelected();
 	}
+	protected override void OnDisable()
+	{
+		base.OnDisable();
+		if (controls != null)
+			controls.UI.Disable();
+	}
+
 
 	public override void OnSelect(BaseEventData eventData)
 	{
+		if (!interactable) return;
 		Selected = true;
 		base.OnSelect(eventData);
 	}
 	public override void OnDeselect(BaseEventData eventData)
 	{
+		if (!interactable) return;
 		Selected = false;
 		base.OnDeselect(eventData);
 	}
 
 	void StartHoldIfSelected()
 	{
-		if (Selected)
+		if (Selected && interactable)
 		{
 			MouseMode = false;
 			StartHold();
 		}
 	}
 
-	protected override void OnDisable()
-	{ 
-		base.OnDisable();
-		controls.UI.Disable();
-	}
-
 	protected override void Awake()
-	{ 
+	{
 		base.Awake();
 		controls = new();
 		FillImage = transform.Find("Fill").GetComponent<Image>();
@@ -109,9 +112,24 @@ public class HoldButton : CatPawButton
 			FillImage.fillAmount = timer / holdTime;
 			yield return null;
 		}
+		CompleteAction();
+	}
+
+	IEnumerator WaitForRelease()
+	{
+		while (IsSubmitStillPressed())
+		{
+			yield return null;
+		}
 
 		isHolding = false;
 		onHoldComplete?.Invoke();
+		FillImage.fillAmount = 0;
+	}
+
+	void CompleteAction()
+	{
+		StartCoroutine(WaitForRelease());
 	}
 
 	private bool IsSubmitStillPressed()
