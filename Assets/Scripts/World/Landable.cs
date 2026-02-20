@@ -18,22 +18,6 @@ public class Landable : MonoBehaviour
 		Debug.Log("Leaving landable " + gameObject.name);
 		Global.Instance.Spaceship.CanLand = true;
 	}
-
-	void Start()
-	{
-		if (PlanetToGenerate == null)
-			return;
-
-		var renderer = GetComponent<SpriteRenderer>();
-		var icon = PlanetToGenerate.icon;
-
-		if (icon != null)
-		{
-			var sprite = Sprite.Create(icon, new Rect(0, 0, icon.width, icon.height), Vector3.zero);
-			renderer.sprite = sprite;
-		}
-	}
-
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag != "Player")
