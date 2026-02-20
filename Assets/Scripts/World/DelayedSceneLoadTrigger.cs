@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class DelayedSceneLoadTrigger : MonoBehaviour
@@ -48,6 +46,7 @@ public class DelayedSceneLoadTrigger : MonoBehaviour
 			yield return new WaitForSeconds(Delay);
 			OnSceneLoadedAfterDelay.Invoke();
 			OnSceneLoadedAfterDelay = null;
+
 		}
 	}
 
@@ -59,7 +58,7 @@ public class DelayedSceneLoadTrigger : MonoBehaviour
 	/// <param name="delay">delay for delay action in s</param>
 	public static void SetNextSceneLoadActions(System.Action onSceneLoaded, System.Action onSceneLoadedAfterDelay = null, float delay = 0.1f)
 	{
-		if(Instance == null)
+		if (Instance == null)
 		{
 			Debug.LogWarning("No instance of DelayedSceneLoadTrigger found. Cannot set next scene load actions.");
 			return;

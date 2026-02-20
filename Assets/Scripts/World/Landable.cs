@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Landable : MonoBehaviour
 {
 	public string SceneToLoad;
-	public PlanetDescriptor PlanetToGenerate;
+	public PlanetDescriptor planetDescriptor;
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
@@ -71,14 +71,6 @@ public class Landable : MonoBehaviour
 		Global.Instance.LoadingScene = false;
 		SceneManager.sceneLoaded -= OnSceneLoadFinished;
 
-		// maybe this is not the right place
-		if (PlanetToGenerate != null)
-		{
-			PlanetToGenerate.GenerateWorld(Random.Range(0, int.MaxValue), out var mats, out var size);
-
-
-			Debug.Log($"generated world with {mats.Count} mterials");
-			MapGenerator.Instance.Apply(mats, size);
-		}
+		Global.Instance.loadPlanet = planetDescriptor;
 	}
 }

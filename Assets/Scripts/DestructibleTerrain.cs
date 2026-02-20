@@ -52,7 +52,7 @@ public class DestructibleTerrain : MonoBehaviour
 
 		foreach (var mat in materials)
 		{
-			var material = Materials.Instance.GetMaterial(mat.Value);
+			var material = Materials.GetMaterial(mat.Value);
 			if (material == null)
 			{
 				Debug.LogWarning($"Not a valid element {mat.Value}");

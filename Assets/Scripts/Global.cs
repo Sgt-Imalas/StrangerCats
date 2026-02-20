@@ -1,9 +1,11 @@
+using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[ExecuteAlways]
 public class Global
 {
 	private static Global _instance;
@@ -26,6 +28,8 @@ public class Global
 	public bool InMenu = false;
 	public bool LockedInputs => InCameraTransition || InMenu;
 	public int WorldSeed;
+	public PlanetDescriptor generateWorld;
+	public PlanetDescriptor loadPlanet;
 }
 
 public class StarmapShip

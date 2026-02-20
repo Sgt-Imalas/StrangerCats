@@ -16,31 +16,21 @@ public class MapGenerator : MonoBehaviour
 	public Texture2D boneMap;
 	public Texture2D backgroundTextureMask;
 
-	public static MapGenerator Instance;
-
-	void Awake()
-	{
-		Instance = this;
-	}
-
-	private void OnDestroy()
-	{
-		Instance = null;
-	}
+	public PlanetDescriptor debugPlanetGen;
 
 	public void Apply(Dictionary<Vector3Int, int> materials, int size)
 	{
-		if (Materials.Instance == null)
+		if (Materials.materials == null)
 		{
-			Debug.LogError("Materials instance is null");
-			return;
+			Materials.Load();
 		}
 
 		tileMap.ClearAllTiles();
+
 		var tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
 		backgroundTextureMask = new Texture2D(size, size, TextureFormat.RGBA32, false);
 
-		var tilePositions = new List<Vector3Int>();
+		//var tilePositions = new List<Vector3Int>();
 
 		foreach (var mat in materials)
 		{
@@ -49,7 +39,7 @@ public class MapGenerator : MonoBehaviour
 			tileMap.SetTile(mat.Key, terrainTile);
 
 
-			var terrain = Materials.Instance.GetMaterial(mat.Value);
+			var terrain = Materials.GetMaterial(mat.Value);
 			if (terrain == null)
 			{
 				Debug.LogWarning("material is null");
@@ -64,7 +54,7 @@ public class MapGenerator : MonoBehaviour
 
 		Shader.SetGlobalTexture("_AsteroidBGMask", backgroundTextureMask);
 
-		tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });
+		//tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });
 
 
 		tileMap.CompressBounds();
@@ -72,7 +62,7 @@ public class MapGenerator : MonoBehaviour
 		var bounds = tileMap.localBounds;
 
 		var min = Vector3.zero;
-		var max = tileMap.transform.TransformPoint(bounds.max);
+		var max = new Vector3(size, size, 0);
 
 		var material = tileMap.GetComponent<TilemapRenderer>().material;
 
@@ -80,19 +70,34 @@ public class MapGenerator : MonoBehaviour
 		material.SetTexture("_TerrainIndex", tex);
 
 		Shader.SetGlobalVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
-		Shader.SetGlobalVector("_TilemapMax", new Vector4(max.x + 5, max.y + 5, 0, 0));
+		Shader.SetGlobalVector("_TilemapMax", new Vector4(max.x, max.y, 0, 0));
 
-		//if (GlobalEvents.Instance != null)
-		//	GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
+		if (GlobalEvents.Instance != null)
+			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
 
-		DestructibleTerrain.Instance.ApplyNewMap(materials);
+		//DestructibleTerrain.Instance.ApplyNewMap(materials);
 	}
 
 	void Update()
 	{
+		if (Global.Instance != null && Global.Instance.loadPlanet != null)
+		{
+			Global.Instance.loadPlanet.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, this);
+			Apply(mats, size);
+
+			Global.Instance.loadPlanet = null;
+		}
+
 		if (refresh)
 		{
 			//Generate(Random.Range(0, 999999), 64, out var materials);
+			if (debugPlanetGen != null)
+			{
+				debugPlanetGen.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, this);
+				Apply(mats, size);
+			}
+			else
+				Debug.LogWarning("no debug world defined.");
 
 			refresh = false;
 		}

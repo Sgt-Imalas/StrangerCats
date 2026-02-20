@@ -19,30 +19,66 @@ namespace Assets.Scripts
 
 		public enum GenerationPreset
 		{
-			Meat
+			Meat,
+			Plastic
 		}
 
-		public void GenerateWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size)
+		public void GenerateWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
 		{
-			GenerateMeatWorld(seed, out materials, out size);
+			materials = null;
+			size = 0;
+
+			switch (generationPreset)
+			{
+				case GenerationPreset.Meat:
+					GenerateMeatWorld(seed, out materials, out size, generator);
+					break;
+				case GenerationPreset.Plastic:
+					GeneratePlasticWorld(seed, out materials, out size, generator);
+					break;
+			}
 		}
 
-		public void GenerateMeatWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size)
+		public void GeneratePlasticWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
 		{
 			materials = new Dictionary<Vector3Int, int>();
 			var generator = MapGenerator.Instance;
 
 			var noise = new FastNoiseLite(seed);
 			noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
+			size = radius * 2 + 1;
+			var center = new Vector2(radius, radius);
 
-			var boneNoise = new FastNoiseLite(1337);
+			var rubberRadius = radius - 12;
+			var emptyRadius = radius - 15;
 
-			boneNoise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-			boneNoise.SetFrequency(0.02f);
+			for (var x = 0; x < size; x++)
+			{
+				for (var y = 0; y < size; y++)
+				{
+					var dist = Vector2.Distance(new Vector2(x, y), center);
 
-			boneNoise.SetFractalType(FastNoiseLite.FractalType.PingPong);
-			boneNoise.SetFractalOctaves(3);
-			boneNoise.SetFractalPingPongStrength(2.0f);
+					if (dist < radius && dist > rubberRadius)
+					{
+						if (dist > rubberRadius)
+						{
+							materials[new Vector3Int(x, y)] = Materials.Plastic;
+						}
+						else if (dist > emptyRadius)
+						{
+							materials[new Vector3Int(x, y)] = Materials.Rubber;
+						}
+					}
+				}
+			}
+		}
+
+		public void GenerateMeatWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
+		{
+			materials = new Dictionary<Vector3Int, int>();
+
+			var noise = new FastNoiseLite(seed);
+			noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
 
 			size = radius * 2 + 10;
 
@@ -68,20 +104,21 @@ namespace Assets.Scripts
 					var value = noise.GetNoise(x * noiseScale, y * noiseScale);
 					value *= value;
 
-					var bx = (int)Mathf.Clamp(x * boneNoiseScale, 0, generator.boneMap.width - 1);
-					var by = (int)Mathf.Clamp(y * boneNoiseScale, 0, generator.boneMap.height - 1);
-					var boneValue = generator.boneMap.GetPixel(boneOffsetX + bx, boneOffsetY + by).r;
+						var bx = (int)Mathf.Clamp(x * boneNoiseScale, 0, generator.boneMap.width - 1);
+						var by = (int)Mathf.Clamp(y * boneNoiseScale, 0, generator.boneMap.height - 1);
+						var boneValue = generator.boneMap.GetPixel(boneOffsetX + bx, boneOffsetY + by).r;
 
 					if (value > noiseThreshold)
 						generator.tileMap.SetTile(new Vector3Int(x, y, 0), generator.terrainTile);
 
-					if (boneValue > boneThreshold)
-					{
-						materials[new Vector3Int(x, y)] = Materials.Bone;
-					}
-					else
-					{
-						materials[new Vector3Int(x, y)] = Materials.Meat;
+						if (boneValue > boneThreshold)
+						{
+							materials[new Vector3Int(x, y)] = Materials.Bone;
+						}
+						else
+						{
+							materials[new Vector3Int(x, y)] = Materials.Meat;
+						}
 					}
 				}
 			}
