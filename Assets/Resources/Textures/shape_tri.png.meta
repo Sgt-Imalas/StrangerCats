@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: f66d3e71a81607a46a5677249d409add
+guid: 070e69372318c254e9330d3ceb4c72ca
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -5766033097715662417
-    second: asteroids_0
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,23 +110,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: asteroids_0
+      name: shape_triangle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 60
-        height: 60
+        width: 11
+        height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa14387827feaffa0800000000000000
-      internalID: -5766033097715662417
+      spriteID: 0d0db3bd4dcc8f550800000000000000
+      internalID: 6194926502031380688
       vertices: []
       indices: 
       edges: []
@@ -138,7 +135,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +145,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      asteroids_0: -5766033097715662417
+      shape_triangle_0: 6194926502031380688
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

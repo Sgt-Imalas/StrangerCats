@@ -128,7 +128,7 @@ public class ShipControllerStarmap : MonoBehaviour
 			ApplyModeChanges(Global.Instance.Spaceship.CruiseMode);
 		}
 	}
-	void ApplyModeChanges(Global.FlightStats mode)
+	void ApplyModeChanges(FlightStats mode)
 	{
 		RotationSpeed = mode.RotationSpeed;
 		AccellerationSpeed = mode.Accelleration;
