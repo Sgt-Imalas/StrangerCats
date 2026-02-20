@@ -190,6 +190,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleUpgradeScreen"",
+                    ""type"": ""Button"",
+                    ""id"": ""6372f6c7-7aca-4c80-96c5-f2cea6a36a09"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -361,7 +370,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
@@ -597,6 +606,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse;Touch"",
                     ""action"": ""TogglePauseScreen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b133b1a-6f4a-455d-afef-8f55ee003728"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleUpgradeScreen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""60eecb5c-5a0b-47bb-8a0c-c212d9eba54f"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleUpgradeScreen"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1195,6 +1226,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_TogglePauseScreen = m_Player.FindAction("TogglePauseScreen", throwIfNotFound: true);
+        m_Player_ToggleUpgradeScreen = m_Player.FindAction("ToggleUpgradeScreen", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1299,6 +1331,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_TogglePauseScreen;
+    private readonly InputAction m_Player_ToggleUpgradeScreen;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1354,6 +1387,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/TogglePauseScreen".
         /// </summary>
         public InputAction @TogglePauseScreen => m_Wrapper.m_Player_TogglePauseScreen;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ToggleUpgradeScreen".
+        /// </summary>
+        public InputAction @ToggleUpgradeScreen => m_Wrapper.m_Player_ToggleUpgradeScreen;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1413,6 +1450,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @TogglePauseScreen.started += instance.OnTogglePauseScreen;
             @TogglePauseScreen.performed += instance.OnTogglePauseScreen;
             @TogglePauseScreen.canceled += instance.OnTogglePauseScreen;
+            @ToggleUpgradeScreen.started += instance.OnToggleUpgradeScreen;
+            @ToggleUpgradeScreen.performed += instance.OnToggleUpgradeScreen;
+            @ToggleUpgradeScreen.canceled += instance.OnToggleUpgradeScreen;
         }
 
         /// <summary>
@@ -1457,6 +1497,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @TogglePauseScreen.started -= instance.OnTogglePauseScreen;
             @TogglePauseScreen.performed -= instance.OnTogglePauseScreen;
             @TogglePauseScreen.canceled -= instance.OnTogglePauseScreen;
+            @ToggleUpgradeScreen.started -= instance.OnToggleUpgradeScreen;
+            @ToggleUpgradeScreen.performed -= instance.OnToggleUpgradeScreen;
+            @ToggleUpgradeScreen.canceled -= instance.OnToggleUpgradeScreen;
         }
 
         /// <summary>
@@ -1834,6 +1877,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTogglePauseScreen(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleUpgradeScreen" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleUpgradeScreen(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

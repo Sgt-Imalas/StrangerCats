@@ -18,22 +18,25 @@ public class PauseScreen : MonoBehaviour
 	{
 		controls = new();
 		controls.Player.TogglePauseScreen.performed += OnPauseScreenToggled;
-		MusicSlider.value = Global.Instance.Settings.MusicVolume;
-		SfxSlider.value = Global.Instance.Settings.SfxVolume;
+
+		if (PlayerPrefs.HasKey("MusicVolume"))
+			MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+		if (PlayerPrefs.HasKey("SfxVolume"))
+			SfxSlider.value = PlayerPrefs.GetFloat("SfxVolume");
 		MusicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
 		SfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
 		Resume.onClick.AddListener( () => PauseGame(false));
 		Exit.onClick.AddListener( () => SceneManager.LoadScene("MainMenu"));
 		PauseGame(false);
 	}
-
 	void OnMusicVolumeChanged(float newValue)
 	{
-		Global.Instance.Settings.MusicVolume = newValue;
+		MusicManager.SetMusicVolume(newValue);
+		PlayerPrefs.SetFloat("MusicVolume", newValue);
 	}
 	void OnSfxVolumeChanged(float newValue)
 	{
-		Global.Instance.Settings.SfxVolume = newValue;
+		PlayerPrefs.SetFloat("SfxVolume", newValue);
 	}
 
 
@@ -45,6 +48,11 @@ public class PauseScreen : MonoBehaviour
 	private void OnDisable()
 	{
 		controls.Player.Disable();
+	}
+
+	private void OnDestroy()
+	{
+		PauseGame(false);
 	}
 
 	void OnPauseScreenToggled(InputAction.CallbackContext context) => PauseGame(!IsCurrentlyPaused);
@@ -66,7 +74,7 @@ public class PauseScreen : MonoBehaviour
 			IsCurrentlyPaused = false;
 		}
 
-		Global.Instance.InPauseMenu = setPaused;
+		Global.Instance.InMenu = setPaused;
 		Resume.Select();
 	}
 }

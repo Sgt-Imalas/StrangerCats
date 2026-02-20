@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XInput;
@@ -27,7 +26,7 @@ public class ShipControllerStarmap : MonoBehaviour
 	List<ParticleSystem> CruiseEngineEmissions;
 	List<ParticleSystem> PrecisionEngineEmissions;
 
-	public float stickDeadzone = 0.1f;
+	public float stickDeadzone = 0.3f;
 	public bool ControllerAim;
 	private void Awake()
 	{
@@ -129,7 +128,7 @@ public class ShipControllerStarmap : MonoBehaviour
 			ApplyModeChanges(Global.Instance.Spaceship.CruiseMode);
 		}
 	}
-	void ApplyModeChanges(Global.FlightStats mode)
+	void ApplyModeChanges(FlightStats mode)
 	{
 		RotationSpeed = mode.RotationSpeed;
 		AccellerationSpeed = mode.Accelleration;
@@ -149,13 +148,20 @@ public class ShipControllerStarmap : MonoBehaviour
 
 		// rotation
 		Vector2 direction = LookPosition;
-		if (PrecisionFlyMode && !ControllerAim)
+		if (PrecisionFlyMode)
 		{
-			Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
-			direction = mouseWorld - transform.position;
+			if (!ControllerAim)
+			{
+				Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
+				direction = mouseWorld - transform.position;
+			}
+		}
+		else
+		{
+			direction = movementDirection;
 		}
 
-		bool stillRotating = false;
+			bool stillRotating = false;
 		if (direction != Vector2.zero)
 		{
 			float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

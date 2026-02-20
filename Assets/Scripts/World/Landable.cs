@@ -1,11 +1,12 @@
-using UnityEditor;
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Collider2D))]
 public class Landable : MonoBehaviour
 {
-	public SceneAsset SceneToLoad;
+	public string SceneToLoad;
 	private void OnTriggerExit2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag != "Player")
@@ -20,7 +21,7 @@ public class Landable : MonoBehaviour
 		if(collision.gameObject.tag != "Player")
 			return;
 
-		if (Global.Instance.LoadingScene || Global.Instance.Spaceship.BlockedFromLanding)
+		if (Global.Instance.LoadingScene || Global.Instance.Spaceship.BlockedFromLanding || SceneToLoad == null || !SceneToLoad.Any())
 			return;
 
 		Debug.Log("Landing on landable " + gameObject.name);
@@ -43,7 +44,7 @@ public class Landable : MonoBehaviour
 	void StartLoadingScene()
 	{
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
-		SceneManager.LoadScene(SceneToLoad.name);
+		SceneManager.LoadScene(SceneToLoad);
 	}
 
 	void OnSceneLoadFinished(Scene s, LoadSceneMode mode)

@@ -29,7 +29,7 @@ public class LaserCanon : MonoBehaviour
 	private float _timeSinceLastProjectile;
 
 	bool ControllerAim;
-	float stickDeadzone = 0.1f;
+	float stickDeadzone = 0.3f;
 
 	bool wasLaserActive = false;
 	bool isLaserActive = false;
