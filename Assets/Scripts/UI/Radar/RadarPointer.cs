@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,9 @@ public class RadarPointer : MonoBehaviour
 	float CurrentDistance = float.MaxValue;
 
 	[SerializeField]
-	GameObject ImageGO;
+	GameObject ImageGO, DistanceTextGO;
 	Image Image;
+	TextMeshProUGUI DistanceText;
 	//hide pointer below
 	public float CutofffDistanceThreshold = 50;
 	public bool IgnoreDistanceLimit = false;
@@ -23,10 +25,13 @@ public class RadarPointer : MonoBehaviour
 	private void Start()
 	{
 		Image = ImageGO.GetComponent<Image>();
-		if(Player == null)
+		DistanceText = DistanceTextGO.GetComponent<TextMeshProUGUI>();
+		if (Player == null)
 			this.gameObject.SetActive(false);
-		if(Tint.HasValue && Image)
+		if (Tint.HasValue && Image)
 			Image.color = Tint.Value;
+		if(Tint.HasValue && DistanceText)
+			DistanceText.color = Tint.Value;
 	}
 
 	// Update is called once per frame
@@ -38,7 +43,9 @@ public class RadarPointer : MonoBehaviour
 
 	protected virtual void ToggleVisBelowThreshold()
 	{
-			ImageGO.SetActive(CurrentDistance >= CutofffDistanceThreshold);
+		bool distanceBigEnough = CurrentDistance >= CutofffDistanceThreshold;
+		ImageGO.SetActive(distanceBigEnough);
+		DistanceTextGO.SetActive(distanceBigEnough);
 	}
 
 	float UpdatePointerPosAndRotation()
@@ -54,6 +61,8 @@ public class RadarPointer : MonoBehaviour
 
 		transform.localPosition = pos;
 		transform.rotation = Quaternion.Euler(0f, 0f, targetAngle - 90);
+
+		DistanceText.SetText(distance.ToString("0"));
 		return distance;
 	}
 }

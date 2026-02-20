@@ -23,12 +23,11 @@ namespace Assets.Scripts
 		{
 			if (Instance != null)
 			{
-				Debug.LogWarning("GlobalEvents intance was not null. This should not be reassigned!");
-				Instance = null;
+				Destroy(gameObject);
+				return;
 			}
 
 			Instance = this;
-
 			DontDestroyOnLoad(gameObject);
 		}
 	}

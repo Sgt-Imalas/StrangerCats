@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,12 +53,28 @@ public class ShipControllerStarmap : MonoBehaviour
 		CruiseEngineEmissions = transform.GetComponentsInChildren<ParticleSystem>()
 			.Where(ps => ps.tag == "CruiseModeEngine")
 			.ToList();
+
+		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
+
 	}
+	public float CachedRotationSpeedMultiplier = 1;
+
+	private void OnPlayerAttributesChanged(AttributeType type, float finalValue)
+	{
+		switch (type)
+		{
+			case AttributeType.SpaceShipRotationSpeed:
+				CachedRotationSpeedMultiplier = finalValue;
+				break;
+		}
+	}
+
 
 	private void Start()
 	{
 		CameraAnimator.SetCameraOffset(-0.3f);
 		CameraAnimator.AnimateOffsetChange(Global.Instance.Spaceship.CurrentMode.CameraOffset, 0.5f);
+		CachedRotationSpeedMultiplier = PersistentPlayer.GetAttribute(AttributeType.SpaceShipRotationSpeed);
 	}
 	private void OnEnable()
 	{
@@ -173,7 +190,7 @@ public class ShipControllerStarmap : MonoBehaviour
 			float newAngle = Mathf.MoveTowardsAngle(
 				currentAngle,
 				targetAngle,
-				RotationSpeed * Time.fixedDeltaTime
+				RotationSpeed * Time.fixedDeltaTime * CachedRotationSpeedMultiplier
 			);
 			transform.rotation = Quaternion.Euler(0f, 0f, newAngle);
 

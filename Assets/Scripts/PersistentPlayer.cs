@@ -53,6 +53,15 @@ namespace Assets.Scripts
 			}
 		}
 
+		public static void AddModifier(AttributeModifier mod)
+		{
+			if (Instance == null)
+			{
+				Debug.LogWarning("Player Instance is null");
+				return;
+			}
+			Instance.attributes.AddMod(mod.id, mod.attributeId, mod.value, mod.multiplier);
+		}
 
 		public static float GetAttribute(AttributeType attributeId, float defaultValue = 0.0f)
 		{

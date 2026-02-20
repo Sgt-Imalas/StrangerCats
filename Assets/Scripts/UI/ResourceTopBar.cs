@@ -61,11 +61,11 @@ public class ResourceTopBar : MonoBehaviour
 		controls.Player.Disable();
 	}
 
-	void OnResourceCollected(ResourceType type, int amount)
+	void OnResourceCollected(ResourceType type, uint amount)
 	{
 		StartCoroutine(AnimateCollection(type, amount));
 	}
-	void OnResourceSpent(ResourceType type, int amount)
+	void OnResourceSpent(ResourceType type, uint amount)
 	{
 		RefreshDisplayAmount(type);
 	}
@@ -123,7 +123,7 @@ public class ResourceTopBar : MonoBehaviour
 		RefreshVisibility(ResourceType.D);
 	}
 
-	IEnumerator AnimateCollection(ResourceType type, int amount, float duration = 0.5f)
+	IEnumerator AnimateCollection(ResourceType type, uint amount, float duration = 0.5f)
 	{
 		yield return new WaitForSeconds(0.1f); // Wait to ensure the resource counter has repositioned if it was just discovered
 		var startPos = Canvas.position; 
@@ -149,7 +149,7 @@ public class ResourceTopBar : MonoBehaviour
 		if (resourceGO.TryGetComponent<Image>(out var image))
 			image.color = MiningResourceStorage.ResourceInfos[type];
 		RectTransform rect = resourceGO.GetComponent<RectTransform>();
-		int size = Mathf.Clamp(10 + amount * 5, 20, 50);
+		var size = Mathf.Clamp(10 + amount * 5, 20, 50);
 		rect.sizeDelta = new Vector2(size, size);
 
 		float time = 0f;
@@ -172,6 +172,6 @@ public class ResourceTopBar : MonoBehaviour
 	public void CollectRandomResource()
 	{
 		var randomType = (ResourceType)UnityEngine.Random.Range(0, 4);
-		Global.Instance.SpaceshipResources.CollectResource(randomType, UnityEngine.Random.Range(1, 10));
+		Global.Instance.SpaceshipResources.CollectResource(randomType, 999);
 	}
 }

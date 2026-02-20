@@ -57,16 +57,18 @@ public class UpgradeScreen : MonoBehaviour
 		ManeuveringThrusters = GO_ManeuveringThrusters.GetComponent<UpgradeItem>();
 		ResourceYield = GO_ResourceYield.GetComponent<UpgradeItem>();
 
-		Items = new List<UpgradeItem>();
-		Items.Add(Radar);
-		Items.Add(RotationSpeed);
-		Items.Add(SuperCruise);
-		Items.Add(LifeSupport);
-		Items.Add(LaserDamage);
-		Items.Add(LaserSpeed);
-		Items.Add(LaserRange);
-		Items.Add(ManeuveringThrusters);
-		Items.Add(ResourceYield);
+		Items = new List<UpgradeItem>
+		{
+			Radar,
+			RotationSpeed,
+			SuperCruise,
+			LifeSupport,
+			LaserDamage,
+			LaserSpeed,
+			LaserRange,
+			ManeuveringThrusters,
+			ResourceYield
+		};
 
 	}
 

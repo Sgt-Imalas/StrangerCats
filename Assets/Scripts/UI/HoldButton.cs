@@ -17,6 +17,7 @@ public class HoldButton : CatPawButton
 	private PlayerControls controls;
 	bool MouseMode = true;
 	public Image FillImage;
+	bool HeldLongEnough;
 
 	protected override void OnEnable()
 	{
@@ -36,13 +37,15 @@ public class HoldButton : CatPawButton
 
 	public override void OnSelect(BaseEventData eventData)
 	{
-		if (!interactable) return;
+		if (!interactable)
+			return;
 		Selected = true;
 		base.OnSelect(eventData);
 	}
 	public override void OnDeselect(BaseEventData eventData)
 	{
-		if (!interactable) return;
+		if (!interactable)
+			return;
 		Selected = false;
 		base.OnDeselect(eventData);
 	}
@@ -64,6 +67,8 @@ public class HoldButton : CatPawButton
 	}
 	public override void OnPointerDown(PointerEventData eventData)
 	{
+		if (!interactable)
+			return;
 		MouseMode = true;
 		StartHold();
 		base.OnPointerDown(eventData);
@@ -71,6 +76,9 @@ public class HoldButton : CatPawButton
 
 	public override void OnPointerUp(PointerEventData eventData)
 	{
+		if (!interactable)
+			return;
+
 		CancelHold();
 		base.OnPointerUp(eventData);
 	}
@@ -94,6 +102,9 @@ public class HoldButton : CatPawButton
 		if (holdRoutine != null)
 			StopCoroutine(holdRoutine);
 		FillImage.fillAmount = 0;
+
+		if (HeldLongEnough)
+			OnHeldLongEnough();
 	}
 
 	private IEnumerator HoldCoroutine()
@@ -117,11 +128,20 @@ public class HoldButton : CatPawButton
 
 	IEnumerator WaitForRelease()
 	{
-		while (IsSubmitStillPressed())
+		while (true)
 		{
+			if (!IsSubmitStillPressed())
+			{
+				OnHeldLongEnough();
+				yield break;
+			}
 			yield return null;
 		}
 
+	}
+	void OnHeldLongEnough()
+	{
+		HeldLongEnough = false;
 		isHolding = false;
 		onHoldComplete?.Invoke();
 		FillImage.fillAmount = 0;
@@ -129,7 +149,9 @@ public class HoldButton : CatPawButton
 
 	void CompleteAction()
 	{
-		StartCoroutine(WaitForRelease());
+		HeldLongEnough = true;
+		if(!MouseMode)
+			StartCoroutine(WaitForRelease());
 	}
 
 	private bool IsSubmitStillPressed()

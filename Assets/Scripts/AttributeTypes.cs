@@ -14,9 +14,10 @@
 
 		PodSpeed,
 
-		RadarRange,
 
-		SpaceshipAccelleration,
-		SpaceshipMaxSpeed,
+		RadarRange,
+		SpaceShipRotationSpeed, //multiplier with mode base value
+		SpaceShipSuperCruiseSpeed,
+		SpaceShipSuperCruiseAccelleration
 	}
 }

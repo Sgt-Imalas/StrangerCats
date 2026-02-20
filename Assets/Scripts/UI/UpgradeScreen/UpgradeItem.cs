@@ -10,7 +10,7 @@ public class UpgradeItem : MonoBehaviour
 	public HoldButton UnlockButton;
 	public TextMeshProUGUI Title, UpgradeDesc;
 	public GameObject A, B, C, D;
-	BuyableUpgrade CurrentUpgrade = null;
+	[SerializeField]public BuyableUpgrade CurrentUpgrade = null;
 	TextMeshProUGUI CostA, CostB, CostC, CostD;
 	bool woke = false;
 	private void Awake()
@@ -31,7 +31,7 @@ public class UpgradeItem : MonoBehaviour
 			CostD = D.transform.GetComponentInChildren<TextMeshProUGUI>();
 		else
 			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource D");
-		UnlockButton.onHoldComplete.AddListener(BuyingUpgrade);
+		UnlockButton.onHoldComplete.AddListener(BuyUpgrade);
 		woke = true;
 	}
 
@@ -42,24 +42,26 @@ public class UpgradeItem : MonoBehaviour
 		set => UnlockButton.interactable = value;
 	}
 	public void Select() => UnlockButton.Select();
-	void BuyingUpgrade()
+	void BuyUpgrade()
 	{
-
+		Debug.Log("Attempting to buy upgrade " + CurrentUpgrade?.Name);
+		CurrentUpgrade.PurchaseLevel();
+		Refresh();
 	}
 	private void OnEnable()
 	{
-		RefreshCanBuy(default, 0);
-		Global.Instance.SpaceshipResources.OnResourceCollected += RefreshCanBuy;
+		Refresh();
+		Global.Instance.SpaceshipResources.OnResourceAmountChanged += RefreshCanBuy;
 	}
 	private void OnDisable()
 	{
-		Global.Instance.SpaceshipResources.OnResourceCollected -= RefreshCanBuy;
+		Global.Instance.SpaceshipResources.OnResourceAmountChanged -= RefreshCanBuy;
 	}
 
 
 	void RefreshCanBuy(ResourceType _, int i)
 	{
-		if (CurrentUpgrade == null)
+		if (CurrentUpgrade == null || CurrentUpgrade.IsMaxed() || !CurrentUpgrade.IsUnlocked())
 		{
 			UnlockButton.interactable = false;
 			return;
@@ -74,6 +76,7 @@ public class UpgradeItem : MonoBehaviour
 			}
 		}
 		UnlockButton.interactable = true;
+		RefreshText();
 	}
 
 	void SetUpgradeCosts()
@@ -81,7 +84,7 @@ public class UpgradeItem : MonoBehaviour
 		if (!woke)
 			return;
 
-		if(CurrentUpgrade == null)
+		if (CurrentUpgrade == null)
 		{
 			A.SetActive(false);
 			B.SetActive(false);
@@ -89,7 +92,16 @@ public class UpgradeItem : MonoBehaviour
 			D.SetActive(false);
 			return;
 		}
-		Dictionary<ResourceType, int> dict = new();
+		if (CurrentUpgrade.IsMaxed())
+		{
+			A.SetActive(false);
+			B.SetActive(false);
+			C.SetActive(false);
+			D.SetActive(false);
+			return;
+		}
+
+		Dictionary<ResourceType, uint> dict = new();
 		foreach (var costEntry in CurrentUpgrade.GetCurrentScaledCosts())
 			dict[costEntry.Key] = costEntry.Value;
 
@@ -127,11 +139,17 @@ public class UpgradeItem : MonoBehaviour
 	}
 	public void SetUpgrade(BuyableUpgrade upgrade)
 	{
+		//Debug.Log("Setting upgrade " + upgrade?.Name + " to item " + name);
 		CurrentUpgrade = upgrade;
-		Title.text = upgrade?.Name;
-
-		UpgradeDesc.SetText(upgrade?.GetUpgradeText());
+		RefreshText();
 		SetUpgradeCosts();
+		RefreshCanBuy(default, 0);
+	}
+	void RefreshText()
+	{
+		Title.text = CurrentUpgrade?.Name + " lvl " + CurrentUpgrade?.Level+1;
+
+		UpgradeDesc.SetText(CurrentUpgrade?.GetUpgradeText());
 	}
 	public void Refresh() => SetUpgrade(CurrentUpgrade);
 }

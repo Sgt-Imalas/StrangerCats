@@ -103,41 +103,41 @@ public class MiningResourceStorage
 		{ResourceType.D, Color.blue}
 	};
 
-
-	const int UpgradeIncrease = 25;
-	public int MaxMaterialCap = 50;
-	public int NumberOfUpgradesPurchased = 0;
-
 	public static HashSet<ResourceType> Discovered = new();
-	public Dictionary<ResourceType, int> Current = new();
-	public Dictionary<ResourceType, int> Max = new();
+	public Dictionary<ResourceType, uint> Current = new();
 
 	public event Action<ResourceType> OnResourceDiscovered;
-	public event Action<ResourceType, int> OnResourceCollected;
-	public event Action<ResourceType, int> OnResourceSpent;
-	public void CollectResource(ResourceType type, int amount)
+	public event Action<ResourceType, uint> OnResourceCollected;
+	public event Action<ResourceType, uint> OnResourceSpent;
+	public event Action<ResourceType, int> OnResourceAmountChanged;
+
+	public void CollectResource(ResourceType type, uint amount)
 	{
 		if (!Discovered.Contains(type))
 		{
 			Discovered.Add(type);
 			Current[type] = 0;
-			Max[type] = MaxMaterialCap + NumberOfUpgradesPurchased * UpgradeIncrease;
 			OnResourceDiscovered(type);
 		}
-		var collected = Mathf.Clamp(amount + Current[type], 0, Max[type]);
+		var collected = Math.Clamp(amount + Current[type], 0, uint.MaxValue);
 		Current[type] = collected;
 		OnResourceCollected(type, collected);
+		OnResourceAmountChanged(type, (int)collected);
 	}
-	public void SpendResource(ResourceType type, int amount)
+	public void SpendResource(ResourceType type, uint amount)
 	{
 		if (!Current.ContainsKey(type))
 			return;
-		var spent = Mathf.Clamp(Current[type] - amount, 0, Max[type]);
+		var spent = Math.Clamp(Current[type] - amount, 0, uint.MaxValue);
 		Current[type] = spent;
 		OnResourceSpent(type, spent);
+		OnResourceAmountChanged(type, -((int)spent));
 	}
-	public bool CanAfford(ResourceType type, int amount)
+	public bool CanAfford(ResourceType type, uint amount)
 	{
+		if(amount == 0)
+			return true;
+		Debug.Log("can afford check for " + type + " with amount " + amount + ", current is " + (Current.ContainsKey(type) ? Current[type].ToString() : "0"));
 		return Current.ContainsKey(type) && Current[type] >= amount;
 	}
 	public bool CanAfford(ResourceLevel costs)
@@ -153,7 +153,7 @@ public class MiningResourceStorage
 	{
 		return (Discovered.Contains(type));
 	}
-	public int GetResourceAmount(ResourceType type)
+	public uint GetResourceAmount(ResourceType type)
 	{
 		return Current.ContainsKey(type) ? Current[type] : 0;
 	}
@@ -172,14 +172,18 @@ public class GameUpgrades
 
 	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range")
 		.Max(5)
+		.Modifier(AttributeType.RadarRange, 2f, true)
 		.LevelPrice(new(10))
 		.LevelPrice(new(25, 25))
 		.LevelPrice(new(100, 100, 100))
 		.LevelPrice(new(250, 250, 250, 250))
-		.UnlockCondition(() => Global.Instance.Upgrades.RadarUnlocked);
+		.UnlockCondition(() => Global.Instance.Upgrades.RadarUnlocked)
+		;
 
 
 	public BuyableUpgrade SuperCruise = new BuyableUpgrade("Supercruise Speed")
+		.Modifier(AttributeType.SpaceShipSuperCruiseAccelleration, 1.1f, true)
+		.Modifier(AttributeType.SpaceShipSuperCruiseSpeed, 1.25f, true)
 		.LevelPrice(new(25))
 		.LevelPrice(new(50, 50))
 		.LevelPrice(new(100, 100, 100))
@@ -188,6 +192,7 @@ public class GameUpgrades
 		.UnlockCondition(() => Global.Instance.Upgrades.SuperCruiseUnlocked);
 
 	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed")
+		.Modifier(AttributeType.SpaceShipRotationSpeed, 0.15f)
 		.LevelPrice(new(100, 100))
 		.LevelPrice(new(200, 200))
 		.LevelPrice(new(400, 400, 400))
@@ -228,6 +233,19 @@ public class BuyableUpgrade
 
 		return this;
 	}
+	public BuyableUpgrade Modifier(AttributeType type, float value, bool multiplier = false)
+	{
+		if (Modifiers == null)
+			Modifiers = new();
+		Modifiers.Add(new AttributeModifier()
+		{
+			id = Name + "_" + Modifiers.Count,
+			attributeId = type,
+			value = value,
+			multiplier = multiplier
+		});
+		return this;
+	}
 	public BuyableUpgrade Scale(float scaling)
 	{
 		CostScaling = scaling;
@@ -240,24 +258,57 @@ public class BuyableUpgrade
 	}
 	public BuyableUpgrade UnlockCondition(Func<bool> condition)
 	{
-		Buyable = condition;
+		UnlockedCondition = condition;
 		return this;
 	}
 
 	internal string GetUpgradeText()
 	{
-		if(!Buyable())
-			return "Not Found Yet";
+		if(IsMaxed())
+			return "Max Level Reached";
+
+		if (!UnlockedCondition())
+			return "Not found yet";
 
 		if(!Global.Instance.SpaceshipResources.CanAfford(GetCurrentScaledCosts()))
-			return "Can't Affort";
+			return "Can't affort";
 
 		return string.Empty;
 	}
 
+	public void PurchaseLevel()
+	{
+		if (Level >= MaxLevel || !UnlockedCondition())
+			return;
+		var costs = GetCurrentScaledCosts();
+		if (!Global.Instance.SpaceshipResources.CanAfford(costs))
+			return;
+		foreach (var cost in costs)
+		{
+			Global.Instance.SpaceshipResources.SpendResource(cost.Key, cost.Value);
+		}
+		Level++;
+		OnPurchase?.Invoke();
+		if(Modifiers != null)
+		{
+			foreach(var mod in Modifiers)
+			{
+				PersistentPlayer.AddModifier(mod);
+			}
+		}
+	}
+
+	public bool IsMaxed()
+	{
+		return Level >= MaxLevel;
+	}
+	public bool IsUnlocked() 	
+	{
+		return UnlockedCondition();
+	}
 
 	public string Name;
-	public Func<bool> Buyable = () => true;
+	public Func<bool> UnlockedCondition = () => true;
 	public int Level = 0;
 	public int MaxLevel = int.MaxValue;
 	public float CostScaling = 1.5f;
@@ -267,16 +318,16 @@ public class BuyableUpgrade
 }
 public struct ResourceLevel : IEnumerable
 {
-	public int A, B, C, D;
+	public uint A, B, C, D;
 
 	public ResourceLevel(ResourceLevel prev, float scaling)
 	{
-		A = (int)(prev.A * scaling);
-		B = (int)(prev.B * scaling);
-		C = (int)(prev.C * scaling);
-		D = (int)(prev.D * scaling);
+		A = (uint)(prev.A * scaling);
+		B = (uint)(prev.B * scaling);
+		C = (uint)(prev.C * scaling);
+		D = (uint)(prev.D * scaling);
 	}
-	public ResourceLevel(int a = 0, int b = 0, int c = 0, int d = 0)
+	public ResourceLevel(uint a = 0, uint b = 0, uint c = 0, uint d = 0)
 	{
 		A = a;
 		B = b;
@@ -284,7 +335,7 @@ public struct ResourceLevel : IEnumerable
 		D = d;
 	}
 
-	public IEnumerator<KeyValuePair<ResourceType, int>> GetEnumerator()
+	public IEnumerator<KeyValuePair<ResourceType, uint>> GetEnumerator()
 	{
 		yield return new(ResourceType.A, A);
 		yield return new(ResourceType.B, B);
