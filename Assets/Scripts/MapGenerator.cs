@@ -27,8 +27,11 @@ public class MapGenerator : MonoBehaviour
 
 		tileMap.ClearAllTiles();
 
-		var tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
 		backgroundTextureMask = new Texture2D(size, size, TextureFormat.RGBA32, false);
+
+		var tex = new Texture2D(size, size, TextureFormat.R16, false, true);
+		tex.filterMode = FilterMode.Point;
+		tex.wrapMode = TextureWrapMode.Clamp;
 
 		//var tilePositions = new List<Vector3Int>();
 
@@ -46,10 +49,10 @@ public class MapGenerator : MonoBehaviour
 				continue;
 			}
 
-			tex.SetPixel(coords.x, coords.y, new Color32(terrain.textureIdx, 0, 0, 0));
+			tex.SetPixel(coords.x, coords.y, new Color32(terrain.textureIdx, 0, 0, 255));
 		}
 
-		tex.Apply();
+		tex.Apply(false, true);
 		backgroundTextureMask.Apply();
 
 		Shader.SetGlobalTexture("_AsteroidBGMask", backgroundTextureMask);
