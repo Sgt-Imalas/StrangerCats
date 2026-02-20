@@ -34,7 +34,7 @@ namespace Assets.Scripts
 				return;
 			}
 
-			Debug.Log("ddfds");
+			Debug.Log("Materials OnAwake");
 			Load();
 		}
 

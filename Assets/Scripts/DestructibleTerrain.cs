@@ -48,6 +48,7 @@ public class DestructibleTerrain : MonoBehaviour
 
 	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials)
 	{
+		Debug.Log("OnNewMapGenerated called with " + materials.Count + " materials");
 		this.materials.Clear();
 
 		foreach (var mat in materials)

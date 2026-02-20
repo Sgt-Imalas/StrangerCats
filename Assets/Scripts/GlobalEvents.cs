@@ -13,14 +13,9 @@ namespace Assets.Scripts
 
 		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials);
 
-		private void OnDestroy()
-		{
-			if (Instance != null)
-				Instance = null;
-		}
-
 		private void Awake()
 		{
+			//all instances after the first one are destroyed, the first one is kept across scenes
 			if (Instance != null)
 			{
 				Destroy(gameObject);
