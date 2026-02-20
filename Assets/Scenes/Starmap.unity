@@ -614,6 +614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Landable
   SceneToLoad: MineableTerrain
+  PlanetToGenerate: {fileID: 0}
 --- !u!58 &328265340
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3173,6 +3174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Landable
   SceneToLoad: MineableTerrain
+  PlanetToGenerate: {fileID: 0}
 --- !u!1001 &1670685556
 PrefabInstance:
   m_ObjectHideFlags: 0

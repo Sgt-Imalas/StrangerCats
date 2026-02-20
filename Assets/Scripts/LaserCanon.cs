@@ -118,7 +118,7 @@ public class LaserCanon : MonoBehaviour
 		if (hit.collider != null)
 		{
 			var insidePoint = hit.point - hit.normal;
-			Global.Instance.activeTerrain.DamageTileAt(insidePoint, 0.5f);
+			DestructibleTerrain.Instance.DamageTileAt(insidePoint, 0.5f);
 		}
 
 		_timeSinceLastProjectile = 0.0f;
@@ -147,7 +147,7 @@ public class LaserCanon : MonoBehaviour
 		{
 			var insidePoint = hit.point - hit.normal;
 			selectionMarker.gameObject.SetActive(true);
-			selectionMarker.position = Global.Instance.activeTerrain.GetTileCenter(insidePoint);
+			selectionMarker.position = DestructibleTerrain.Instance.GetTileCenter(insidePoint);
 		}
 		else
 		{

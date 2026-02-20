@@ -23,7 +23,6 @@ public class Global
 	public bool InCameraTransition = false;
 	public bool InMenu = false;
 	public bool LockedInputs => InCameraTransition || InMenu;
-	public DestructibleTerrain activeTerrain;
 	public int WorldSeed;
 }
 

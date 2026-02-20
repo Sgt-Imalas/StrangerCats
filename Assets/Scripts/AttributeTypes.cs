@@ -6,7 +6,11 @@
 		ExplosionRadius,
 		LifeTime,
 		DigDamage,
+		// EnemyDamage,
 		LaserRange,
+
+		ResourceTileMultiplier,
+		//ResourceEnemyMultiplier,
 
 		PodSpeed,
 

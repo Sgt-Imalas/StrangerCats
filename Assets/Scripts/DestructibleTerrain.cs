@@ -19,21 +19,31 @@ public class DestructibleTerrain : MonoBehaviour
 
 	private float elapsed = 0;
 
+	public static DestructibleTerrain Instance;
+
 	public Vector3 GetTileCenter(Vector3 pos)
 	{
 		var cell = tileMap.WorldToCell(new Vector3(pos.x, pos.y));
 		return tileMap.GetCellCenterWorld(cell);
 	}
 
+	void Awake()
+	{
+
+		Instance = this;
+	}
+
+	private void OnDestroy()
+	{
+		Instance = null;
+	}
 	void Start()
 	{
+		GlobalEvents.Instance.OnNewMapGenerated += OnNewMapGenerated;
 		queuedToDamage = new Dictionary<Vector3Int, float>();
 		queuedToDestroy = new HashSet<Vector3Int>();
 		materials = new Dictionary<Vector3Int, MaterialData>();
 
-		GlobalEvents.Instance.OnNewMapGenerated += OnNewMapGenerated;
-
-		Global.Instance.activeTerrain = this;
 	}
 
 	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials)
@@ -181,5 +191,10 @@ public class DestructibleTerrain : MonoBehaviour
 			dirty = true;
 		}
 
+	}
+
+	internal void ApplyNewMap(Dictionary<Vector3Int, int> materials)
+	{
+		OnNewMapGenerated(materials);
 	}
 }

@@ -1,4 +1,4 @@
-using System;
+using Assets.Scripts;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,18 +7,36 @@ using UnityEngine.SceneManagement;
 public class Landable : MonoBehaviour
 {
 	public string SceneToLoad;
+	public PlanetDescriptor PlanetToGenerate;
+
 	private void OnTriggerExit2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag != "Player")
 			return;
 		if (Global.Instance.LoadingScene)
 			return;
-		Debug.Log("Leaving landable "+gameObject.name);
+		Debug.Log("Leaving landable " + gameObject.name);
 		Global.Instance.Spaceship.CanLand = true;
 	}
+
+	void Start()
+	{
+		if (PlanetToGenerate == null)
+			return;
+
+		var renderer = GetComponent<SpriteRenderer>();
+		var icon = PlanetToGenerate.icon;
+
+		if (icon != null)
+		{
+			var sprite = Sprite.Create(icon, new Rect(0, 0, icon.width, icon.height), Vector3.zero);
+			renderer.sprite = sprite;
+		}
+	}
+
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if(collision.gameObject.tag != "Player")
+		if (collision.gameObject.tag != "Player")
 			return;
 
 		if (Global.Instance.LoadingScene || Global.Instance.Spaceship.BlockedFromLanding || SceneToLoad == null || !SceneToLoad.Any())
@@ -27,14 +45,15 @@ public class Landable : MonoBehaviour
 		Debug.Log("Landing on landable " + gameObject.name);
 		Global.Instance.Spaceship.CanLand = false;
 		Global.Instance.LoadingScene = true;
-		if(collision.TryGetComponent<Rigidbody2D>(out var rb))
+		if (collision.TryGetComponent<Rigidbody2D>(out var rb))
 		{
 			rb.linearVelocity = Vector3.zero;
-		};
+		}
+		;
 
 		if (Camera.main.TryGetComponent<CameraAnimator>(out var animator))
 		{
-			animator.AnimateOffsetChange(-0.3f,0.5f, StartLoadingScene, true);
+			animator.AnimateOffsetChange(-0.3f, 0.5f, StartLoadingScene, true);
 		}
 		else
 		{
@@ -51,5 +70,15 @@ public class Landable : MonoBehaviour
 	{
 		Global.Instance.LoadingScene = false;
 		SceneManager.sceneLoaded -= OnSceneLoadFinished;
+
+		// maybe this is not the right place
+		if (PlanetToGenerate != null)
+		{
+			PlanetToGenerate.GenerateWorld(Random.Range(0, int.MaxValue), out var mats, out var size);
+
+
+			Debug.Log($"generated world with {mats.Count} mterials");
+			MapGenerator.Instance.Apply(mats, size);
+		}
 	}
 }
