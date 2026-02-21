@@ -26,6 +26,9 @@ public class HoldButton : CatPawButton
 			controls.UI.Enable();
 		if (controls != null)
 			controls.UI.Submit.performed += ctx => StartHoldIfSelected();
+
+		if (FillImage != null)
+			FillImage.fillAmount = 0;
 	}
 	protected override void OnDisable()
 	{
