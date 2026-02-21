@@ -3,37 +3,36 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Collider2D))]
-public class Landable : MonoBehaviour
+public class Landable : Interactable
 {
 	public string SceneToLoad;
 	public PlanetDescriptor planetDescriptor;
 
-	private void OnTriggerExit2D(Collider2D collision)
+	public override void OnRadiusEnter(Collider2D collision)
 	{
-		if (collision.gameObject.tag != "Player")
-			return;
-		if (Global.Instance.LoadingScene)
-			return;
-		Debug.Log("Leaving landable " + gameObject.name);
-		Global.Instance.Spaceship.CanLand = true;
-	}
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		if (collision.gameObject.tag != "Player")
-			return;
+		base.OnRadiusEnter(collision);
 
+		InteractHint.SetText("Land here");
+	}
+	public override void OnInteractPressed()
+	{
+		base.OnInteractPressed();
+		ToggleInteract(false);
+		LandWithAnimation();
+	}
+
+
+	void LandWithAnimation()
+	{
 		if (Global.Instance.LoadingScene || Global.Instance.Spaceship.BlockedFromLanding || SceneToLoad == null || !SceneToLoad.Any())
 			return;
-
 		Debug.Log("Landing on landable " + gameObject.name);
 		Global.Instance.Spaceship.CanLand = false;
 		Global.Instance.LoadingScene = true;
-		if (collision.TryGetComponent<Rigidbody2D>(out var rb))
+		if (currentPlayer != null && currentPlayer.TryGetComponent<Rigidbody2D>(out var rb))
 		{
 			rb.linearVelocity = Vector3.zero;
-		}
-		;
+		};
 
 		if (Camera.main.TryGetComponent<CameraAnimator>(out var animator))
 		{
@@ -44,8 +43,10 @@ public class Landable : MonoBehaviour
 			StartLoadingScene();
 		}
 	}
+
 	void StartLoadingScene()
 	{
+		Global.Instance.Spaceship.CanLand = true;
 		LoadOverlay.ShowOverlay();
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
 		SceneManager.LoadScene(SceneToLoad);

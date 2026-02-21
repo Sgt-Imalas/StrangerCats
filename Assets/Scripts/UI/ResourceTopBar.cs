@@ -126,16 +126,16 @@ public class ResourceTopBar : MonoBehaviour
 		switch (type)
 		{
 			case ResourceType.Meat:
-				ResourceA_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Meat).ToString();
+				ResourceA_Amount.text = Global.ToShortNumber(Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Meat));
 				break;
 			case ResourceType.Rust:
-				ResourceB_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Rust).ToString();
+				ResourceB_Amount.text = Global.ToShortNumber(Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Rust));
 				break;
 			case ResourceType.Ball:
-				ResourceC_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Ball).ToString();
+				ResourceC_Amount.text = Global.ToShortNumber(Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Ball));
 				break;
 			case ResourceType.Dust:
-				ResourceD_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Dust).ToString();
+				ResourceD_Amount.text = Global.ToShortNumber(Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Dust));
 				break;
 		}
 	}
@@ -148,6 +148,7 @@ public class ResourceTopBar : MonoBehaviour
 		RefreshVisibility(ResourceType.Rust);
 		RefreshVisibility(ResourceType.Ball);
 		RefreshVisibility(ResourceType.Dust);
+
 		RefreshVisibility(FindableItem.Radar);
 		RefreshVisibility(FindableItem.SuperCruise);
 		RefreshVisibility(FindableItem.Meat);
