@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: aa94754925c70ee45ac8c193e6e21bf1
+guid: b50f763cabe5000458a7a23b7483e031
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8967873308981500052
-    second: btn_16px_0
+      213: -8939725481380800387
+    second: energy_meter_bar_decal_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: btn_16px_0
+      name: energy_meter_bar_decal_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 17
+        height: 33
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 8, y: 8, z: 8, w: 8}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c6763734db6bb8380800000000000000
-      internalID: -8967873308981500052
+      spriteID: d781ac41a07bfe380800000000000000
+      internalID: -8939725481380800387
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a6b775763703afb4b91a7741bca50288
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      btn_16px_0: -8967873308981500052
+      energy_meter_bar_decal_0: -8939725481380800387
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
