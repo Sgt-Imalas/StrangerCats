@@ -16,7 +16,6 @@ public class Interactable : MonoBehaviour
 	private void Awake()
 	{
 		controls = new PlayerControls();
-
 		controls.Player.Interact.performed += OnInteract;
 	}
 

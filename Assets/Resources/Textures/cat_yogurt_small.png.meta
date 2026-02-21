@@ -1,37 +1,10 @@
 fileFormatVersion: 2
-guid: 83b2c8059b83b1c4ab21ec5c8112b864
+guid: 990874c020257d8439b6e0f1a02fde51
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8871750365745515610
-    second: button2_0
-  - first:
-      213: 7348533661700182467
-    second: button2_1
-  - first:
-      213: -3052942084285925894
-    second: button2_2
-  - first:
-      213: -1229546391929214557
-    second: button2_3
-  - first:
-      213: -8388847444772887486
-    second: button2_4
-  - first:
-      213: -126681985859597748
-    second: button2_5
-  - first:
-      213: 7504806408640210377
-    second: button2_6
-  - first:
-      213: -2785754397973135289
-    second: button2_7
-  - first:
-      213: 4106543553658322992
-    second: button2_8
-  - first:
-      213: 3178114882691538869
-    second: button2_9
+      213: -4205076943619120595
+    second: cat_yogurt_small_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -140,89 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Normal
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 72
-        width: 97
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 48, y: 12, z: 49, w: 12}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3c1d3ad5e6c3bf560800000000000000
-      internalID: 7348533661700182467
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Selected
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 48
-        width: 97
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 48, y: 12, z: 49, w: 12}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 030897aca9f5df830800000000000000
-      internalID: 4106543553658322992
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Disabled
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 24
-        width: 97
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 48, y: 12, z: 49, w: 12}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 54349fa327bb81644911b126920920c0
-      internalID: 1761729614
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Inner
+      name: cat_yogurt_small_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 97
-        height: 24
+        width: 5
+        height: 7
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 48, y: 12, z: 49, w: 12}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 4975c74c1012bfe42926d73c9fb7d771
-      internalID: -2022905906
+      spriteID: d22a56a9cc094a5c0800000000000000
+      internalID: -4205076943619120595
       vertices: []
       indices: 
       edges: []
@@ -231,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 0c242d7829d4726458ed4b5416a6bca2
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -241,17 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Disabled: 8871750365745515610
-      Inner: -2022905906
-      Normal: 7348533661700182467
-      Selected: 4106543553658322992
-      button2_2: -3052942084285925894
-      button2_3: -1229546391929214557
-      button2_4: -8388847444772887486
-      button2_5: -126681985859597748
-      button2_6: 7504806408640210377
-      button2_7: -2785754397973135289
-      button2_9: 3178114882691538869
+      cat_yogurt_small_0: -4205076943619120595
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

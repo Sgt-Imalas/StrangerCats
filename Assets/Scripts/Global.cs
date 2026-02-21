@@ -29,7 +29,8 @@ public class Global
 	public bool InCameraTransition = false;
 	public bool InPauseMenu = false;
 	public bool InUpgradeMenu = false;
-	public bool LockedInputs => InCameraTransition || InPauseMenu || InUpgradeMenu;
+	public bool InDialogue = false;
+	public bool LockedInputs => InCameraTransition || InPauseMenu || InUpgradeMenu || InDialogue;
 	public int WorldSeed;
 	public PlanetDescriptor generateWorld;
 	public PlanetDescriptor loadPlanet;
@@ -71,7 +72,6 @@ public class StarmapShip
 
 	public FlightStats PrecisionMode = new()
 	{
-		Unlocked = true,
 		MaxVelocity = 30f,
 		Accelleration = 26f,
 		RotationSpeed = 240f,
@@ -116,7 +116,6 @@ public class StarmapShip
 }
 public class FlightStats
 {
-	public bool Unlocked;
 	public float MaxVelocity;
 	public float Accelleration;
 	public float RotationSpeed;

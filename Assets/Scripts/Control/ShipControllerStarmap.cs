@@ -127,7 +127,7 @@ public class ShipControllerStarmap : MonoBehaviour
 
 	void OnModeChange(InputAction.CallbackContext context)
 	{
-		if (!Global.Instance.Spaceship.CruiseMode.Unlocked || Global.Instance.LockedInputs)
+		if (!Global.Instance.Upgrades.SuperCruiseUnlocked || Global.Instance.LockedInputs)
 			return;
 
 		if (!PrecisionFlyMode && Global.Instance.Spaceship.CurrentVelocity > Global.Instance.Spaceship.PrecisionMode.MaxVelocity)
