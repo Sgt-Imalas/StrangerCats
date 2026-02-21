@@ -12,6 +12,15 @@ namespace Assets.Scripts
 		public bool testMod;
 
 
+		public float EnergyPercentage => LanderEnergy / MaxLanderEnergy;
+		public float LanderEnergy = 600;
+		float MaxLanderEnergy = 600;
+		float LanderEnergyDecayPerSecond = 10f;
+
+		public bool InLander;
+
+
+
 		private void Awake()
 		{
 			//first player instantiated is kept across scenes, duplicates are destroyed
@@ -46,6 +55,16 @@ namespace Assets.Scripts
 				attributes.AddMod("TestMod" + Random.value.ToString(), AttributeType.FireRate, -0.1f);
 				attributes.AddMod("TestMod2" + Random.value.ToString(), AttributeType.PodSpeed, 10f);
 				testMod = false;
+			}
+
+			if (!InLander)
+			{
+				float rechargeAmount = MaxLanderEnergy * 0.334f * Time.deltaTime;
+				LanderEnergy = Mathf.Clamp(LanderEnergy + rechargeAmount, 0, MaxLanderEnergy);
+			}
+			else
+			{
+				LanderEnergy = Mathf.Clamp(LanderEnergy - LanderEnergyDecayPerSecond * Time.deltaTime, 0, MaxLanderEnergy);
 			}
 		}
 
