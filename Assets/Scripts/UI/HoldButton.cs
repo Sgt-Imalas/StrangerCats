@@ -63,7 +63,8 @@ public class HoldButton : CatPawButton
 	{
 		base.Awake();
 		controls = new();
-		FillImage = transform.Find("Fill").GetComponent<Image>();
+		if(FillImage == null)
+			FillImage = transform.Find("Fill").GetComponent<Image>();
 	}
 	public override void OnPointerDown(PointerEventData eventData)
 	{

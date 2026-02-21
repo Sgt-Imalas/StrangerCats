@@ -44,7 +44,7 @@ public class ShipControllerStarmap : MonoBehaviour
 		controls.Player.Move.performed += OnMove;
 		controls.Player.Move.canceled += OnMove;
 
-		controls.Player.Jump.performed += OnModeChange;
+		controls.Player.ToggleEngineMode.performed += OnModeChange;
 
 		ApplyModeChanges(Global.Instance.Spaceship.PrecisionMode);
 		PrecisionEngineEmissions = transform.GetComponentsInChildren<ParticleSystem>()

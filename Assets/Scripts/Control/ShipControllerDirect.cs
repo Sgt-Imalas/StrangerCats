@@ -28,8 +28,6 @@ public class ShipControllerDirect : MonoBehaviour
 		controls.Player.Move.performed += OnMove;
 		controls.Player.Move.canceled += OnMove;
 		
-		//temp measure to return to starmap
-		controls.Player.Jump.performed += OnExit;
 		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
 	}
 	void OnExit(InputAction.CallbackContext context)

@@ -93,8 +93,12 @@ namespace Assets.Scripts
 
 				LanderEnergy = Mathf.Clamp(LanderEnergy - decayAmount, 0, MaxLanderEnergy);
 				if(LanderEnergy == 0)
-					Global.Instance.StartLoadingStarmapScene();
+					LoadStarmap();
 			}
+		}
+		public static void LoadStarmap()
+		{
+			Global.Instance.StartLoadingStarmapScene();
 		}
 
 		public static void AddModifier(AttributeModifier mod)
