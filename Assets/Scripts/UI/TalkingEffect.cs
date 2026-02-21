@@ -15,9 +15,12 @@ public class TalkingEffect : MonoBehaviour
 
 	public event Action OnTypingCompleted;
 
+	AudioSource audio;
+
 	void Awake()
 	{
 		textComponent = GetComponent<TextMeshProUGUI>();
+		audio = GetComponent<AudioSource>();
 	}
 
 	public void SetTextAndStartTyping(string text)
@@ -40,6 +43,8 @@ public class TalkingEffect : MonoBehaviour
 	{
 		textComponent.text = fullText;
 		textComponent.maxVisibleCharacters = 0;
+		if(audio != null) 
+			audio.Play();
 
 		int totalVisibleCharacters = fullText.Count();
 		float delay = 1f / charactersPerSecond;
@@ -50,5 +55,7 @@ public class TalkingEffect : MonoBehaviour
 			yield return new WaitForSecondsRealtime(delay);
 		}
 		OnTypingCompleted?.Invoke();
+		if (audio != null)
+			audio.Stop();
 	}
 }
