@@ -28,7 +28,6 @@ public class ShipControllerStarmap : MonoBehaviour
 	List<ParticleSystem> CruiseEngineEmissions;
 	List<ParticleSystem> PrecisionEngineEmissions;
 
-	public float stickDeadzone = 0.3f;
 	public bool ControllerAim;
 	private void Awake()
 	{
@@ -100,7 +99,7 @@ public class ShipControllerStarmap : MonoBehaviour
 	void OnMove(InputAction.CallbackContext context)
 	{
 		var value = context.ReadValue<Vector2>();
-		if (context.canceled || value.magnitude < stickDeadzone)
+		if (context.canceled || value.magnitude < Global.StickDeadzone)
 		{
 			movementDirection = Vector2.zero;
 		}
@@ -115,7 +114,7 @@ public class ShipControllerStarmap : MonoBehaviour
 		ControllerAim = context.control.device is Gamepad;
 		//Debug.Log("Look triggered: " + context.ReadValue<Vector2>()+", device: "+ context.control.device+" is controller: "+ ControllerAim);
 		var value = context.ReadValue<Vector2>();
-		if (context.canceled || value.magnitude < stickDeadzone)
+		if (context.canceled || value.magnitude < Global.StickDeadzone)
 		{
 			LookPosition = Vector2.zero;
 		}

@@ -2,6 +2,7 @@ using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 // simpler direct controls for the smaller ship
 [DefaultExecutionOrder(10)]
@@ -48,14 +49,14 @@ public class ShipControllerDirect : MonoBehaviour
 
 	void OnMove(InputAction.CallbackContext context)
 	{
-
-		if (context.canceled)
+		var value = context.ReadValue<Vector2>();
+		if (context.canceled || value.magnitude < Global.StickDeadzone)
 		{
 			movementDirection = Vector2.zero;
 		}
 		else
 		{
-			movementDirection = context.ReadValue<Vector2>();
+			movementDirection = value;
 		}
 	}
 
@@ -82,5 +83,7 @@ public class ShipControllerDirect : MonoBehaviour
 
 		var targetRotation = -rb.linearVelocityX;
 		shipBody.rotation = Quaternion.Euler(0f, 0f, targetRotation);
+
+		Global.Instance.Spaceship.CurrentVelocity = rb.linearVelocity.magnitude;
 	}
 }

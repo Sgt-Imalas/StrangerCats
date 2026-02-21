@@ -2092,7 +2092,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 10
+  m_LinearDamping: 3
   m_AngularDamping: 0.001
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -2153,11 +2153,12 @@ MonoBehaviour:
   RotationSpeed: 180
   MaxTilt: 10
   TiltSpeed: 10
-  AccellerationSpeed: 26
-  MaxVelocity: 40
+  AccellerationSpeed: 10
+  MaxVelocity: 15
   movementDirection: {x: 0, y: 0}
   LookPosition: {x: 0, y: 0}
   shipBody: {fileID: 945011213}
+  stickDeadzone: 0.3
 --- !u!58 &870740504
 CircleCollider2D:
   m_ObjectHideFlags: 0

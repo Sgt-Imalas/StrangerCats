@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 [ExecuteAlways]
 public class Global
 {
+	public const float StickDeadzone = 0.3f;
 	private static Global _instance;
 
 	public static Global Instance
@@ -71,6 +72,12 @@ public class StarmapShip
 		RotationSpeed = 180f,
 		LinearDampening = 0.5f,
 		CameraOffset = -45
+	};
+	public FlightStats PodMode = new()
+	{
+		MaxVelocity = 15f,
+		Accelleration = 10f,
+		LinearDampening = 3f
 	};
 
 	public float CurrentVelocity;

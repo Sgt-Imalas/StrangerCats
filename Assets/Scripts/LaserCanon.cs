@@ -30,7 +30,6 @@ public class LaserCanon : MonoBehaviour
 	private float _timeSinceLastProjectile;
 
 	bool ControllerAim;
-	float stickDeadzone = 0.3f;
 
 
 	private float cachedLaserRange = 10.0f;
@@ -47,7 +46,7 @@ public class LaserCanon : MonoBehaviour
 		ControllerAim = context.control.device is Gamepad;
 		//Debug.Log("Look triggered: " + context.ReadValue<Vector2>()+", device: "+ context.control.device+" is controller: "+ ControllerAim);
 		var value = context.ReadValue<Vector2>();
-		if (!context.canceled || value.magnitude >= stickDeadzone)
+		if (!context.canceled || value.magnitude >= Global.StickDeadzone)
 		{
 			LookPosition = value;
 		}
