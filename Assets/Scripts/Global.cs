@@ -44,6 +44,14 @@ public class Global
 		SceneManager.LoadScene("Starmap");
 	}
 
+	public void StartLoadingMainMenu()
+	{
+		Debug.Log("Loading Main Menu");
+		LoadOverlay.ShowOverlay();
+		LoadingScene = true;
+		SceneManager.sceneLoaded += OnSceneLoadFinished;
+		SceneManager.LoadScene("MainMenu");
+	}
 	void OnSceneLoadFinished(Scene s, LoadSceneMode mode)
 	{
 		LoadOverlay.ShowOverlay(false);

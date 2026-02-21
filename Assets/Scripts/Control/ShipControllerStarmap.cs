@@ -20,7 +20,7 @@ public class ShipControllerStarmap : MonoBehaviour
 	public bool PrecisionFlyMode = true;
 	public Vector2 movementDirection, LookPosition;
 	CameraAnimator CameraAnimator;
-	public GameObject CruiseFire;
+	public GameObject CruiseFire, SmolFire;
 
 	Rigidbody2D rb;
 	Vector2 CurrentThrust;
@@ -240,5 +240,7 @@ public class ShipControllerStarmap : MonoBehaviour
 		}
 		if (CruiseFire != null)
 			CruiseFire.SetActive(!PrecisionFlyMode && emissionRate > 0);
+		if(SmolFire != null) 
+			SmolFire.SetActive(PrecisionFlyMode && emissionRate > 0);
 	}
 }

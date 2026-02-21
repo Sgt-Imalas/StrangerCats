@@ -35,7 +35,8 @@ public class PauseScreen : MonoBehaviour
 		MusicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
 		SfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
 		Resume.onClick.AddListener( () => PauseGame(false));
-		Exit.onClick.AddListener( () => SceneManager.LoadScene("MainMenu"));
+
+		Exit.onClick.AddListener( Global.Instance.StartLoadingMainMenu);
 		PauseGame(false);
 	}
 	void OnMusicVolumeChanged(float newValue)
