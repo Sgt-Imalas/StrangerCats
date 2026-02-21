@@ -15482,7 +15482,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3731417225126821153, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: m_Volume
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6215630421920138199, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15526,7 +15526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7069195662367948051, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: m_Volume
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7398205163872169614, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: m_Name
@@ -15542,6 +15542,22 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: Songs.Array.data[1].MusicFile
+      value: 
+      objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.data[0].MusicFiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.data[1].MusicFiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: 'Songs.Array.data[0].MusicFiles.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: 'Songs.Array.data[1].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     m_RemovedComponents: []

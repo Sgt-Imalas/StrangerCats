@@ -1,6 +1,8 @@
 
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -8,10 +10,14 @@ using static Unity.VisualScripting.Member;
 
 public class MusicManager : MonoBehaviour
 {
-	[SerializeField] private Song[] Songs;
+	[SerializeField] private AudioCollection[] Songs;
+	[SerializeField] private AudioCollection[] SFX;
 	private static MusicManager Instance;
 	//crossfading
-	[SerializeField] AudioSource AudioSourceA, AudioSourceB;
+	[SerializeField] 
+	AudioSource MusicSourceA, MusicSourceB, 
+		//sfx
+		SfxSource;
 	public AudioMixer AudioMixer;
 
 	private AudioSource activeSource;
@@ -33,8 +39,8 @@ public class MusicManager : MonoBehaviour
 			return;
 		}
 
-		activeSource = AudioSourceA;
-		inactiveSource = AudioSourceB;
+		activeSource = MusicSourceA;
+		inactiveSource = MusicSourceB;
 
 		
 	}
@@ -62,7 +68,7 @@ public class MusicManager : MonoBehaviour
 		var song = Instance.Songs[index];
 
 		//Instance.audioSource.outputAudioMixerGroup = Instance.AudioMixer.FindMatchingGroups("Music")[0];
-		Instance.StartCoroutine(Instance.Crossfade(song.MusicFile, fadeDuration));
+		Instance.StartCoroutine(Instance.Crossfade(song.GetSound(), fadeDuration));
 	}
 
 	private IEnumerator Crossfade(AudioClip newClip, float duration)
@@ -115,8 +121,9 @@ public class MusicManager : MonoBehaviour
 
 }
 [Serializable]
-public struct Song
+public struct AudioCollection
 {
 	[HideInInspector] public string name;
-	public AudioClip MusicFile;
+	public List<AudioClip> MusicFiles;
+	public AudioClip GetSound() => MusicFiles[UnityEngine.Random.Range(0, MusicFiles.Count)];
 }
