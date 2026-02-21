@@ -140,7 +140,7 @@ public class MiningResourceStorage
 	}
 	public bool CanAfford(ResourceType type, uint amount)
 	{
-		if(amount == 0)
+		if (amount == 0)
 			return true;
 		Debug.Log("can afford check for " + type + " with amount " + amount + ", current is " + (Current.ContainsKey(type) ? Current[type].ToString() : "0"));
 		return Current.ContainsKey(type) && Current[type] >= amount;
@@ -237,11 +237,30 @@ public class GameUpgrades
 
 	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport")
 		.LevelPrice(new(100))
-		.Modifier(AttributeType.LifeTime, 30f);
+		.Modifier(AttributeType.LifeTime, 50f);
+
+	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength")
+		.LevelPrice(new(100))
+		.Modifier(AttributeType.PodSpeed, 50f);
+
+	public BuyableUpgrade LaserRange = new BuyableUpgrade("Laser Reach")
+		.LevelPrice(new(100))
+		.Modifier(AttributeType.LaserRange, 50f);
 
 	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage")
 		.LevelPrice(new(100))
-		.Modifier(AttributeType.DigDamage, 25f);
+		.Modifier(AttributeType.DigDamage, 50f);
+
+	public BuyableUpgrade LaserSpeed = new BuyableUpgrade("Laser Fire Rate")
+		.LevelPrice(new(100))
+		.Modifier(AttributeType.FireRate, 50f);
+
+	public BuyableUpgrade Yield = new BuyableUpgrade("Resource Yield")
+		.LevelPrice(new(100, 0, 100, 0))
+		.LevelPrice(new(0, 100, 0, 100))
+		.LevelPrice(new(200, 200, 200, 200))
+		.Modifier(AttributeType.ResourceTileMultiplier, 1.25f, true)
+		.Scale(4);
 }
 
 public class BuyableUpgrade
@@ -303,13 +322,13 @@ public class BuyableUpgrade
 
 	internal string GetUpgradeText()
 	{
-		if(IsMaxed())
+		if (IsMaxed())
 			return "Max Level Reached";
 
 		if (!UnlockedCondition())
 			return "Not found yet";
 
-		if(!Global.Instance.SpaceshipResources.CanAfford(GetCurrentScaledCosts()))
+		if (!Global.Instance.SpaceshipResources.CanAfford(GetCurrentScaledCosts()))
 			return "Can't affort";
 
 		return string.Empty;
@@ -328,9 +347,9 @@ public class BuyableUpgrade
 		}
 		Level++;
 		OnPurchase?.Invoke();
-		if(Modifiers != null)
+		if (Modifiers != null)
 		{
-			foreach(var mod in Modifiers)
+			foreach (var mod in Modifiers)
 			{
 				PersistentPlayer.AddModifier(mod);
 			}
@@ -341,7 +360,7 @@ public class BuyableUpgrade
 	{
 		return Level >= MaxLevel;
 	}
-	public bool IsUnlocked() 	
+	public bool IsUnlocked()
 	{
 		return UnlockedCondition();
 	}
