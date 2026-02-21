@@ -16,8 +16,8 @@
 
 
 		RadarRange,
-		SpaceShipRotationSpeed, //multiplier with mode base value
-		SpaceShipSuperCruiseSpeed,
-		SpaceShipSuperCruiseAccelleration
+		SpaceShipSuperCruiseSpeed, 
+		SpaceShipSuperCruiseAccelleration,
+		SpaceShipRotationSpeed, 
 	}
 }

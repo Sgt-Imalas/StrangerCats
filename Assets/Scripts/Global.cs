@@ -30,6 +30,7 @@ public class Global
 	public int WorldSeed;
 	public PlanetDescriptor generateWorld;
 	public PlanetDescriptor loadPlanet;
+
 }
 
 public class StarmapShip
@@ -89,6 +90,10 @@ public class FlightStats
 public enum ResourceType
 {
 	A, B, C, D
+}
+public enum FindableItem
+{
+	Radar, SuperCruise, Meat, Tennis, Desert
 }
 
 //public record ResourceInfo(ResourceType Type, string Name, Color color);
@@ -169,6 +174,36 @@ public class GameUpgrades
 {
 	public bool RadarUnlocked = false;
 	public bool SuperCruiseUnlocked = false;
+	public bool MeatWorldItemFound = false;
+	public bool TennisWorldItemFound = false;
+	public bool DesertWorldItemFound = false;
+
+	public void CollectFindableItem(FindableItem item)
+	{
+		switch (item)
+		{
+			case FindableItem.Radar:
+				RadarUnlocked = true;
+				break;
+			case FindableItem.SuperCruise:
+				SuperCruiseUnlocked = true;
+				break;
+			case FindableItem.Meat:
+				MeatWorldItemFound = true;
+				break;
+			case FindableItem.Tennis:
+				TennisWorldItemFound = true;
+				break;
+			case FindableItem.Desert:
+				DesertWorldItemFound = true;
+				break;
+		}
+		OnItemCollected?.Invoke(item);
+	}
+
+	public event Action<FindableItem> OnItemCollected;
+
+
 
 	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range")
 		.Max(5)
@@ -202,11 +237,11 @@ public class GameUpgrades
 
 	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport")
 		.LevelPrice(new(100))
-		.Scale(2f);
+		.Modifier(AttributeType.LifeTime, 30f);
 
-	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Lifesupport")
+	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage")
 		.LevelPrice(new(100))
-		.Scale(2f);
+		.Modifier(AttributeType.DigDamage, 25f);
 }
 
 public class BuyableUpgrade

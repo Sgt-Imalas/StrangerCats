@@ -15,6 +15,7 @@ public class ResourceTopBar : MonoBehaviour
 	Transform Canvas;
 	private PlayerControls controls;
 	public GameObject UpgradeScreen;
+	public GameObject Radar, SuperCruise, MeatWorldItem, TennisWorldItem, DesertWorldItem;
 
 	private void Awake()
 	{
@@ -32,6 +33,7 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceDiscovered += RefreshVisibility;
 		Global.Instance.SpaceshipResources.OnResourceCollected += OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent += OnResourceSpent;
+		Global.Instance.Upgrades.OnItemCollected += RefreshVisibility;
 	}
 
 	private void OnToggleUpgradeScreen(InputAction.CallbackContext _)
@@ -50,6 +52,7 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceDiscovered -= RefreshVisibility;
 		Global.Instance.SpaceshipResources.OnResourceCollected -= OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent -= OnResourceSpent;
+		Global.Instance.Upgrades.OnItemCollected -= RefreshVisibility;
 	}
 	private void OnEnable()
 	{
@@ -93,6 +96,27 @@ public class ResourceTopBar : MonoBehaviour
 		RefreshDisplayAmount(type);
 		RefreshUpgradeButton();
 	}
+	private void RefreshVisibility(FindableItem type)
+	{
+		switch (type)
+		{
+			case FindableItem.Radar:
+				Radar.SetActive(Global.Instance.Upgrades.RadarUnlocked);
+				break;
+			case FindableItem.SuperCruise:
+				SuperCruise.SetActive(Global.Instance.Upgrades.SuperCruiseUnlocked);
+				break;
+			case FindableItem.Meat:
+				MeatWorldItem.SetActive(Global.Instance.Upgrades.MeatWorldItemFound);
+				break;
+			case FindableItem.Tennis:
+				TennisWorldItem.SetActive(Global.Instance.Upgrades.TennisWorldItemFound);
+				break;
+			case FindableItem.Desert:
+				DesertWorldItem.SetActive(Global.Instance.Upgrades.DesertWorldItemFound);
+				break;
+		}
+	}
 
 	private void RefreshDisplayAmount(ResourceType type)
 	{
@@ -121,6 +145,12 @@ public class ResourceTopBar : MonoBehaviour
 		RefreshVisibility(ResourceType.B);
 		RefreshVisibility(ResourceType.C);
 		RefreshVisibility(ResourceType.D);
+		RefreshVisibility(FindableItem.Radar);
+		RefreshVisibility(FindableItem.SuperCruise);
+		RefreshVisibility(FindableItem.Meat);
+		RefreshVisibility(FindableItem.Tennis);
+		RefreshVisibility(FindableItem.Desert);
+
 	}
 
 	IEnumerator AnimateCollection(ResourceType type, uint amount, float duration = 0.5f)
