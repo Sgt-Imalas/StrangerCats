@@ -97,8 +97,12 @@ public class UpgradeScreen : MonoBehaviour
 				break;
 			}
 		}
+		Global.Instance.InUpgradeMenu = true;
+		Time.timeScale = 0;
 	}
 	private void OnDisable()
 	{
+		Global.Instance.InUpgradeMenu = false;
+		Time.timeScale = 1;
 	}
 }

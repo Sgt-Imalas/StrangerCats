@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts
 {
@@ -13,11 +14,12 @@ namespace Assets.Scripts
 
 
 		public float EnergyPercentage => LanderEnergy / MaxLanderEnergy;
-		public float LanderEnergy = 600;
-		float MaxLanderEnergy = 600;
-		float LanderEnergyDecayPerSecond = 10f;
+		public float LanderEnergy = 120;
+		float MaxLanderEnergy = 120;
+		float LanderEnergyDecayPerSecond = 1f;
+		float LaserEnergyDrainPerSecond = 0.75f;
 
-		public bool InLander;
+		public bool InLander, LaserFiring;
 
 
 
@@ -34,17 +36,32 @@ namespace Assets.Scripts
 			Instance = this;
 
 			attributes = GetComponent<Attributes>();
+			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 
 		void Start()
 		{
 			attributes.OnAttributeChanged += OnAttributesChanged;
+			LanderEnergy = GetAttribute(AttributeType.LifeTime, MaxLanderEnergy);
+		}
+
+		void OnSceneLoaded(Scene s, LoadSceneMode mode)
+		{
+			InLander = s.name == "MineableTerrain";
 		}
 
 		private void OnAttributesChanged(AttributeType type, float finalValue)
 		{
 			GlobalEvents.Instance.OnPlayerAttributesChanged.Invoke(type, finalValue);
+
+			if(type == AttributeType.LifeTime)
+			{
+				MaxLanderEnergy = finalValue;
+				LanderEnergy = Mathf.Clamp(LanderEnergy, 0, MaxLanderEnergy);
+			}
 		}
+
+
 
 		void Update()
 		{
@@ -57,6 +74,10 @@ namespace Assets.Scripts
 				testMod = false;
 			}
 
+		}
+
+		private void FixedUpdate()
+		{
 			if (!InLander)
 			{
 				float rechargeAmount = MaxLanderEnergy * 0.334f * Time.deltaTime;
@@ -64,7 +85,15 @@ namespace Assets.Scripts
 			}
 			else
 			{
-				LanderEnergy = Mathf.Clamp(LanderEnergy - LanderEnergyDecayPerSecond * Time.deltaTime, 0, MaxLanderEnergy);
+				float decayAmount = LanderEnergyDecayPerSecond;
+				if(LaserFiring)
+					decayAmount += LaserEnergyDrainPerSecond;
+
+				decayAmount *= Time.fixedDeltaTime;
+
+				LanderEnergy = Mathf.Clamp(LanderEnergy - decayAmount, 0, MaxLanderEnergy);
+				if(LanderEnergy == 0)
+					Global.Instance.StartLoadingStarmapScene();
 			}
 		}
 

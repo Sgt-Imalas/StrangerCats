@@ -50,6 +50,7 @@ public class ShipControllerDirect : MonoBehaviour
 
 	void OnMove(InputAction.CallbackContext context)
 	{
+
 		if (context.canceled)
 		{
 			movementDirection = Vector2.zero;
@@ -72,6 +73,8 @@ public class ShipControllerDirect : MonoBehaviour
 
 	private void Update()
 	{
+		if (Global.Instance.LockedInputs) return;
+
 		rb.AddForce(AccellerationSpeed * rb.mass * movementDirection);
 
 		if (rb.linearVelocity.magnitude > MaxVelocity)

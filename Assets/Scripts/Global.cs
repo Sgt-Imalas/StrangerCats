@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [ExecuteAlways]
 public class Global
@@ -25,12 +26,28 @@ public class Global
 
 	public bool LoadingScene = false;
 	public bool InCameraTransition = false;
-	public bool InMenu = false;
-	public bool LockedInputs => InCameraTransition || InMenu;
+	public bool InPauseMenu = false;
+	public bool InUpgradeMenu = false;
+	public bool LockedInputs => InCameraTransition || InPauseMenu || InUpgradeMenu;
 	public int WorldSeed;
 	public PlanetDescriptor generateWorld;
 	public PlanetDescriptor loadPlanet;
 
+
+	public void StartLoadingStarmapScene()
+	{
+		LoadOverlay.ShowOverlay();
+		LoadingScene = true;
+		SceneManager.sceneLoaded += OnSceneLoadFinished;
+		SceneManager.LoadScene("Starmap");
+	}
+
+	void OnSceneLoadFinished(Scene s, LoadSceneMode mode)
+	{
+		LoadOverlay.ShowOverlay(false);
+		LoadingScene = false;
+		SceneManager.sceneLoaded -= OnSceneLoadFinished;
+	}
 }
 
 public class StarmapShip
@@ -143,7 +160,6 @@ public class MiningResourceStorage
 	{
 		if (amount == 0)
 			return true;
-		Debug.Log("can afford check for " + type + " with amount " + amount + ", current is " + (Current.ContainsKey(type) ? Current[type].ToString() : "0"));
 		return Current.ContainsKey(type) && Current[type] >= amount;
 	}
 	public bool CanAfford(ResourceLevel costs)
@@ -239,7 +255,7 @@ public class GameUpgrades
 		.IncrementalCostThreshold(ResourceType.B, 0)
 		.IncrementalCostThreshold(ResourceType.A, 3)
 		.IncrementalCostThreshold(ResourceType.D, 15)
-		.Modifier(AttributeType.LifeTime, 200f);
+		.Modifier(AttributeType.LifeTime, 60f);
 
 	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 10, 1.125f)
 		.IncrementalCostThreshold(ResourceType.B, 0)
@@ -261,7 +277,7 @@ public class GameUpgrades
 		.IncrementalCostThreshold(ResourceType.B, 12)
 		.IncrementalCostThreshold(ResourceType.A, 0)
 		.IncrementalCostThreshold(ResourceType.C, 6)
-		.Modifier(AttributeType.FireRate, 50f);
+		.Modifier(AttributeType.FireRate, -0.1f);
 
 	public BuyableUpgrade ResourceYield = new BuyableUpgrade("Resource Yield", 50, 1.5f)
 		.IncrementalCostThreshold(ResourceType.A, 0)

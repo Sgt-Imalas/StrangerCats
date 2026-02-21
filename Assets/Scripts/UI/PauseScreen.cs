@@ -74,7 +74,7 @@ public class PauseScreen : MonoBehaviour
 			IsCurrentlyPaused = false;
 		}
 
-		Global.Instance.InMenu = setPaused;
+		Global.Instance.InPauseMenu = setPaused;
 		Resume.Select();
 	}
 }

@@ -143,7 +143,7 @@ public class ResourceTopBar : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		UpgradeButton.SetActive(UpgradesInteractable);
+		UpgradeButton.SetActive(UpgradesInteractable && UpgradeScreen != null);
 		RefreshVisibility(ResourceType.A);
 		RefreshVisibility(ResourceType.B);
 		RefreshVisibility(ResourceType.C);

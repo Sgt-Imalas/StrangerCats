@@ -155,6 +155,7 @@ public class LaserCanon : MonoBehaviour
 
 		if (isMouseDown)
 		{
+			PersistentPlayer.Instance.LaserFiring = true;
 			if (isHittingTile)
 			{
 				laserRenderer.SetPosition(0, tipMarker.position);
@@ -193,6 +194,7 @@ public class LaserCanon : MonoBehaviour
 			laserRenderer.gameObject.SetActive(false);
 			sparkLight.gameObject.SetActive(false);
 			impactSparklerSound.Stop();
+			PersistentPlayer.Instance.LaserFiring = false;
 		}
 
 		if (isMouseDown && _timeSinceLastProjectile > projectileCooldown && isMouseDown)
