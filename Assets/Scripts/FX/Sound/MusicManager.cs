@@ -1,15 +1,23 @@
 
 using System;
+using System.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Audio;
+using static Unity.VisualScripting.Member;
 
 public class MusicManager : MonoBehaviour
 {
 	[SerializeField] private Song[] Songs;
 	private static MusicManager Instance;
-	private AudioSource audioSource;
+	//crossfading
+	[SerializeField] AudioSource AudioSourceA, AudioSourceB;
 	public AudioMixer AudioMixer;
+
+	private AudioSource activeSource;
+	private AudioSource inactiveSource;
+
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -24,8 +32,11 @@ public class MusicManager : MonoBehaviour
 			Destroy(gameObject);
 			return;
 		}
-		audioSource = GetComponent<AudioSource>();
-	
+
+		activeSource = AudioSourceA;
+		inactiveSource = AudioSourceB;
+
+		
 	}
 
 	private void Start()
@@ -34,10 +45,13 @@ public class MusicManager : MonoBehaviour
 			SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
 		else
 			Debug.Log("MusicVolume key not found in PlayerPrefs. Using default volume.");
-		PlayMusic(0);
+
+		if (PlayerPrefs.HasKey("sfxVolume"))
+			SetSFXVolume(PlayerPrefs.GetFloat("sfxVolume"));
+		//PlayNewSong(0);
 	}
 
-	public static void PlayMusic(int index, float volume = 1f)
+	public static void PlayNewSong(int index, float fadeDuration = 3f)
 	{
 		if(Instance.Songs == null || Instance.Songs.Length <= index)
 		{
@@ -46,9 +60,40 @@ public class MusicManager : MonoBehaviour
 		}
 
 		var song = Instance.Songs[index];
-		Instance.audioSource.outputAudioMixerGroup = Instance.AudioMixer.FindMatchingGroups("Music")[0];
-		Instance.audioSource.PlayOneShot(song.MusicFile, volume);
+
+		//Instance.audioSource.outputAudioMixerGroup = Instance.AudioMixer.FindMatchingGroups("Music")[0];
+		Instance.StartCoroutine(Instance.Crossfade(song.MusicFile, fadeDuration));
 	}
+
+	private IEnumerator Crossfade(AudioClip newClip, float duration)
+	{
+		inactiveSource.clip = newClip;
+		inactiveSource.volume = 0f;
+		inactiveSource.Play();
+
+		float time = 0f;
+		float startVolume = activeSource.volume;
+
+		while (time < duration)
+		{
+			time += Time.deltaTime;
+			float t = time / duration;
+
+			activeSource.volume = Mathf.Lerp(startVolume, 0f, t);
+			inactiveSource.volume = Mathf.Lerp(0f, startVolume, t);
+
+			yield return null;
+		}
+
+		activeSource.Stop();
+		activeSource.volume = 1f;
+
+		AudioSource temp = activeSource;
+		activeSource = inactiveSource;
+		inactiveSource = temp;
+	}
+
+
 	public static void SetMusicVolume(float volume)
 	{
 		if (Instance == null || Instance.AudioMixer == null)
@@ -56,8 +101,16 @@ public class MusicManager : MonoBehaviour
 			Debug.LogWarning("MusicManager instance or audio source is null. Cannot set music volume.");
 			return;
 		}
-		Debug.Log($"Setting music volume to {volume}");
 		Instance.AudioMixer.SetFloat("musicVolume", Mathf.Log10(volume) * 20);
+	}
+	public static void SetSFXVolume(float volume)
+	{
+		if (Instance == null || Instance.AudioMixer == null)
+		{
+			Debug.LogWarning("MusicManager instance or audio source is null. Cannot set music volume.");
+			return;
+		}
+		Instance.AudioMixer.SetFloat("sfxVolume", Mathf.Log10(volume) * 20);
 	}
 
 }

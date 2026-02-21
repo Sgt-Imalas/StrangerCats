@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: DefaultMeat
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PlanetDescriptor
   icon: {fileID: 2800000, guid: 817746fc55dc7484f9b502bc8c315b59, type: 3}
+  bg: {fileID: 0}
   resourceType: 0
   noiseScale: 1.2
   noiseThreshold: 0.01
   bumpinessFrequency: 1
   bumpinessAmplitude: 2.97
   radius: 64
+  innerRadius: 40
   generationPreset: 0
   boneNoiseScale: 1.45
   boneAmpl: 7.78
   boneThreshold: 0.1
+  MusicIndex: 0

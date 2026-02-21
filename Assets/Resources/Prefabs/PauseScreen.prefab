@@ -1687,6 +1687,7 @@ MonoBehaviour:
   SfxSlider: {fileID: 7982836127107542343}
   Resume: {fileID: 2954553065120701845}
   Exit: {fileID: 5708626641986712721}
+  audioMixer: {fileID: 24100000, guid: 01407b04b697fa64c9ba2fafe0e6e9a1, type: 2}
 --- !u!1 &4618424639945011955
 GameObject:
   m_ObjectHideFlags: 0

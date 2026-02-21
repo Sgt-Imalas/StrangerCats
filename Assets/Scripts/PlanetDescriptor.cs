@@ -19,6 +19,8 @@ namespace Assets.Scripts
 
 		public float boneNoiseScale = 1.45f, boneAmpl = 7.78f, boneThreshold = 0.1f;
 
+		public int MusicIndex = 0;
+
 		public enum GenerationPreset
 		{
 			Meat,
@@ -47,6 +49,7 @@ namespace Assets.Scripts
 					//GeneratePlasticWorld(seed, out materials, out size, generator);
 					break;
 			}
+			MusicManager.PlayNewSong(MusicIndex);
 		}
 		/*
 				public void GenerateIridiumWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)

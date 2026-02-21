@@ -45,6 +45,7 @@ public class PauseScreen : MonoBehaviour
 	}
 	void OnSfxVolumeChanged(float newValue)
 	{
+		MusicManager.SetSFXVolume(newValue);
 		PlayerPrefs.SetFloat("SfxVolume", newValue);
 	}
 

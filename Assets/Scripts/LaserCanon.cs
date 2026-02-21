@@ -150,7 +150,7 @@ public class LaserCanon : MonoBehaviour
 			selectionMarker.gameObject.SetActive(false);
 		}
 
-		var isMouseDown = controls.Player.Attack.IsPressed();
+		var isMouseDown = controls.Player.Attack.IsPressed() && Time.timeScale > 0;
 
 		if (isMouseDown)
 		{

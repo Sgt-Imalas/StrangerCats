@@ -15193,6 +15193,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: MusicManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.data[0].MusicFile
+      value: 
+      objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.data[1].MusicFile
+      value: 
+      objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -42,7 +42,7 @@ namespace Assets.Scripts
 		void Start()
 		{
 			attributes.OnAttributeChanged += OnAttributesChanged;
-			LanderEnergy = GetAttribute(AttributeType.LifeTime, MaxLanderEnergy);
+			LanderEnergy = GetAttribute(AttributeType.LifeTime, MaxLanderEnergy);			
 		}
 
 		void OnSceneLoaded(Scene s, LoadSceneMode mode)
