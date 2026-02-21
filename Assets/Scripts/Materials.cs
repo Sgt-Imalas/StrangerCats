@@ -17,7 +17,9 @@ namespace Assets.Scripts
 			Plastic = "Plastic".GetHashCode(),
 			Rubber = "Rubber".GetHashCode(),
 			RustedMetal = "Rusted Metal".GetHashCode(),
-			SteelSheets = "Steel Sheets".GetHashCode();
+			SteelSheets = "Steel Sheets".GetHashCode(),
+			StarDust = "Star Dust".GetHashCode(),
+			IridiumOre = "Iridium Ore".GetHashCode();
 
 		void Awake()
 		{

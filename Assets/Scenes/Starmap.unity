@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Follower
   Target: {fileID: 1045476043}
-  Offset: -20
+  Offset: -14
 --- !u!114 &229524361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.PixelPerfectCamera
   m_ComponentVersion: 1
-  m_AssetsPPU: 8
+  m_AssetsPPU: 32
   m_RefResolutionX: 320
   m_RefResolutionY: 180
   m_CropFrame: 0
@@ -1566,7 +1566,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.006, y: 1.5, z: 20}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1170414829}
@@ -1686,7 +1686,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7519121072522729631, guid: 33892ab4fca89184792c2511b7a9caff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4252f91318cf03643ba9d131dd642682, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5142,7 +5142,7 @@ RectTransform:
   m_GameObject: {fileID: 1045476043}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 361162136}
@@ -6412,7 +6412,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -20}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 328265338}
@@ -8615,8 +8615,7 @@ MonoBehaviour:
   m_text: 'Tip:
 
 
-    Pour the liquid Schwartz into your fuel tank with Q to go into
-    supercruise mode'
+    Pour the liquid Schwartz into your fuel tank with Q to go into supercruise mode'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -8850,23 +8849,20 @@ MonoBehaviour:
   m_text: 'Your quest incomplete still is.
 
 
-    All the legendary items, you have
-    not.
+    All the legendary items, you have not.
 
 
     Collecting them, you must!
 
 
-    Revealing themselves, they will in
-    time.
+    Revealing themselves, they will in time.
 
 
     Improving your spaceship, you should!
 
 
 
-    Better chances it will
-    give you in finding them!'
+    Better chances it will give you in finding them!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -15553,11 +15549,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: 'Songs.Array.data[0].MusicFiles.Array.data[0]'
+      propertyPath: Songs.Array.data[0].MusicFiles.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: 'Songs.Array.data[1].MusicFiles.Array.data[0]'
+      propertyPath: Songs.Array.data[1].MusicFiles.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     m_RemovedComponents: []

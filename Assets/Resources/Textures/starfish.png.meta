@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 43bd84c3e4aa8374698b47f48a76a5b2
+guid: 5b001f9129242c84a813fd80d675fe46
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5483215198695101708
-    second: pixel_0
+      213: -6987148479580219570
+    second: starfish_0
+  - first:
+      213: 4765980326882044309
+    second: starfish_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +116,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pixel_0
+      name: starfish_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1
-        height: 1
+        y: 2
+        width: 23
+        height: 23
       alignment: 9
-      pivot: {x: 0, y: 0.5}
+      pivot: {x: 0.47463632, y: 0.4769421}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4fa61cef3d4b7e3b0800000000000000
-      internalID: -5483215198695101708
+      spriteID: e47d5b13a79a80f90800000000000000
+      internalID: -6987148479580219570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: starfish_1
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 17
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 599ed462bd9242240800000000000000
+      internalID: 4765980326882044309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: starfish_2
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 22
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6af2063d5a73934bbfe761d1b852637
+      internalID: 1339344076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: starfish_3
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 19
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d8d19831e4fbb646ac56de5d5400dc4
+      internalID: 969861695
       vertices: []
       indices: 
       edges: []
@@ -138,7 +207,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4747fe4ec40183746ac1a96b2cf01e7a
+    spriteID: a998e4f8c8673e54e973c976a9998135
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +217,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pixel_0: -5483215198695101708
+      starfish_0: -6987148479580219570
+      starfish_1: 4765980326882044309
+      starfish_2: 1339344076
+      starfish_3: 969861695
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

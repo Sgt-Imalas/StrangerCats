@@ -110,6 +110,8 @@ public class DestructibleTerrain : MonoBehaviour
 				digParticles.Configure(mat.particleColor, 1, 1);
 				digParticles.transform.position = tile.Key;
 				digParticles.Emit();
+
+				GlobalEvents.Instance.OnTileDestroyed?.Invoke(tile.Key);
 			}
 
 

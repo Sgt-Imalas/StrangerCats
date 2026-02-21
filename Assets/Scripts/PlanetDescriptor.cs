@@ -16,6 +16,7 @@ namespace Assets.Scripts
 		public int radius = 64;
 		public int innerRadius = 40;
 		public GenerationPreset generationPreset;
+		public GameObject enemyPreset;
 
 		public float boneNoiseScale = 1.45f, boneAmpl = 7.78f, boneThreshold = 0.1f;
 
@@ -29,41 +30,37 @@ namespace Assets.Scripts
 			Iridium
 		}
 
-		public void GenerateWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
+		public void GenerateWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, out Vector2 center, MapGenerator generator)
 		{
 			materials = null;
 			size = 0;
+			center = Vector2.zero;
 
 			switch (generationPreset)
 			{
 				case GenerationPreset.Meat:
-					GenerateMeatWorld(seed, out materials, out size, generator);
+					GenerateMeatWorld(seed, out materials, out size, generator, out center);
 					break;
 				case GenerationPreset.Plastic:
-					GeneratePlasticWorld(seed, out materials, out size, generator);
+					GeneratePlasticWorld(seed, out materials, out size, generator, out center);
 					break;
 				case GenerationPreset.Tutorial:
-					GenerateTutorialWorld(seed, out materials, out size, generator);
+					GenerateTutorialWorld(seed, out materials, out size, generator, out center);
 					break;
 				case GenerationPreset.Iridium:
-					//GeneratePlasticWorld(seed, out materials, out size, generator);
+					GenerateIridiumWorld(seed, out materials, out size, generator, out center);
 					break;
 			}
 			MusicManager.PlayNewSong(MusicIndex);
 		}
-		/*
-				public void GenerateIridiumWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
-				{
 
-				}*/
-
-		public void GenerateTutorialWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
+		public void GenerateTutorialWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator, out Vector2 center)
 		{
 			materials = new Dictionary<Vector3Int, int>();
 
 			size = radius * 2 + 10;
 
-			var center = new Vector2(radius + 5, radius + 5);
+			center = new Vector2(radius + 5, radius + 5);
 
 			var islandsNoise = new FastNoiseLite(seed);
 			islandsNoise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
@@ -99,7 +96,7 @@ namespace Assets.Scripts
 			}
 		}
 
-		public void GeneratePlasticWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
+		public void GeneratePlasticWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator, out Vector2 center)
 		{
 			materials = new Dictionary<Vector3Int, int>();
 
@@ -109,7 +106,7 @@ namespace Assets.Scripts
 			noise.SetFractalOctaves(1);
 
 			size = radius * 2 + 1;
-			var center = new Vector2(radius, radius);
+			center = new Vector2(radius, radius);
 
 			var ring = 24;
 			var rubberRadius = radius - ring;
@@ -139,8 +136,45 @@ namespace Assets.Scripts
 				}
 			}
 		}
+		public void GenerateIridiumWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator, out Vector2 center)
+		{
+			materials = new Dictionary<Vector3Int, int>();
 
-		public void GenerateMeatWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator)
+			var noise = new FastNoiseLite(seed);
+			noise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
+			noise.SetCellularReturnType(FastNoiseLite.CellularReturnType.Distance2);
+			noise.SetCellularDistanceFunction(FastNoiseLite.CellularDistanceFunction.Manhattan);
+
+			noise.SetDomainWarpType(FastNoiseLite.DomainWarpType.BasicGrid);
+			noise.SetDomainWarpAmp(58);
+			size = radius * 2 + 10;
+
+			center = new Vector2(radius + 5, radius + 5);
+
+			for (var x = 0; x < size; x++)
+			{
+				for (var y = 0; y < size; y++)
+				{
+					var dist = Vector2.Distance(new Vector2(x, y), center);
+
+					var noise2 = noise.GetNoise(x * bumpinessFrequency, y * bumpinessFrequency) * bumpinessAmplitude;
+					if (dist + noise2 > radius)
+						continue;
+
+					var value = noise.GetNoise(x * noiseScale, y * noiseScale);
+					value *= value;
+
+					if (value > noiseThreshold)
+					{
+						var noiseDust = noise.GetNoise(x * boneNoiseScale + 200, y * boneNoiseScale + 200);
+
+						materials[new Vector3Int(x, y)] = noiseDust > boneThreshold ? Materials.StarDust : Materials.IridiumOre;
+					}
+				}
+			}
+		}
+
+		public void GenerateMeatWorld(int seed, out Dictionary<Vector3Int, int> materials, out int size, MapGenerator generator, out Vector2 center)
 		{
 			materials = new Dictionary<Vector3Int, int>();
 
@@ -149,7 +183,7 @@ namespace Assets.Scripts
 
 			size = radius * 2 + 10;
 
-			var center = new Vector2(radius + 5, radius + 5);
+			center = new Vector2(radius + 5, radius + 5);
 
 			if (generator.boneMap.width != generator.boneMap.height)
 				Debug.LogWarning("Bonemap needs to be square");

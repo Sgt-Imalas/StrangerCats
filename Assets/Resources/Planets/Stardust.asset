@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 764d8e0935d89d04b85996796db73c81, type: 3}
-  m_Name: Tutiorial
+  m_Name: Stardust
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PlanetDescriptor
-  icon: {fileID: 0}
-  bg: {fileID: 0}
-  resourceType: 0
-  noiseScale: 3.99
-  noiseThreshold: 0.25
-  bumpinessFrequency: 1
-  bumpinessAmplitude: 2.97
-  radius: 48
+  icon: {fileID: 2800000, guid: 4252f91318cf03643ba9d131dd642682, type: 3}
+  bg: {fileID: 2800000, guid: 66a3e6627dc13d1418cc3120bcf5f788, type: 3}
+  resourceType: 3
+  noiseScale: 3.12
+  noiseThreshold: 0.012
+  bumpinessFrequency: 1.75
+  bumpinessAmplitude: 10
+  radius: 64
   innerRadius: 40
-  generationPreset: 2
-  enemyPreset: {fileID: 5437528579922202710, guid: 6a05335163c83bf4098e3ea1ad5b42d1, type: 3}
-  boneNoiseScale: 1.45
-  boneAmpl: 7.78
-  boneThreshold: 0.1
+  generationPreset: 3
+  boneNoiseScale: 6.89
+  boneAmpl: 10.38
+  boneThreshold: -0.18

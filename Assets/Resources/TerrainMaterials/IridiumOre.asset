@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e7820d7d2adc3e4a9c6877c65692210, type: 3}
-  m_Name: Stardust
+  m_Name: IridiumOre
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.TerrainMaterial
-  materialName: Star Dust
-  hardness: 40
-  textureIdx: 7
-  resourceType: 3
+  materialName: Iridium Ore
+  hardness: 5000
+  textureIdx: 8
+  resourceType: 0
   resourceAmount: 1
-  particlesColor: {r: 0.87905324, g: 0.83971167, b: 0.9622642, a: 0}
+  particlesColor: {r: 0.38313335, g: 0.256675, b: 0.5283019, a: 0}
