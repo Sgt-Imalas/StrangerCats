@@ -6,7 +6,6 @@ using UnityEngine;
 public class Attribute
 {
 	public AttributeType id;
-	public string name;
 	public string tooltip;
 	public float minValue = 0.0f, maxValue = 1.0f;
 	public float value = 0.0f;
@@ -21,6 +20,7 @@ public class Attribute
 		this.value = value;
 	}
 
+	
 	public void Set(float newValue)
 	{
 		value = Mathf.Clamp(newValue, minValue, maxValue);

@@ -33,6 +33,7 @@ public class UpgradeItem : MonoBehaviour
 			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource D");
 		UnlockButton.onHoldComplete.AddListener(BuyUpgrade);
 		woke = true;
+		Title.fontSizeMin = 12;
 	}
 
 	public System.Action<Selectable> OnSelect;
@@ -78,7 +79,19 @@ public class UpgradeItem : MonoBehaviour
 		UnlockButton.interactable = true;
 		RefreshText();
 	}
+	public static string ToShortNumber(double number)
+	{
+		string[] suffixes = { "", "K", "M", "B", "T" };
+		int suffixIndex = 0;
 
+		while (number >= 1000 && suffixIndex < suffixes.Length - 1)
+		{
+			number /= 1000;
+			suffixIndex++;
+		}
+
+		return $"{number:0.#}{suffixes[suffixIndex]}";
+	}
 	void SetUpgradeCosts()
 	{
 		if (!woke)
@@ -108,7 +121,7 @@ public class UpgradeItem : MonoBehaviour
 		if (dict.TryGetValue(ResourceType.A, out var cost) && cost > 0)
 		{
 			A.SetActive(true);
-			CostA.text = cost.ToString();
+			CostA.text = ToShortNumber(cost);
 		}
 		else
 			A.SetActive(false);
@@ -116,7 +129,7 @@ public class UpgradeItem : MonoBehaviour
 		if (dict.TryGetValue(ResourceType.B, out cost) && cost > 0)
 		{
 			B.SetActive(true);
-			CostB.text = cost.ToString();
+			CostB.text = ToShortNumber(cost);
 		}
 		else
 			B.SetActive(false);
@@ -124,7 +137,7 @@ public class UpgradeItem : MonoBehaviour
 		if (dict.TryGetValue(ResourceType.C, out cost) && cost > 0)
 		{
 			C.SetActive(true);
-			CostC.text = cost.ToString();
+			CostC.text = ToShortNumber(cost);
 		}
 		else
 			C.SetActive(false);
@@ -132,14 +145,13 @@ public class UpgradeItem : MonoBehaviour
 		if (dict.TryGetValue(ResourceType.D, out cost) && cost > 0)
 		{
 			D.SetActive(true);
-			CostD.text = cost.ToString();
+			CostD.text = ToShortNumber(cost);
 		}
 		else
 			D.SetActive(false);
 	}
 	public void SetUpgrade(BuyableUpgrade upgrade)
 	{
-		//Debug.Log("Setting upgrade " + upgrade?.Name + " to item " + name);
 		CurrentUpgrade = upgrade;
 		RefreshText();
 		SetUpgradeCosts();
@@ -147,7 +159,7 @@ public class UpgradeItem : MonoBehaviour
 	}
 	void RefreshText()
 	{
-		Title.text = CurrentUpgrade?.Name + " lvl " + (CurrentUpgrade?.Level+1);
+		Title.text = CurrentUpgrade?.Name + " " + (CurrentUpgrade?.Level+1);
 
 		UpgradeDesc.SetText(CurrentUpgrade?.GetUpgradeText());
 	}

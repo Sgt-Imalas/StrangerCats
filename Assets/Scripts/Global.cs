@@ -108,8 +108,10 @@ public class MiningResourceStorage
 		{ResourceType.D, Color.blue}
 	};
 
-	public static HashSet<ResourceType> Discovered = new();
-	public Dictionary<ResourceType, uint> Current = new();
+	public Dictionary<ResourceType, uint> Current = new() 
+	//DEBUG!!
+	{ { ResourceType.A,999999 },{ ResourceType.B,999999 },{ ResourceType.C,999999 },{ ResourceType.D,999999 }, }
+	;
 
 	public event Action<ResourceType> OnResourceDiscovered;
 	public event Action<ResourceType, uint> OnResourceCollected;
@@ -118,9 +120,8 @@ public class MiningResourceStorage
 
 	public void CollectResource(ResourceType type, uint amount)
 	{
-		if (!Discovered.Contains(type))
+		if (!Current.ContainsKey(type))
 		{
-			Discovered.Add(type);
 			Current[type] = 0;
 			OnResourceDiscovered(type);
 		}
@@ -156,7 +157,7 @@ public class MiningResourceStorage
 	}
 	public bool ResourceDiscovered(ResourceType type)
 	{
-		return (Discovered.Contains(type));
+		return (Current.ContainsKey(type));
 	}
 	public uint GetResourceAmount(ResourceType type)
 	{
@@ -165,7 +166,7 @@ public class MiningResourceStorage
 
 	internal bool AnyResourceDiscovered()
 	{
-		return Discovered.Any();
+		return Current.Any();
 	}
 }
 
@@ -183,7 +184,11 @@ public class GameUpgrades
 		switch (item)
 		{
 			case FindableItem.Radar:
-				RadarUnlocked = true;
+				if (!RadarUnlocked)
+				{
+					RadarUnlocked = true;
+					PersistentPlayer.AddModifier(new AttributeModifier("RadarUnlock", AttributeType.RadarRange, 500));
+				}
 				break;
 			case FindableItem.SuperCruise:
 				SuperCruiseUnlocked = true;
@@ -205,91 +210,100 @@ public class GameUpgrades
 
 
 
-	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range")
+	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range",10, 1.2f)
 		.Max(5)
-		.Modifier(AttributeType.RadarRange, 2f, true)
-		.LevelPrice(new(10))
-		.LevelPrice(new(25, 25))
-		.LevelPrice(new(100, 100, 100))
-		.LevelPrice(new(250, 250, 250, 250))
+		.Modifier(AttributeType.RadarRange, 100f)
+		.IncrementalCostThreshold(ResourceType.B, 0)
+		.IncrementalCostThreshold(ResourceType.A, 5)
+		.IncrementalCostThreshold(ResourceType.C, 10)
 		.UnlockCondition(() => Global.Instance.Upgrades.RadarUnlocked)
 		;
 
 
-	public BuyableUpgrade SuperCruise = new BuyableUpgrade("Supercruise Speed")
+	public BuyableUpgrade SuperCruise = new BuyableUpgrade("Supercruise Speed", 15, 1.2f)
 		.Modifier(AttributeType.SpaceShipSuperCruiseAccelleration, 1.1f, true)
 		.Modifier(AttributeType.SpaceShipSuperCruiseSpeed, 1.25f, true)
-		.LevelPrice(new(25))
-		.LevelPrice(new(50, 50))
-		.LevelPrice(new(100, 100, 100))
-		.LevelPrice(new(200, 200, 200, 200))
-		.Scale(2f)
+		.IncrementalCostThreshold(ResourceType.B, 0)
+		.IncrementalCostThreshold(ResourceType.A, 0)
+		.IncrementalCostThreshold(ResourceType.D, 10)
 		.UnlockCondition(() => Global.Instance.Upgrades.SuperCruiseUnlocked);
 
-	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed")
+	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed", 10, 1.125f)
 		.Modifier(AttributeType.SpaceShipRotationSpeed, 0.15f)
-		.LevelPrice(new(100, 100))
-		.LevelPrice(new(200, 200))
-		.LevelPrice(new(400, 400, 400))
-		.LevelPrice(new(800, 800, 800, 800))
-		.Scale(2f);
+		.IncrementalCostThreshold(ResourceType.B, 0)
+		.IncrementalCostThreshold(ResourceType.C, 10)
+		.IncrementalCostThreshold(ResourceType.D, 20);
 
 
-	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport")
-		.LevelPrice(new(100))
-		.Modifier(AttributeType.LifeTime, 50f);
+	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport", 20, 1.3f)
+		.IncrementalCostThreshold(ResourceType.B, 0)
+		.IncrementalCostThreshold(ResourceType.A, 3)
+		.IncrementalCostThreshold(ResourceType.D, 15)
+		.Modifier(AttributeType.LifeTime, 200f);
 
-	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength")
-		.LevelPrice(new(100))
+	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 10, 1.125f)
+		.IncrementalCostThreshold(ResourceType.B, 0)
+		.IncrementalCostThreshold(ResourceType.C, 10)
 		.Modifier(AttributeType.PodSpeed, 50f);
 
-	public BuyableUpgrade LaserRange = new BuyableUpgrade("Laser Reach")
-		.LevelPrice(new(100))
+	public BuyableUpgrade LaserRange = new BuyableUpgrade("Laser Reach", 40, 1.2f)
+		.IncrementalCostThreshold(ResourceType.C, 0)
+		.IncrementalCostThreshold(ResourceType.D, 0)
 		.Modifier(AttributeType.LaserRange, 50f);
 
-	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage")
-		.LevelPrice(new(100))
+	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage", 30, 1.2f)
+		.IncrementalCostThreshold(ResourceType.B, 0)
+		.IncrementalCostThreshold(ResourceType.A, 0)
+		.IncrementalCostThreshold(ResourceType.D, 10)
 		.Modifier(AttributeType.DigDamage, 50f);
 
-	public BuyableUpgrade LaserSpeed = new BuyableUpgrade("Laser Fire Rate")
-		.LevelPrice(new(100))
+	public BuyableUpgrade LaserSpeed = new BuyableUpgrade("Laser Fire Rate", 30, 1.2f)
+		.IncrementalCostThreshold(ResourceType.B, 12)
+		.IncrementalCostThreshold(ResourceType.A, 0)
+		.IncrementalCostThreshold(ResourceType.C, 6)
 		.Modifier(AttributeType.FireRate, 50f);
 
-	public BuyableUpgrade Yield = new BuyableUpgrade("Resource Yield")
-		.LevelPrice(new(100, 0, 100, 0))
-		.LevelPrice(new(0, 100, 0, 100))
-		.LevelPrice(new(200, 200, 200, 200))
-		.Modifier(AttributeType.ResourceTileMultiplier, 1.25f, true)
-		.Scale(4);
+	public BuyableUpgrade ResourceYield = new BuyableUpgrade("Resource Yield", 50, 1.5f)
+		.IncrementalCostThreshold(ResourceType.A, 0)
+		.IncrementalCostThreshold(ResourceType.B, 0)
+		.IncrementalCostThreshold(ResourceType.C, 0)
+		.IncrementalCostThreshold(ResourceType.D, 0)
+		.Modifier(AttributeType.ResourceTileMultiplier, 1.25f, true);
 }
 
 public class BuyableUpgrade
 {
 	public ResourceLevel GetCurrentScaledCosts()
 	{
-		if (LevelCosts == null)
-			return new ResourceLevel();
-
-		int count = LevelCosts.Count;
-		if (Level >= count)
+		var Level = new ResourceLevel();
+		float scale = Mathf.Pow(CostScaling, this.Level);
+		foreach (var cost in CostAdditionThresholds)
 		{
-			var last = LevelCosts.Last();
-			return new ResourceLevel(last, Mathf.Pow(CostScaling, Level - count));
+			if(cost.Value <= this.Level) { 
+				switch (cost.Key)
+				{
+					case ResourceType.A:
+						Level.A = (uint)Mathf.Round(BaseCost * scale);
+						break;
+					case ResourceType.B:
+						Level.B = (uint)Mathf.Round(BaseCost * scale);
+						break;
+					case ResourceType.C:
+						Level.C = (uint)Mathf.Round(BaseCost * scale);
+						break;
+					case ResourceType.D:
+						Level.D = (uint)Mathf.Round(BaseCost * scale);
+						break;
+				}
+			}
 		}
-		return LevelCosts[Level];
+		return Level;
 	}
-
-	public BuyableUpgrade(string name)
+	public BuyableUpgrade(string name, uint startingCost = 10, float incrementalScaling = 1.25f)
 	{
 		Name = name;
-	}
-	public BuyableUpgrade LevelPrice(ResourceLevel costs)
-	{
-		if (LevelCosts == null)
-			LevelCosts = new();
-		LevelCosts.Add(costs);
-
-		return this;
+		BaseCost = startingCost;
+		CostScaling = incrementalScaling;
 	}
 	public BuyableUpgrade Modifier(AttributeType type, float value, bool multiplier = false)
 	{
@@ -304,9 +318,9 @@ public class BuyableUpgrade
 		});
 		return this;
 	}
-	public BuyableUpgrade Scale(float scaling)
+	public BuyableUpgrade IncrementalCostThreshold(ResourceType type, int level = 0)
 	{
-		CostScaling = scaling;
+		CostAdditionThresholds[type] = level;
 		return this;
 	}
 	public BuyableUpgrade Max(int max)
@@ -369,8 +383,11 @@ public class BuyableUpgrade
 	public Func<bool> UnlockedCondition = () => true;
 	public int Level = 0;
 	public int MaxLevel = int.MaxValue;
-	public float CostScaling = 1.5f;
-	public List<ResourceLevel> LevelCosts;
+	public float CostScaling = 1.1f;
+	public long BaseCost = 10;
+
+	public Dictionary<ResourceType, int> CostAdditionThresholds = new();
+
 	public List<AttributeModifier> Modifiers;
 	public Action OnPurchase;
 }
@@ -380,10 +397,10 @@ public struct ResourceLevel : IEnumerable
 
 	public ResourceLevel(ResourceLevel prev, float scaling)
 	{
-		A = (uint)(prev.A * scaling);
-		B = (uint)(prev.B * scaling);
-		C = (uint)(prev.C * scaling);
-		D = (uint)(prev.D * scaling);
+		A = (uint)Mathf.RoundToInt(prev.A * scaling);
+		B = (uint)Mathf.RoundToInt(prev.B * scaling);
+		C = (uint)Mathf.RoundToInt(prev.C * scaling);
+		D = (uint)Mathf.RoundToInt(prev.D * scaling);
 	}
 	public ResourceLevel(uint a = 0, uint b = 0, uint c = 0, uint d = 0)
 	{

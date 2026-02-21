@@ -18,7 +18,7 @@ public class UpgradeScreen : MonoBehaviour
 		LaserDamage, //mob damage, tile damage
 		LaserSpeed, //laser fire rate
 		LaserRange, //range and dig radius
-		ManeuveringThrusters, //movementspeed
+		PodSpeed, //movementspeed
 		ResourceYield //tile and enemy yield
 		;
 	//starship
@@ -51,11 +51,22 @@ public class UpgradeScreen : MonoBehaviour
 		SuperCruise.SetUpgrade(Global.Instance.Upgrades.SuperCruise);
 
 		LifeSupport = GO_LifeSupport.GetComponent<UpgradeItem>();
+		LifeSupport.SetUpgrade(Global.Instance.Upgrades.LifeSupport);
+
 		LaserDamage = GO_LaserDamage.GetComponent<UpgradeItem>();
+		LaserDamage.SetUpgrade(Global.Instance.Upgrades.LaserDamage);
+
 		LaserSpeed = GO_LaserSpeed.GetComponent<UpgradeItem>();
+		LaserSpeed.SetUpgrade(Global.Instance.Upgrades.LaserSpeed);
+
 		LaserRange = GO_LaserRange.GetComponent<UpgradeItem>();
-		ManeuveringThrusters = GO_ManeuveringThrusters.GetComponent<UpgradeItem>();
+		LaserRange.SetUpgrade(Global.Instance.Upgrades.LaserRange);
+
+		PodSpeed = GO_ManeuveringThrusters.GetComponent<UpgradeItem>();
+		PodSpeed.SetUpgrade(Global.Instance.Upgrades.PodSpeed);
+
 		ResourceYield = GO_ResourceYield.GetComponent<UpgradeItem>();
+		ResourceYield.SetUpgrade(Global.Instance.Upgrades.ResourceYield);
 
 		Items = new List<UpgradeItem>
 		{
@@ -66,7 +77,7 @@ public class UpgradeScreen : MonoBehaviour
 			LaserDamage,
 			LaserSpeed,
 			LaserRange,
-			ManeuveringThrusters,
+			PodSpeed,
 			ResourceYield
 		};
 

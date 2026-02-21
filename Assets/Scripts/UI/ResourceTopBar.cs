@@ -44,6 +44,9 @@ public class ResourceTopBar : MonoBehaviour
 		if(UpgradeScreen == null)
 			return;
 
+		if (!Global.Instance.SpaceshipResources.AnyResourceDiscovered())
+			return;
+
 		UpgradeScreen.SetActive(!UpgradeScreen.activeSelf);
 	}
 
