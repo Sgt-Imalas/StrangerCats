@@ -83,17 +83,17 @@ public class ResourceTopBar : MonoBehaviour
 	{
 		switch (type)
 		{
-			case ResourceType.A:
-				ResourceA.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.A));
+			case ResourceType.Meat:
+				ResourceA.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.Meat));
 				break;
-			case ResourceType.B:
-				ResourceB.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.B));
+			case ResourceType.Rust:
+				ResourceB.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.Rust));
 				break;
-			case ResourceType.C:
-				ResourceC.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.C));
+			case ResourceType.Ball:
+				ResourceC.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.Ball));
 				break;
-			case ResourceType.D:
-				ResourceD.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.D));
+			case ResourceType.Dust:
+				ResourceD.SetActive(Global.Instance.SpaceshipResources.ResourceDiscovered(ResourceType.Dust));
 				break;
 		}
 		RefreshDisplayAmount(type);
@@ -125,17 +125,17 @@ public class ResourceTopBar : MonoBehaviour
 	{
 		switch (type)
 		{
-			case ResourceType.A:
-				ResourceA_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.A).ToString();
+			case ResourceType.Meat:
+				ResourceA_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Meat).ToString();
 				break;
-			case ResourceType.B:
-				ResourceB_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.B).ToString();
+			case ResourceType.Rust:
+				ResourceB_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Rust).ToString();
 				break;
-			case ResourceType.C:
-				ResourceC_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.C).ToString();
+			case ResourceType.Ball:
+				ResourceC_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Ball).ToString();
 				break;
-			case ResourceType.D:
-				ResourceD_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.D).ToString();
+			case ResourceType.Dust:
+				ResourceD_Amount.text = Global.Instance.SpaceshipResources.GetResourceAmount(ResourceType.Dust).ToString();
 				break;
 		}
 	}
@@ -144,10 +144,10 @@ public class ResourceTopBar : MonoBehaviour
 	void Start()
 	{
 		UpgradeButton.SetActive(UpgradesInteractable && UpgradeScreen != null);
-		RefreshVisibility(ResourceType.A);
-		RefreshVisibility(ResourceType.B);
-		RefreshVisibility(ResourceType.C);
-		RefreshVisibility(ResourceType.D);
+		RefreshVisibility(ResourceType.Meat);
+		RefreshVisibility(ResourceType.Rust);
+		RefreshVisibility(ResourceType.Ball);
+		RefreshVisibility(ResourceType.Dust);
 		RefreshVisibility(FindableItem.Radar);
 		RefreshVisibility(FindableItem.SuperCruise);
 		RefreshVisibility(FindableItem.Meat);
@@ -164,16 +164,16 @@ public class ResourceTopBar : MonoBehaviour
 		Vector3 endPos = transform.position;
 		switch (type)
 		{
-			case ResourceType.A:
+			case ResourceType.Meat:
 				endPos = ResourceA.transform.position;
 				break;
-			case ResourceType.B:
+			case ResourceType.Rust:
 				endPos = ResourceB.transform.position;
 				break;
-			case ResourceType.C:
+			case ResourceType.Ball:
 				endPos = ResourceC.transform.position;
 				break;
-			case ResourceType.D:
+			case ResourceType.Dust:
 				endPos = ResourceD.transform.position;
 				break;
 		}

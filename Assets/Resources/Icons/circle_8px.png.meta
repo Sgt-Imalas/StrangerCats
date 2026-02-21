@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 613ef0bc35ff012469e5ce18fe00f79c
+guid: b299894640ba9664fa6c3665d06e9ba9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2757502940167155870
-    second: pawse_bg_0
+      213: -6416788794692620340
+    second: circle_8px_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pawse_bg_0
+      name: circle_8px_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 270
-        height: 249
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 26fcd309fa16bb9d0800000000000000
-      internalID: -2757502940167155870
+      spriteID: ccfa3adb69cf2f6a0800000000000000
+      internalID: -6416788794692620340
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pawse_bg_0: -2757502940167155870
+      circle_8px_0: -6416788794692620340
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

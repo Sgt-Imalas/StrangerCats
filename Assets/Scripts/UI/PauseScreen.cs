@@ -58,7 +58,7 @@ public class PauseScreen : MonoBehaviour
 	void OnPauseScreenToggled(InputAction.CallbackContext context) => PauseGame(!IsCurrentlyPaused);
 	void PauseGame(bool setPaused)
 	{
-		if (!CanCurrentlyPause)
+		if (!CanCurrentlyPause || Global.Instance.InUpgradeMenu)
 			return;
 
 		if (setPaused)

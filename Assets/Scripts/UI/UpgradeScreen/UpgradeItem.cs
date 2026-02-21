@@ -79,19 +79,7 @@ public class UpgradeItem : MonoBehaviour
 		UnlockButton.interactable = true;
 		RefreshText();
 	}
-	public static string ToShortNumber(double number)
-	{
-		string[] suffixes = { "", "K", "M", "B", "T" };
-		int suffixIndex = 0;
-
-		while (number >= 1000 && suffixIndex < suffixes.Length - 1)
-		{
-			number /= 1000;
-			suffixIndex++;
-		}
-
-		return $"{number:0.#}{suffixes[suffixIndex]}";
-	}
+	
 	void SetUpgradeCosts()
 	{
 		if (!woke)
@@ -118,34 +106,34 @@ public class UpgradeItem : MonoBehaviour
 		foreach (var costEntry in CurrentUpgrade.GetCurrentScaledCosts())
 			dict[costEntry.Key] = costEntry.Value;
 
-		if (dict.TryGetValue(ResourceType.A, out var cost) && cost > 0)
+		if (dict.TryGetValue(ResourceType.Meat, out var cost) && cost > 0)
 		{
 			A.SetActive(true);
-			CostA.text = ToShortNumber(cost);
+			CostA.text = Global.ToShortNumber(cost);
 		}
 		else
 			A.SetActive(false);
 
-		if (dict.TryGetValue(ResourceType.B, out cost) && cost > 0)
+		if (dict.TryGetValue(ResourceType.Rust, out cost) && cost > 0)
 		{
 			B.SetActive(true);
-			CostB.text = ToShortNumber(cost);
+			CostB.text = Global.ToShortNumber(cost);
 		}
 		else
 			B.SetActive(false);
 
-		if (dict.TryGetValue(ResourceType.C, out cost) && cost > 0)
+		if (dict.TryGetValue(ResourceType.Ball, out cost) && cost > 0)
 		{
 			C.SetActive(true);
-			CostC.text = ToShortNumber(cost);
+			CostC.text = Global.ToShortNumber(cost);
 		}
 		else
 			C.SetActive(false);
 
-		if (dict.TryGetValue(ResourceType.D, out cost) && cost > 0)
+		if (dict.TryGetValue(ResourceType.Dust, out cost) && cost > 0)
 		{
 			D.SetActive(true);
-			CostD.text = ToShortNumber(cost);
+			CostD.text = Global.ToShortNumber(cost);
 		}
 		else
 			D.SetActive(false);
@@ -159,7 +147,7 @@ public class UpgradeItem : MonoBehaviour
 	}
 	void RefreshText()
 	{
-		Title.text = CurrentUpgrade?.Name + " " + (CurrentUpgrade?.Level+1);
+		Title.text = CurrentUpgrade?.Name + " lvl " + (CurrentUpgrade?.Level+1);
 
 		UpgradeDesc.SetText(CurrentUpgrade?.GetUpgradeText());
 	}

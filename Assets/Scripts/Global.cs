@@ -49,6 +49,19 @@ public class Global
 		LoadingScene = false;
 		SceneManager.sceneLoaded -= OnSceneLoadFinished;
 	}
+	public static string ToShortNumber(double number)
+	{
+		string[] suffixes = { "", "K", "M", "B", "T" };
+		int suffixIndex = 0;
+
+		while (number >= 1000 && suffixIndex < suffixes.Length - 1)
+		{
+			number /= 1000;
+			suffixIndex++;
+		}
+
+		return $"{number:0.#}{suffixes[suffixIndex]}";
+	}
 }
 
 public class StarmapShip
@@ -113,7 +126,7 @@ public class FlightStats
 
 public enum ResourceType
 {
-	A, B, C, D
+	Meat, Rust, Ball, Dust
 }
 public enum FindableItem
 {
@@ -126,15 +139,15 @@ public class MiningResourceStorage
 {
 	public static Dictionary<ResourceType, Color> ResourceInfos = new()
 	{
-		{ResourceType.A, Color.red},
-		{ResourceType.B, Color.yellow},
-		{ResourceType.C, Color.green},
-		{ResourceType.D, Color.blue}
+		{ResourceType.Meat, Color.red},
+		{ResourceType.Rust, Color.yellow},
+		{ResourceType.Ball, Color.green},
+		{ResourceType.Dust, Color.blue}
 	};
 
 	public Dictionary<ResourceType, uint> Current = new() 
 	//DEBUG!!
-	{ { ResourceType.A,999999 },{ ResourceType.B,999999 },{ ResourceType.C,999999 },{ ResourceType.D,999999 }, }
+	{ { ResourceType.Meat,999999 },{ ResourceType.Rust,999999 },{ ResourceType.Ball,999999 },{ ResourceType.Dust,999999 }, }
 	;
 
 	public event Action<ResourceType> OnResourceDiscovered;
@@ -236,9 +249,9 @@ public class GameUpgrades
 	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range",10, 1.2f)
 		.Max(5)
 		.Modifier(AttributeType.RadarRange, 100f)
-		.IncrementalCostThreshold(ResourceType.B, 0)
-		.IncrementalCostThreshold(ResourceType.A, 5)
-		.IncrementalCostThreshold(ResourceType.C, 10)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Meat, 5)
+		.IncrementalCostThreshold(ResourceType.Ball, 10)
 		.UnlockCondition(() => Global.Instance.Upgrades.RadarUnlocked)
 		;
 
@@ -246,51 +259,51 @@ public class GameUpgrades
 	public BuyableUpgrade SuperCruise = new BuyableUpgrade("Supercruise Speed", 15, 1.2f)
 		.Modifier(AttributeType.SpaceShipSuperCruiseAccelleration, 1.1f, true)
 		.Modifier(AttributeType.SpaceShipSuperCruiseSpeed, 1.25f, true)
-		.IncrementalCostThreshold(ResourceType.B, 0)
-		.IncrementalCostThreshold(ResourceType.A, 0)
-		.IncrementalCostThreshold(ResourceType.D, 10)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Meat, 0)
+		.IncrementalCostThreshold(ResourceType.Dust, 10)
 		.UnlockCondition(() => Global.Instance.Upgrades.SuperCruiseUnlocked);
 
 	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed", 10, 1.125f)
 		.Modifier(AttributeType.SpaceShipRotationSpeed, 0.15f)
-		.IncrementalCostThreshold(ResourceType.B, 0)
-		.IncrementalCostThreshold(ResourceType.C, 10)
-		.IncrementalCostThreshold(ResourceType.D, 20);
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Ball, 10)
+		.IncrementalCostThreshold(ResourceType.Dust, 20);
 
 
 	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport", 20, 1.3f)
-		.IncrementalCostThreshold(ResourceType.B, 0)
-		.IncrementalCostThreshold(ResourceType.A, 3)
-		.IncrementalCostThreshold(ResourceType.D, 15)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Meat, 3)
+		.IncrementalCostThreshold(ResourceType.Dust, 15)
 		.Modifier(AttributeType.LifeTime, 60f);
 
 	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 10, 1.125f)
-		.IncrementalCostThreshold(ResourceType.B, 0)
-		.IncrementalCostThreshold(ResourceType.C, 10)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Ball, 10)
 		.Modifier(AttributeType.PodSpeed, 50f);
 
 	public BuyableUpgrade LaserRange = new BuyableUpgrade("Laser Reach", 40, 1.2f)
-		.IncrementalCostThreshold(ResourceType.C, 0)
-		.IncrementalCostThreshold(ResourceType.D, 0)
+		.IncrementalCostThreshold(ResourceType.Ball, 0)
+		.IncrementalCostThreshold(ResourceType.Dust, 0)
 		.Modifier(AttributeType.LaserRange, 50f);
 
 	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage", 30, 1.2f)
-		.IncrementalCostThreshold(ResourceType.B, 0)
-		.IncrementalCostThreshold(ResourceType.A, 0)
-		.IncrementalCostThreshold(ResourceType.D, 10)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Meat, 0)
+		.IncrementalCostThreshold(ResourceType.Dust, 10)
 		.Modifier(AttributeType.DigDamage, 50f);
 
 	public BuyableUpgrade LaserSpeed = new BuyableUpgrade("Laser Fire Rate", 30, 1.2f)
-		.IncrementalCostThreshold(ResourceType.B, 12)
-		.IncrementalCostThreshold(ResourceType.A, 0)
-		.IncrementalCostThreshold(ResourceType.C, 6)
+		.IncrementalCostThreshold(ResourceType.Rust, 12)
+		.IncrementalCostThreshold(ResourceType.Meat, 0)
+		.IncrementalCostThreshold(ResourceType.Ball, 6)
 		.Modifier(AttributeType.FireRate, -0.1f);
 
 	public BuyableUpgrade ResourceYield = new BuyableUpgrade("Resource Yield", 50, 1.5f)
-		.IncrementalCostThreshold(ResourceType.A, 0)
-		.IncrementalCostThreshold(ResourceType.B, 0)
-		.IncrementalCostThreshold(ResourceType.C, 0)
-		.IncrementalCostThreshold(ResourceType.D, 0)
+		.IncrementalCostThreshold(ResourceType.Meat, 0)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Ball, 0)
+		.IncrementalCostThreshold(ResourceType.Dust, 0)
 		.Modifier(AttributeType.ResourceTileMultiplier, 1.25f, true);
 }
 
@@ -305,16 +318,16 @@ public class BuyableUpgrade
 			if(cost.Value <= this.Level) { 
 				switch (cost.Key)
 				{
-					case ResourceType.A:
+					case ResourceType.Meat:
 						Level.A = (uint)Mathf.Round(BaseCost * scale);
 						break;
-					case ResourceType.B:
+					case ResourceType.Rust:
 						Level.B = (uint)Mathf.Round(BaseCost * scale);
 						break;
-					case ResourceType.C:
+					case ResourceType.Ball:
 						Level.C = (uint)Mathf.Round(BaseCost * scale);
 						break;
-					case ResourceType.D:
+					case ResourceType.Dust:
 						Level.D = (uint)Mathf.Round(BaseCost * scale);
 						break;
 				}
@@ -435,10 +448,10 @@ public struct ResourceLevel : IEnumerable
 
 	public IEnumerator<KeyValuePair<ResourceType, uint>> GetEnumerator()
 	{
-		yield return new(ResourceType.A, A);
-		yield return new(ResourceType.B, B);
-		yield return new(ResourceType.C, C);
-		yield return new(ResourceType.D, D);
+		yield return new(ResourceType.Meat, A);
+		yield return new(ResourceType.Rust, B);
+		yield return new(ResourceType.Ball, C);
+		yield return new(ResourceType.Dust, D);
 	}
 
 	IEnumerator IEnumerable.GetEnumerator()
