@@ -18,7 +18,9 @@ public class MapGenerator : MonoBehaviour
 
 	public PlanetDescriptor debugPlanetGen;
 
-	public void Apply(Dictionary<Vector3Int, int> materials, int size, PlanetDescriptor descriptor)
+	public bool generateEnemies = false;
+
+	public void Apply(Dictionary<Vector3Int, int> materials, Vector2 center, int size, PlanetDescriptor descriptor)
 	{
 		if (Materials.materials == null)
 		{
@@ -90,18 +92,74 @@ public class MapGenerator : MonoBehaviour
 			}
 		}
 
+		if (generateEnemies && descriptor.enemyPreset != null)
+			SpawnEnemies(materials, tileMap, center, size, descriptor);
+
 		if (GlobalEvents.Instance != null)
 			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
 
 		//DestructibleTerrain.Instance.ApplyNewMap(materials);
 	}
 
+	private static Vector3Int[] offsets =
+	{
+		Vector3Int.up,
+		Vector3Int.left,
+		Vector3Int.down,
+		Vector3Int.right,
+	};
+
+	private void SpawnEnemies(Dictionary<Vector3Int, int> materials, Tilemap tilemap, Vector2 center, int size, PlanetDescriptor descriptor)
+	{
+
+		var enemiesSpawned = 0;
+		var attempts = 255;
+
+		HashSet<Vector3Int> claimedPositions = new();
+
+		while (attempts-- > 0 && enemiesSpawned < 1)
+		{
+			var randomSpot = 0.35f * size * Random.insideUnitCircle;
+			randomSpot += center;
+
+			var position = new Vector3Int((int)randomSpot.x, (int)randomSpot.y);
+
+			if (claimedPositions.Contains(position))
+				continue;
+
+			claimedPositions.Add(position);
+
+			if (materials.ContainsKey(position))
+				continue;
+
+			foreach (var offset in offsets)
+			{
+				var cell = position + offset;
+				if (!materials.ContainsKey(cell))
+				{
+					continue;
+				}
+				else
+				{
+					var enemy = Object.Instantiate(descriptor.enemyPreset);
+					enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
+					enemy.gameObject.SetActive(true);
+
+					enemiesSpawned++;
+
+					var muncher = enemy.GetComponent<RustMuncher>();
+					muncher.SetHome(cell, offset);
+				}
+			}
+		}
+	}
+
 	void Update()
 	{
 		if (Global.Instance != null && Global.Instance.loadPlanet != null)
 		{
-			Global.Instance.loadPlanet.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, this);
-			Apply(mats, size, Global.Instance.loadPlanet);
+			Global.Instance.loadPlanet.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, out var center, this);
+			Apply(mats, center, size, Global.Instance.loadPlanet);
 
 			Global.Instance.loadPlanet = null;
 		}
@@ -111,8 +169,8 @@ public class MapGenerator : MonoBehaviour
 			//Generate(Random.Range(0, 999999), 64, out var materials);
 			if (debugPlanetGen != null)
 			{
-				debugPlanetGen.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, this);
-				Apply(mats, size, debugPlanetGen);
+				debugPlanetGen.GenerateWorld(Random.Range(0, 999999), out var mats, out var size, out var center, this);
+				Apply(mats, center, size, debugPlanetGen);
 			}
 			else
 				Debug.LogWarning("no debug world defined.");

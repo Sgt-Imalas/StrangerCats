@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -10,6 +11,7 @@ namespace Assets.Scripts
 
 		public Attributes.OnAttributeChangedDelegate OnPlayerAttributesChanged;
 		public OnNewMapGeneratedDelegate OnNewMapGenerated;
+		public Action<Vector3Int> OnTileDestroyed;
 
 		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials);
 
