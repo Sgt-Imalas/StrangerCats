@@ -1,8 +1,10 @@
+using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering.Universal;
 
 public class MusicManager : MonoBehaviour
 {
@@ -62,30 +64,63 @@ public class MusicManager : MonoBehaviour
 			return;
 		}
 
+
 		var song = Instance.Songs[index];
 
 		//Instance.audioSource.outputAudioMixerGroup = Instance.AudioMixer.FindMatchingGroups("Music")[0];
 
-		Instance.CancelActiveTransition();
-		Instance.StartCoroutine(Instance.Crossfade(song.GetSound(), fadeDuration));
+		//Instance.CancelActiveTransition();
+
+		Instance.PlayOrQueue(song.GetSound(), fadeDuration);
 	}
 	public static void PlayFx(AudioClip sound, float volume = 1.0f)
 	{
 		Instance.SfxSource.PlayOneShot(sound, volume);
 	}
 
-	void CancelActiveTransition()
+	Queue<Tuple<AudioClip, float>> Queued = new();
+	void PlayOrQueue(AudioClip clip, float fadeDuration)
 	{
-		if (Instance.CurrentCrossfade != null)
-			Instance.StopCoroutine(Instance.CurrentCrossfade);
+
+		if(CurrentCrossfade != null)
+			Queued.Enqueue(new(clip, fadeDuration));
+		
+		else
+			CurrentCrossfade = StartCoroutine(Instance.Crossfade(clip, fadeDuration));
+	}
+
+	//void CancelActiveTransition()
+	//{
+	//	if (Instance.CurrentCrossfade != null)
+	//	{
+	//		Debug.Log("Canceling current transition");
+	//		Instance.StopCoroutine(Instance.CurrentCrossfade);
+	//		OnCrossfadeComplete();
+	//	}
+	//}
+	void OnCrossfadeComplete()
+	{
+		activeSource.Stop();
+		activeSource.volume = Volume;
+		inactiveSource.volume = Volume;
+		AudioSource temp = activeSource;
+		activeSource = inactiveSource;
+		inactiveSource = temp;
+		CurrentCrossfade = null;
+
+		var next = Queued.Dequeue();
+		if (next != null)
+			PlayOrQueue(next.Item1,next.Item2);
 	}
 
 	Coroutine CurrentCrossfade;
 
 	private IEnumerator Crossfade(AudioClip newClip, float duration)
 	{
+		Debug.Log("now playing song: " + newClip.name);
+		inactiveSource.Stop();
 		inactiveSource.clip = newClip;
-		inactiveSource.volume = 0f;
+		inactiveSource.volume = 0.001f;
 		inactiveSource.Play();
 
 		var time = 0f;
@@ -101,13 +136,7 @@ public class MusicManager : MonoBehaviour
 
 			yield return null;
 		}
-
-		activeSource.Stop();
-		activeSource.volume = Volume;
-
-		AudioSource temp = activeSource;
-		activeSource = inactiveSource;
-		inactiveSource = temp;
+		OnCrossfadeComplete();
 	}
 
 

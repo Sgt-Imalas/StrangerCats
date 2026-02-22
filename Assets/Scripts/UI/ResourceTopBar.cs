@@ -70,7 +70,7 @@ public class ResourceTopBar : MonoBehaviour
 	void PlayCollectSound()
 	{
 		if(Collecc != null)
-			MusicManager.PlayFx(Collecc, 0.5f);
+			MusicManager.PlayFx(Collecc, 0.3f);
 	}
 	void OnResourceCollected(ResourceType type, uint amount)
 	{
