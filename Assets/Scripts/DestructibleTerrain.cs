@@ -131,6 +131,7 @@ public class DestructibleTerrain : MonoBehaviour
 				tileMap.SetTiles(data, false);
 			}
 
+
 			cracksTileMap.RefreshAllTiles();
 
 			queuedToDamage.Clear();

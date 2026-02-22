@@ -3,83 +3,78 @@
 namespace Assets.Scripts
 {
 
-	namespace DiceyTiles.Scripts
+	[DefaultExecutionOrder(1000)]
+	public class Health : MonoBehaviour
 	{
-		public class Health : MonoBehaviour
+		public OnHealthChangedEventHandler OnHealthChanged;
+		public OnDeathEventHandler OnDeath;
+		public OnHurtEventHandler OnHurt;
+
+		public delegate void OnHealthChangedEventHandler(float healthDelta);
+		public delegate void OnDeathEventHandler();
+		public delegate void OnHurtEventHandler(bool fatal);
+
+		[SerializeField] public float maxHP;
+		[SerializeField] public float currentHP;
+		[SerializeField] public bool isDead;
+		[SerializeField] public HPBar healthIndicator;
+
+		public float GetHealthPercent() => currentHP / maxHP;
+
+		public bool IsFullHealth() => currentHP >= maxHP;
+
+		public float GetTotalHealth() => currentHP;
+
+		public void Heal(float hp)
 		{
-			public OnHealthChangedEventHandler OnHealthChanged;
-			public OnDeathEventHandler OnDeath;
-			public OnHurtEventHandler OnHurt;
+			if (IsFullHealth())
+				return;
 
-			public delegate void OnHealthChangedEventHandler(float healthDelta);
-			public delegate void OnDeathEventHandler();
-			public delegate void OnHurtEventHandler(bool fatal);
+			var delta = AddHP(hp);
+		}
 
-			[SerializeField] public float maxHP;
-			[SerializeField] public float currentHP;
-			[SerializeField] public bool isDead;
-			[SerializeField] public Transform healthIndicator;
+		public float SetHP(float hp, bool triggerEvent = true)
+		{
+			var previousHP = currentHP;
 
-			public float GetHealthPercent() => currentHP / maxHP;
+			currentHP = hp;
+			currentHP = Mathf.Min(currentHP, maxHP);
 
-			public bool IsFullHealth() => currentHP >= maxHP;
-
-			public float GetTotalHealth() => currentHP;
-
-			public void Heal(float hp)
+			if (triggerEvent)
 			{
-				if (IsFullHealth())
-					return;
+				OnHealthChanged?.Invoke(currentHP - previousHP);
 
-				var delta = AddHP(hp);
-			}
-
-			public float SetHP(float hp, bool triggerEvent = true)
-			{
-				var previousHP = currentHP;
-
-				currentHP = hp;
-				currentHP = Mathf.Min(currentHP, maxHP);
-
-				if (triggerEvent)
+				if (currentHP <= 0)
 				{
-					OnHealthChanged?.Invoke(currentHP - previousHP);
-
-					if (currentHP <= 0)
-					{
-						isDead = true;
-						OnDeath?.Invoke();
-					}
+					isDead = true;
+					OnDeath?.Invoke();
 				}
-
-				return currentHP - previousHP;
 			}
 
-			private float AddHP(float hp) => SetHP(currentHP + hp);
+			return currentHP - previousHP;
+		}
 
-			public void Damage(float damage)
-			{
-				var damageReduction = (damage);
-				damage -= damageReduction;
+		private float AddHP(float hp) => SetHP(currentHP + hp);
 
-				if (damage == 0)
-					return;
+		public void Damage(float damage)
+		{
+			if (damage == 0)
+				return;
 
-				if (healthIndicator != null && IsFullHealth())
-					healthIndicator.parent.gameObject.SetActive(true);
+			if (healthIndicator != null && IsFullHealth())
+				healthIndicator.gameObject.SetActive(true);
 
-				AddHP(-damage);
+			AddHP(-damage);
 
-				OnHurt?.Invoke(GetTotalHealth() <= 0);
+			OnHurt?.Invoke(GetTotalHealth() <= 0);
 
-				healthIndicator.localScale = new Vector3(GetHealthPercent() * 10.0f, 1.0f, 1.0f);
-			}
+			healthIndicator.SetPercent(GetHealthPercent());
+		}
 
-			public void SetMaxHP(int health, bool triggerEvent = true)
-			{
-				maxHP = health;
-				SetHP(maxHP, triggerEvent);
-			}
+		public void SetMaxHP(int health, bool triggerEvent = true)
+		{
+			maxHP = health;
+			SetHP(maxHP, triggerEvent);
 		}
 	}
 }

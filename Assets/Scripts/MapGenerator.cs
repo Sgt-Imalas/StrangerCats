@@ -29,12 +29,14 @@ public class MapGenerator : MonoBehaviour
 
 		tileMap.ClearAllTiles();
 
-
 		var tex = new Texture2D(size, size, TextureFormat.R16, false, true);
 		tex.filterMode = FilterMode.Point;
 		tex.wrapMode = TextureWrapMode.Clamp;
 
 		//var tilePositions = new List<Vector3Int>();
+
+		if (generateEnemies && descriptor.enemyPreset != null)
+			SpawnEnemies(materials, tileMap, center, size, descriptor);
 
 		foreach (var mat in materials)
 		{
@@ -62,6 +64,7 @@ public class MapGenerator : MonoBehaviour
 		//Shader.SetGlobalTexture("_AsteroidBGMask", backgroundTextureMask);
 
 		//tileMap.SetTiles(tilePositions.ToArray(), new TileBase[] { terrainTile });
+
 
 
 		tileMap.CompressBounds();
@@ -92,36 +95,43 @@ public class MapGenerator : MonoBehaviour
 			}
 		}
 
-		if (generateEnemies && descriptor.enemyPreset != null)
-			SpawnEnemies(materials, tileMap, center, size, descriptor);
-
 		if (GlobalEvents.Instance != null)
 			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
 
 		//DestructibleTerrain.Instance.ApplyNewMap(materials);
 	}
 
-	private static Vector3Int[] offsets =
-	{
-		Vector3Int.up,
-		Vector3Int.left,
-		Vector3Int.down,
-		Vector3Int.right,
-	};
-
 	private void SpawnEnemies(Dictionary<Vector3Int, int> materials, Tilemap tilemap, Vector2 center, int size, PlanetDescriptor descriptor)
 	{
-
 		var enemiesSpawned = 0;
 		var attempts = 255;
 
 		HashSet<Vector3Int> claimedPositions = new();
 
-		while (attempts-- > 0 && enemiesSpawned < 1)
+		if (descriptor.gizmoPrefab != null)
 		{
 			var randomSpot = 0.35f * size * Random.insideUnitCircle;
 			randomSpot += center;
+			var position = new Vector3Int((int)randomSpot.x, (int)randomSpot.y);
 
+			if (descriptor.gizmoPrefab.TryGetComponent(out ISpawnRules rules))
+			{
+				if (rules.CanSpawnHere(position, materials, out var data))
+				{
+					var enemy = Object.Instantiate(descriptor.gizmoPrefab);
+					enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
+					enemy.gameObject.SetActive(true);
+
+					enemy.GetComponent<ISpawnRules>().ConfigureSpawn(position, materials, claimedPositions, data);
+					Global.Instance.entities.Add(enemy);
+				}
+			}
+		}
+
+		while (attempts-- > 0 && enemiesSpawned < descriptor.enemiesToSpawn)
+		{
+			var randomSpot = 0.35f * size * Random.insideUnitCircle;
+			randomSpot += center;
 			var position = new Vector3Int((int)randomSpot.x, (int)randomSpot.y);
 
 			if (claimedPositions.Contains(position))
@@ -129,26 +139,16 @@ public class MapGenerator : MonoBehaviour
 
 			claimedPositions.Add(position);
 
-			if (materials.ContainsKey(position))
-				continue;
-
-			foreach (var offset in offsets)
+			if (descriptor.enemyPreset.TryGetComponent(out ISpawnRules rules))
 			{
-				var cell = position + offset;
-				if (!materials.ContainsKey(cell))
-				{
-					continue;
-				}
-				else
+				if (rules.CanSpawnHere(position, materials, out var data))
 				{
 					var enemy = Object.Instantiate(descriptor.enemyPreset);
 					enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
 					enemy.gameObject.SetActive(true);
 
-					enemiesSpawned++;
-
-					var muncher = enemy.GetComponent<RustMuncher>();
-					muncher.SetHome(cell, offset);
+					enemy.GetComponent<ISpawnRules>().ConfigureSpawn(position, materials, claimedPositions, data);
+					Global.Instance.entities.Add(enemy);
 				}
 			}
 		}

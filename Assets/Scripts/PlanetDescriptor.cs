@@ -17,6 +17,9 @@ namespace Assets.Scripts
 		public int innerRadius = 40;
 		public GenerationPreset generationPreset;
 		public GameObject enemyPreset;
+		public GameObject gizmoPrefab;
+		public int enemiesToSpawn = 32;
+
 
 		public float boneNoiseScale = 1.45f, boneAmpl = 7.78f, boneThreshold = 0.1f;
 
@@ -51,6 +54,7 @@ namespace Assets.Scripts
 					GenerateIridiumWorld(seed, out materials, out size, generator, out center);
 					break;
 			}
+
 			MusicManager.PlayNewSong(MusicIndex);
 		}
 

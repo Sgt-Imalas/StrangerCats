@@ -21,6 +21,8 @@ public class Global
 		}
 	}
 
+	public List<GameObject> entities = new();
+
 	public StarmapShip Spaceship = new();
 	public MiningResourceStorage SpaceshipResources = new();
 	public GameUpgrades Upgrades = new GameUpgrades();
@@ -61,7 +63,7 @@ public class Global
 	public static string ToShortNumber(double number)
 	{
 		string[] suffixes = { "", "K", "M", "B", "T" };
-		int suffixIndex = 0;
+		var suffixIndex = 0;
 
 		while (number >= 1000 && suffixIndex < suffixes.Length - 1)
 		{
@@ -256,7 +258,7 @@ public class GameUpgrades
 
 
 
-	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range",10, 1.2f)
+	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range", 10, 1.2f)
 		.Max(5)
 		.Modifier(AttributeType.RadarRange, 100f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
@@ -322,10 +324,11 @@ public class BuyableUpgrade
 	public ResourceLevel GetCurrentScaledCosts()
 	{
 		var Level = new ResourceLevel();
-		float scale = Mathf.Pow(CostScaling, this.Level);
+		var scale = Mathf.Pow(CostScaling, this.Level);
 		foreach (var cost in CostAdditionThresholds)
 		{
-			if(cost.Value <= this.Level) { 
+			if (cost.Value <= this.Level)
+			{
 				switch (cost.Key)
 				{
 					case ResourceType.Meat:

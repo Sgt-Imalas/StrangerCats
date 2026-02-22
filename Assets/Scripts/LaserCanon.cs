@@ -113,8 +113,16 @@ public class LaserCanon : MonoBehaviour
 
 		if (hit.collider != null)
 		{
-			var insidePoint = hit.point - hit.normal;
-			DestructibleTerrain.Instance.DamageTileAt(insidePoint, 0.5f);
+			var damage = PersistentPlayer.GetAttribute(AttributeType.DigDamage);
+			if (hit.collider.TryGetComponent(out Health health))
+			{
+				health.Damage(damage);
+			}
+			else
+			{
+				var insidePoint = hit.point - hit.normal;
+				DestructibleTerrain.Instance.DamageTileAt(insidePoint, damage);
+			}
 		}
 
 		_timeSinceLastProjectile = 0.0f;
@@ -177,7 +185,7 @@ public class LaserCanon : MonoBehaviour
 				var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
 				sparkLight.transform.SetPositionAndRotation(endPoint, Quaternion.Euler(0f, 0f, angle + 90f));
-				
+
 				impactSparklerSound.Stop();
 			}
 

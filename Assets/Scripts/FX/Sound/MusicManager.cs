@@ -1,12 +1,8 @@
-
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Audio;
-using static Unity.VisualScripting.Member;
 
 public class MusicManager : MonoBehaviour
 {
@@ -43,6 +39,7 @@ public class MusicManager : MonoBehaviour
 		inactiveSource = MusicSourceB;
 		Volume = activeSource.volume;
 
+
 	}
 
 	private void Start()
@@ -59,9 +56,7 @@ public class MusicManager : MonoBehaviour
 
 	public static void PlayNewSong(int index, float fadeDuration = 3f)
 	{
-		if (Instance == null)
-			return;
-		if (Instance.Songs == null || Instance.Songs.Length <= index)
+		if (Instance == null || Instance.Songs == null || Instance.Songs.Length <= index)
 		{
 			Debug.LogWarning($"Invalid song index: {index}. Cannot play music.");
 			return;
@@ -93,13 +88,13 @@ public class MusicManager : MonoBehaviour
 		inactiveSource.volume = 0f;
 		inactiveSource.Play();
 
-		float time = 0f;
-		float startVolume = activeSource.volume;
+		var time = 0f;
+		var startVolume = activeSource.volume;
 
 		while (time < duration)
 		{
 			time += Time.deltaTime;
-			float t = time / duration;
+			var t = time / duration;
 
 			activeSource.volume = Mathf.Lerp(startVolume, 0f, t);
 			inactiveSource.volume = Mathf.Lerp(0f, Volume, t);
