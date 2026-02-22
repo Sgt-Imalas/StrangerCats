@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UpgradeScreen : MonoBehaviour
 {
+	public AudioClip BuySound;
 	//starship
 	UpgradeItem
 		Radar, //unlockable, reveals pois
@@ -99,10 +100,18 @@ public class UpgradeScreen : MonoBehaviour
 		}
 		Global.Instance.InUpgradeMenu = true;
 		Time.timeScale = 0;
+		Global.Instance.OnUpgradePurchased += OnItemBought;
 	}
+	void OnItemBought()
+	{
+		if (BuySound != null)
+			MusicManager.PlayFx(BuySound);
+	}
+
 	private void OnDisable()
 	{
 		Global.Instance.InUpgradeMenu = false;
 		Time.timeScale = 1;
+		Global.Instance.OnUpgradePurchased -= OnItemBought;
 	}
 }

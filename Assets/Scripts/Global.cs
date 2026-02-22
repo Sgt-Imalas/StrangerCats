@@ -46,6 +46,11 @@ public class Global
 		SceneManager.LoadScene("Starmap");
 	}
 
+	internal void UpgradePurchased()
+	{
+		OnUpgradePurchased?.Invoke();
+	}
+	public event Action OnUpgradePurchased;
 	public void StartLoadingMainMenu()
 	{
 		Debug.Log("Loading Main Menu");
@@ -73,6 +78,7 @@ public class Global
 
 		return $"{number:0.#}{suffixes[suffixIndex]}";
 	}
+
 }
 
 public class StarmapShip
@@ -269,7 +275,7 @@ public class GameUpgrades
 
 	//flat value is mult
 	public BuyableUpgrade SuperCruise = new BuyableUpgrade("Supercruise Speed", 75, 1.2f)
-		.Modifier(AttributeType.SpaceShipSuperCruiseSpeed, 0.25f)
+		.Modifier(AttributeType.SpaceShipSuperCruiseSpeed, 0.10f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Meat, 0)
 		.IncrementalCostThreshold(ResourceType.Dust, 20)
@@ -425,6 +431,7 @@ public class BuyableUpgrade
 				PersistentPlayer.AddModifier(mod);
 			}
 		}
+		Global.Instance.UpgradePurchased();
 	}
 
 	public bool IsMaxed()

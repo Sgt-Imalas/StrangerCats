@@ -57,6 +57,7 @@ public class ShipControllerStarmap : MonoBehaviour
 
 	}
 	public float CachedRotationSpeedMultiplier = 1;
+	public float CachedSupercruiseBoostMultiplier = 1;
 
 	private void OnPlayerAttributesChanged(AttributeType type, float finalValue)
 	{
@@ -64,7 +65,13 @@ public class ShipControllerStarmap : MonoBehaviour
 		{
 			case AttributeType.SpaceShipRotationSpeed:
 				CachedRotationSpeedMultiplier = finalValue;
+				ApplyModeChanges(Global.Instance.Spaceship.CurrentMode);
 				break;
+			case AttributeType.SpaceShipSuperCruiseSpeed:
+				CachedSupercruiseBoostMultiplier = finalValue;
+				ApplyModeChanges(Global.Instance.Spaceship.CurrentMode);
+				break;
+
 		}
 	}
 
@@ -147,16 +154,24 @@ public class ShipControllerStarmap : MonoBehaviour
 	}
 	void ApplyModeChanges(FlightStats mode)
 	{
-		RotationSpeed = mode.RotationSpeed;
+		RotationSpeed = mode.RotationSpeed * CachedRotationSpeedMultiplier;
 		AccellerationSpeed = mode.Accelleration;
 		MaxVelocity = mode.MaxVelocity;
 
+		if (!PrecisionFlyMode)
+		{
+			AccellerationSpeed *= CachedSupercruiseBoostMultiplier;
+			MaxVelocity *= CachedSupercruiseBoostMultiplier;
+		}
+
+
 		rb.linearDamping = mode.LinearDampening;
-
-		Global.Instance.Spaceship.CurrentMode = mode;
-
-		if (CameraAnimator != null)
-			CameraAnimator.AnimateOffsetChange(mode.CameraOffset, 0.25f);
+		if (Global.Instance.Spaceship.CurrentMode != mode)
+		{
+			Global.Instance.Spaceship.CurrentMode = mode;
+			if (CameraAnimator != null)
+				CameraAnimator.AnimateOffsetChange(mode.CameraOffset, 0.25f);
+		}
 	}
 
 	private void FixedUpdate()
@@ -189,7 +204,7 @@ public class ShipControllerStarmap : MonoBehaviour
 			float newAngle = Mathf.MoveTowardsAngle(
 				currentAngle,
 				targetAngle,
-				RotationSpeed * Time.fixedDeltaTime * CachedRotationSpeedMultiplier
+				RotationSpeed * Time.fixedDeltaTime
 			);
 			transform.rotation = Quaternion.Euler(0f, 0f, newAngle);
 
@@ -202,8 +217,8 @@ public class ShipControllerStarmap : MonoBehaviour
 			if (movementDirection != Vector2.zero)
 				CurrentThrust = 60 * Time.fixedDeltaTime * AccellerationSpeed * rb.mass * movementDirection;
 			//else
-				//rb.linearVelocity *= 1f - (1f/20f) * Time.fixedDeltaTime;
-			
+			//rb.linearVelocity *= 1f - (1f/20f) * Time.fixedDeltaTime;
+
 		}
 		else if (PrecisionFlyMode)
 		{
@@ -226,7 +241,7 @@ public class ShipControllerStarmap : MonoBehaviour
 	}
 	void RefreshEngineParticles()
 	{
-		float emissionRate = CurrentThrust.magnitude;
+		float emissionRate = Mathf.Clamp(CurrentThrust.magnitude,0,100);
 		for (int i = 0; i < PrecisionEngineEmissions.Count; i++)
 		{
 			var emission = PrecisionEngineEmissions[i].emission;
