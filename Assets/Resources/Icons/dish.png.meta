@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 661e19a5f78a4f4459404b6a5795cdd1
+guid: 27b1a12c51abc8a4ea8981d260a72cc7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2844531463381759980
-    second: meat_0
+      213: -2798507893268480548
+    second: dish_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +40,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: meat_0
+      name: dish_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 11
-        height: 7
+        width: 14
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 41845bc74b13688d0800000000000000
-      internalID: -2844531463381759980
+      spriteID: cddfa90f5e3b929d0800000000000000
+      internalID: -2798507893268480548
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d5af55e557750be4ea7f8dc1ed6fbbb2
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      meat_0: -2844531463381759980
+      dish_0: -2798507893268480548
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

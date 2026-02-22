@@ -6291,7 +6291,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6740822786564916747, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
       propertyPath: baseValues.Array.data[1].value
-      value: 1000
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7733904875685831268, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9111,7 +9111,8 @@ MonoBehaviour:
   m_text: 'Tip:
 
 
-    Pour the liquid Schwartz into your fuel tank with Q to go into supercruise mode'
+    Pour the liquid Schwartz into your fuel tank with Q to go into
+    supercruise mode'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -9345,20 +9346,23 @@ MonoBehaviour:
   m_text: 'Your quest incomplete still is.
 
 
-    All the legendary items, you have not.
+    All the legendary items, you have
+    not.
 
 
     Collecting them, you must!
 
 
-    Revealing themselves, they will in time.
+    Revealing themselves, they will in
+    time.
 
 
     Improving your spaceship, you should!
 
 
 
-    Better chances it will give you in finding them!'
+    Better chances it will
+    give you in finding them!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
