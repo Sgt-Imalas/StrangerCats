@@ -7,7 +7,6 @@ public class HintDialogue : MonoBehaviour
 {
 	[SerializeField] TalkingEffect TalkingOutput;
 	[SerializeField] Button Confirm;
-	TextMeshProUGUI ButtonText;
 
 	const string SchwarzHint = "Tip:\r\n\r\nPour the liquid Schwartz into your fuel tank with Q to go into supercruise mode";
 
@@ -16,7 +15,6 @@ public class HintDialogue : MonoBehaviour
 	{
 		instance = this;
 
-		ButtonText = Confirm.GetComponentInChildren<TextMeshProUGUI>();
 		TalkingOutput.OnTypingCompleted += OnTalkingComplete;
 		Confirm.onClick.AddListener(OnConfirm);
 		this.gameObject.SetActive(false);

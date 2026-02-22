@@ -2,6 +2,7 @@ using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering.Universal;
@@ -108,6 +109,8 @@ public class MusicManager : MonoBehaviour
 		inactiveSource = temp;
 		CurrentCrossfade = null;
 
+		if (!Queued.Any())
+			return;
 		var next = Queued.Dequeue();
 		if (next != null)
 			PlayOrQueue(next.Item1,next.Item2);

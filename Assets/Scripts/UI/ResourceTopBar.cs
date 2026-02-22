@@ -17,6 +17,7 @@ public class ResourceTopBar : MonoBehaviour
 	public GameObject UpgradeScreen;
 	public GameObject Radar, SuperCruise, MeatWorldItem, TennisWorldItem, DesertWorldItem;
 	public AudioClip Collecc;
+	public CardAnimation Card_Radar, Card_SuperCruise, Card_MeatWorldItem, Card_TennisWorldItem, Card_DesertWorldItem;
 
 	private void Awake()
 	{
@@ -34,7 +35,37 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceDiscovered += RefreshVisibility;
 		Global.Instance.SpaceshipResources.OnResourceCollected += OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent += OnResourceSpent;
-		Global.Instance.Upgrades.OnItemCollected += RefreshVisibility;
+		Global.Instance.Upgrades.OnItemCollected += OnItemCollected;
+	}
+
+	private void OnItemCollected(FindableItem item)
+	{
+		StartCoroutine(AnimateItemCollection(item));
+	}
+	IEnumerator AnimateItemCollection(FindableItem item)
+	{
+		switch (item)
+		{
+			case FindableItem.None:
+				yield break;
+			case FindableItem.Radar:
+				Card_Radar?.gameObject.SetActive(true); 
+				break;
+			case FindableItem.SuperCruise:
+				Card_SuperCruise?.gameObject.SetActive(true);
+				break;
+			case FindableItem.Meat:
+				Card_MeatWorldItem?.gameObject.SetActive(true);
+				break;
+			case FindableItem.Tennis:
+				Card_TennisWorldItem?.gameObject.SetActive(true);
+				break;
+			case FindableItem.Desert:
+				Card_DesertWorldItem?.gameObject.SetActive(true);
+				break;
+		}
+		yield return new WaitForSeconds(5);
+		RefreshVisibility(item);
 	}
 
 	private void OnToggleUpgradeScreen(InputAction.CallbackContext _)
@@ -56,7 +87,7 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceDiscovered -= RefreshVisibility;
 		Global.Instance.SpaceshipResources.OnResourceCollected -= OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent -= OnResourceSpent;
-		Global.Instance.Upgrades.OnItemCollected -= RefreshVisibility;
+		Global.Instance.Upgrades.OnItemCollected -= OnItemCollected;
 	}
 	private void OnEnable()
 	{

@@ -95,7 +95,7 @@ public class PawtalDialogue : MonoBehaviour
 
 	IEnumerator DelayedSuperCruiseDialogue()
 	{
-		yield return new WaitForSecondsRealtime(1);
+		yield return new WaitForSecondsRealtime(6);
 		HintDialogue.ShowSuperCruiseDialogue();
 	}
 
