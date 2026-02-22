@@ -16,7 +16,7 @@ public class ResourceTopBar : MonoBehaviour
 	private PlayerControls controls;
 	public GameObject UpgradeScreen;
 	public GameObject Radar, SuperCruise, MeatWorldItem, TennisWorldItem, DesertWorldItem;
-	public AudioClip Collecc;
+	public AudioClip Collecc, ColleccItem;
 	public CardAnimation Card_Radar, Card_SuperCruise, Card_MeatWorldItem, Card_TennisWorldItem, Card_DesertWorldItem;
 
 	private void Awake()
@@ -64,7 +64,11 @@ public class ResourceTopBar : MonoBehaviour
 				Card_DesertWorldItem?.gameObject.SetActive(true);
 				break;
 		}
-		yield return new WaitForSeconds(5);
+
+		yield return new WaitForSeconds(0.25f);
+		if (ColleccItem != null)
+			MusicManager.PlayFx(ColleccItem, 0.3f);
+		yield return new WaitForSeconds(4.75f);
 		RefreshVisibility(item);
 	}
 

@@ -437,6 +437,12 @@ MonoBehaviour:
   TennisWorldItem: {fileID: 6340804526498493104}
   DesertWorldItem: {fileID: 2676840058460077496}
   Collecc: {fileID: 8300000, guid: 0af60f8530c63a246b4e3ce654d80e78, type: 3}
+  ColleccItem: {fileID: 8300000, guid: 83f8d830a7ab26e4f8c89d42f3c6f9ab, type: 3}
+  Card_Radar: {fileID: 0}
+  Card_SuperCruise: {fileID: 0}
+  Card_MeatWorldItem: {fileID: 0}
+  Card_TennisWorldItem: {fileID: 0}
+  Card_DesertWorldItem: {fileID: 0}
 --- !u!114 &8245685152644895751
 MonoBehaviour:
   m_ObjectHideFlags: 0

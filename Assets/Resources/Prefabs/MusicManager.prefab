@@ -48,7 +48,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -145,7 +145,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -243,7 +243,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
   Songs:
   - name: 
-    MusicFiles: []
+    MusicFiles:
+    - {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
+  - name: 
+    MusicFiles:
+    - {fileID: 8300000, guid: 5a0365375937d8d42ba102d9ca001816, type: 3}
+  - name: 
+    MusicFiles:
+    - {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
+  - name: 
+    MusicFiles:
+    - {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
+  - name: 
+    MusicFiles:
+    - {fileID: 8300000, guid: 0778d87b9c4920d4f98d7d4ed20b472a, type: 3}
   SFX: []
   MusicSourceA: {fileID: 7069195662367948051}
   MusicSourceB: {fileID: 3731417225126821153}

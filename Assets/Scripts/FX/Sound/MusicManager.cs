@@ -82,10 +82,12 @@ public class MusicManager : MonoBehaviour
 	Queue<Tuple<AudioClip, float>> Queued = new();
 	void PlayOrQueue(AudioClip clip, float fadeDuration)
 	{
+		if (CurrentCrossfade == null && activeSource.isPlaying && activeSource.clip == clip)
+			return;
 
-		if(CurrentCrossfade != null)
+
+		if (CurrentCrossfade != null)
 			Queued.Enqueue(new(clip, fadeDuration));
-		
 		else
 			CurrentCrossfade = StartCoroutine(Instance.Crossfade(clip, fadeDuration));
 	}
@@ -113,7 +115,7 @@ public class MusicManager : MonoBehaviour
 			return;
 		var next = Queued.Dequeue();
 		if (next != null)
-			PlayOrQueue(next.Item1,next.Item2);
+			PlayOrQueue(next.Item1, next.Item2);
 	}
 
 	Coroutine CurrentCrossfade;
