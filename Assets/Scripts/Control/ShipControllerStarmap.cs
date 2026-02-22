@@ -201,8 +201,9 @@ public class ShipControllerStarmap : MonoBehaviour
 		{
 			if (movementDirection != Vector2.zero)
 				CurrentThrust = 60 * Time.fixedDeltaTime * AccellerationSpeed * rb.mass * movementDirection;
-			else
-				rb.linearVelocity *= 1f - 0.5f * Time.fixedDeltaTime;
+			//else
+				//rb.linearVelocity *= 1f - (1f/20f) * Time.fixedDeltaTime;
+			
 		}
 		else if (PrecisionFlyMode)
 		{

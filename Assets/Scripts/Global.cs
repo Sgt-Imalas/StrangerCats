@@ -83,17 +83,17 @@ public class StarmapShip
 	public FlightStats PrecisionMode = new()
 	{
 		MaxVelocity = 30f,
-		Accelleration = 26f,
+		Accelleration = 20f,
 		RotationSpeed = 240f,
-		LinearDampening = 0.5f,
+		LinearDampening = 0.75f,
 		CameraOffset = -15
 	};
 	public FlightStats CruiseMode = new()
 	{
 		MaxVelocity = 100f,
-		Accelleration = 100f,
-		RotationSpeed = 180f,
-		LinearDampening = 0.5f,
+		Accelleration = 30f,
+		RotationSpeed = 135f,
+		LinearDampening = 0.25f,
 		CameraOffset = -25
 	};
 	public FlightStats PodMode = new()
@@ -260,7 +260,7 @@ public class GameUpgrades
 
 	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range", 50, 1.2f)
 		.Max(5)
-		.Modifier(AttributeType.RadarRange, 100f)
+		.Modifier(AttributeType.RadarRange, 250f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Meat, 10)
 		.IncrementalCostThreshold(ResourceType.Ball, 20)
@@ -276,21 +276,21 @@ public class GameUpgrades
 		.UnlockCondition(() => Global.Instance.Upgrades.SuperCruiseUnlocked);
 
 	//flat value is mult
-	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed", 30, 1.125f)
+	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed", 40, 1.125f)
 		.Modifier(AttributeType.SpaceShipRotationSpeed, 0.10f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Ball, 10)
 		.IncrementalCostThreshold(ResourceType.Dust, 20);
 
 	//flat +60s
-	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport", 25, 1.3f)
+	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport", 40, 1.3f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Meat, 3)
 		.IncrementalCostThreshold(ResourceType.Dust, 15)
 		.Modifier(AttributeType.LifeTime, 60f);
 
 	//flat +0.25
-	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 20, 1.125f)
+	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 40, 1.125f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Ball, 10)
 		.Modifier(AttributeType.PodSpeed, 0.25f);
