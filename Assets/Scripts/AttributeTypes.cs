@@ -17,7 +17,6 @@
 
 		RadarRange,
 		SpaceShipSuperCruiseSpeed, 
-		SpaceShipSuperCruiseAccelleration,
 		SpaceShipRotationSpeed, 
 	}
 }
