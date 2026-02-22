@@ -1,14 +1,8 @@
 using Assets.Scripts;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XInput;
-using static UnityEngine.ParticleSystem;
-using static UnityEngine.Rendering.DebugUI;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ShipControllerStarmap : MonoBehaviour
 {
@@ -55,6 +49,11 @@ public class ShipControllerStarmap : MonoBehaviour
 
 		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
 
+	}
+
+	private void OnDestroy()
+	{
+		GlobalEvents.Instance.OnPlayerAttributesChanged -= OnPlayerAttributesChanged;
 	}
 	public float CachedRotationSpeedMultiplier = 1;
 	public float CachedSupercruiseBoostMultiplier = 1;
@@ -179,12 +178,12 @@ public class ShipControllerStarmap : MonoBehaviour
 		if (Global.Instance.LockedInputs) return;
 
 		// rotation
-		Vector2 direction = LookPosition;
+		var direction = LookPosition;
 		if (PrecisionFlyMode)
 		{
 			if (!ControllerAim)
 			{
-				Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
+				var mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
 				direction = mouseWorld - transform.position;
 			}
 		}

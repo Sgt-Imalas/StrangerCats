@@ -19,6 +19,9 @@ namespace Assets.Scripts
 		public GameObject enemyPreset;
 		public GameObject gizmoPrefab;
 		public int enemiesToSpawn = 32;
+		public Vector3 playerSpawnPoint;
+		public float fractalGain = 1.0f;
+		public int octaves = 3;
 
 
 		public float boneNoiseScale = 1.45f, boneAmpl = 7.78f, boneThreshold = 0.1f;
@@ -53,6 +56,18 @@ namespace Assets.Scripts
 				case GenerationPreset.Iridium:
 					GenerateIridiumWorld(seed, out materials, out size, generator, out center);
 					break;
+			}
+
+			playerSpawnPoint = center + new Vector2(0, size / 2.0f + 10);
+
+			// clear out any accidental terrain overlap
+			for (var x = -2; x <= 2; x++)
+			{
+				for (var y = -2; y <= 2; y++)
+				{
+					var tile = new Vector3Int(x + (int)playerSpawnPoint.x, y + (int)playerSpawnPoint.y, 0);
+					materials.Remove(tile);
+				}
 			}
 
 			MusicManager.PlayNewSong(MusicIndex);
@@ -184,6 +199,8 @@ namespace Assets.Scripts
 
 			var noise = new FastNoiseLite(seed);
 			noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
+			noise.SetFractalGain(fractalGain);
+			noise.SetFractalOctaves(octaves);
 
 			size = radius * 2 + 10;
 

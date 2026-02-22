@@ -7,6 +7,7 @@ TagManager:
   - PrecisionModeEngine
   - CruiseModeEngine
   - Collectible
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Terrain
   - PlayerProjectile
   - Enemies
-  - 
-  - 
+  - Laser
+  - Follow
   - 
   - 
   - 

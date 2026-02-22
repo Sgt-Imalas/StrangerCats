@@ -5542,6 +5542,7 @@ GameObject:
   - component: {fileID: 1045476050}
   - component: {fileID: 1045476048}
   - component: {fileID: 1045476049}
+  - component: {fileID: 1045476051}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Player
@@ -5670,6 +5671,18 @@ MonoBehaviour:
   ControllerAim: 0
   CachedRotationSpeedMultiplier: 1
   CachedSupercruiseBoostMultiplier: 1
+--- !u!114 &1045476051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045476043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e8050e6c62ecf42a1587acd7fd4b7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtablePlayer
 --- !u!1 &1076738980
 GameObject:
   m_ObjectHideFlags: 0
@@ -9098,8 +9111,7 @@ MonoBehaviour:
   m_text: 'Tip:
 
 
-    Pour the liquid Schwartz into your fuel tank with Q to go into
-    supercruise mode'
+    Pour the liquid Schwartz into your fuel tank with Q to go into supercruise mode'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -9333,23 +9345,20 @@ MonoBehaviour:
   m_text: 'Your quest incomplete still is.
 
 
-    All the legendary items, you have
-    not.
+    All the legendary items, you have not.
 
 
     Collecting them, you must!
 
 
-    Revealing themselves, they will in
-    time.
+    Revealing themselves, they will in time.
 
 
     Improving your spaceship, you should!
 
 
 
-    Better chances it will
-    give you in finding them!'
+    Better chances it will give you in finding them!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}

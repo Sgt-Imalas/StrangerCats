@@ -46,7 +46,7 @@ public class DestructibleTerrain : MonoBehaviour
 
 	}
 
-	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials)
+	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor)
 	{
 		Debug.Log("OnNewMapGenerated called with " + materials.Count + " materials");
 		this.materials.Clear();
@@ -90,7 +90,7 @@ public class DestructibleTerrain : MonoBehaviour
 		{
 			foreach (var tile in queuedToDamage)
 			{
-				if (!materials.TryGetValue(tile.Key, out MaterialData mat))
+				if (!materials.TryGetValue(tile.Key, out var mat))
 				{
 					Debug.LogWarning($"trying to damage a tile that doesn't exist {tile.Key}");
 					continue;
@@ -98,7 +98,7 @@ public class DestructibleTerrain : MonoBehaviour
 
 				mat.currentHp -= tile.Value;
 
-				bool destroyed = mat.currentHp <= 0f;
+				var destroyed = mat.currentHp <= 0f;
 
 				if (destroyed)
 					queuedToDestroy.Add(tile.Key);
@@ -112,7 +112,7 @@ public class DestructibleTerrain : MonoBehaviour
 				digParticles.Configure(mat.particleColor, 1, 1);
 				digParticles.transform.position = tile.Key;
 				digParticles.Emit();
-				if(destroyed)
+				if (destroyed)
 					GlobalEvents.Instance.OnTileDestroyed?.Invoke(tile.Key, mat.idx);
 			}
 
@@ -166,15 +166,25 @@ public class DestructibleTerrain : MonoBehaviour
 				}
 			}
 		}
-		else
-			queuedToDamage.Add(cell, 1.0f);
+		//else
+		//queuedToDamage.Add(cell, 1.0f);
 
 		dirty = true;
+	}
+
+
+	private void AddDamageToCell(Vector3Int coord, float damage)
+	{
+		if (queuedToDamage.ContainsKey(coord))
+			queuedToDamage[coord] += damage;
+		else
+			queuedToDamage.Add(coord, damage);
 	}
 
 	internal void DamageTileAt(Vector2 pos, float damage, int radius = 0)
 	{
 		var cell = tileMap.WorldToCell(pos);
+
 		if (tileMap.HasTile(cell))
 		{
 			if (radius > 0)
@@ -184,14 +194,13 @@ public class DestructibleTerrain : MonoBehaviour
 				{
 					for (var y = -radius; y < radius; y++)
 					{
-						queuedToDamage.Add(cell + new Vector3Int(x, y), damage);
+						AddDamageToCell(cell + new Vector3Int(x, y), damage);
 					}
 				}
 			}
 			else
 			{
-
-				queuedToDamage.Add(cell, damage);
+				AddDamageToCell(cell, damage);
 			}
 
 			dirty = true;
@@ -201,6 +210,6 @@ public class DestructibleTerrain : MonoBehaviour
 
 	internal void ApplyNewMap(Dictionary<Vector3Int, int> materials)
 	{
-		OnNewMapGenerated(materials);
+		OnNewMapGenerated(materials, null);
 	}
 }

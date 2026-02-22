@@ -1,9 +1,6 @@
 using Assets.Scripts;
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class ItemDropManager : MonoBehaviour
 {
@@ -16,13 +13,48 @@ public class ItemDropManager : MonoBehaviour
 	{
 		GlobalEvents.Instance.OnTileDestroyed += HandleTileDestroyed;
 		GlobalEvents.Instance.OnFindableItemRevealed += HandleCollectibleContainerDestroyed;
+		GlobalEvents.Instance.OnEnemyKilled += HandleEnemyKilled;
 	}
+
 	private void OnDestroy()
 	{
 		GlobalEvents.Instance.OnTileDestroyed -= HandleTileDestroyed;
 		GlobalEvents.Instance.OnFindableItemRevealed -= HandleCollectibleContainerDestroyed;
+		GlobalEvents.Instance.OnEnemyKilled -= HandleEnemyKilled;
+	}
+
+	private void HandleEnemyKilled(Vector3 pos, ResourceType type)
+	{
+		ConfigurableItem prefab = null;
+		switch (type)
+		{
+			case ResourceType.Meat:
+				prefab = Res_Drop_Meat;
+				break;
+			case ResourceType.Rust:
+				prefab = Res_Drop_Rust;
+				break;
+			case ResourceType.Ball:
+				prefab = Res_Drop_Ball;
+				break;
+			case ResourceType.Dust:
+				prefab = Res_Drop_Dust;
+				break;
+		}
+
+		if (prefab == null)
+		{
+			Debug.LogWarning("invalid drop type: " + type);
+			return;
+		}
+
+		var itemDrop = Instantiate(prefab);
+		itemDrop.Amount = 1;
+		itemDrop.transform.position = pos;
+		itemDrop.gameObject.SetActive(true);
 		
 	}
+
 
 	private void HandleTileDestroyed(Vector3Int pos, int matIdx)
 	{
@@ -54,7 +86,7 @@ public class ItemDropManager : MonoBehaviour
 			return;
 		}
 
-		ConfigurableItem itemDrop = Instantiate(prefab);
+		var itemDrop = Instantiate(prefab);
 		itemDrop.Amount = (uint)Mathf.Max(mat.resourceAmount, 1);
 		itemDrop.transform.position = TileMap.CellToWorld(pos) + new Vector3(0.5f, 0.5f);
 		itemDrop.gameObject.gameObject.SetActive(true);
@@ -82,11 +114,11 @@ public class ItemDropManager : MonoBehaviour
 
 		if (prefab == null)
 		{
-			Debug.LogWarning("invalid item type: " +item);
+			Debug.LogWarning("invalid item type: " + item);
 			return;
 		}
 
-		ConfigurableItem itemDrop = Instantiate(prefab);
+		var itemDrop = Instantiate(prefab);
 		itemDrop.gameObject.SetActive(true);
 		itemDrop.transform.position = pos;
 
