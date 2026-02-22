@@ -80,6 +80,7 @@ public class ShipControllerStarmap : MonoBehaviour
 		CameraAnimator.SetCameraOffset(-0.3f);
 		CameraAnimator.AnimateOffsetChange(Global.Instance.Spaceship.CurrentMode.CameraOffset, 0.5f);
 		CachedRotationSpeedMultiplier = PersistentPlayer.GetAttribute(AttributeType.SpaceShipRotationSpeed);
+		CachedSupercruiseBoostMultiplier = PersistentPlayer.GetAttribute(AttributeType.SpaceShipSuperCruiseSpeed);
 	}
 	private void OnEnable()
 	{
