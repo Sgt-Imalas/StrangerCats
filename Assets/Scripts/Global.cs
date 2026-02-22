@@ -285,7 +285,6 @@ public class GameUpgrades
 
 
 	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range", 50, 1.2f)
-		.Max(5)
 		.Modifier(AttributeType.RadarRange, 250f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Meat, 10)

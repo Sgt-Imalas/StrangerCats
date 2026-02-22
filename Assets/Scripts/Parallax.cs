@@ -9,6 +9,7 @@ public class Parallax : MonoBehaviour
 
 	void Update()
 	{
+		return;
 		var parallax = (previousCamPos - (Vector2)cam.position) * distance;
 		var offset = (Vector2)transform.position + parallax;
 

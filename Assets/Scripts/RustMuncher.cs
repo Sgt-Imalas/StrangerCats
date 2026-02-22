@@ -33,6 +33,11 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 		GetComponent<Health>().OnDeath += OnDeath;
 	}
 
+	private void OnDestroy()
+	{
+		GlobalEvents.Instance.OnTileDestroyed -= OnTileDestroyed;
+	}
+
 	private void OnDeath()
 	{
 		audioSource.Play();
@@ -40,7 +45,6 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 		animator.gameObject.SetActive(false);
 		GetComponent<BoxCollider2D>().enabled = false;
 		GlobalEvents.Instance.OnTileDestroyed -= OnTileDestroyed;
-
 		StartCoroutine(DieLater());
 
 		GlobalEvents.Instance.OnEnemyKilled?.Invoke(transform.position, ResourceType.Rust);
