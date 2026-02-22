@@ -178,7 +178,7 @@ public class ShipControllerStarmap : MonoBehaviour
 			direction = movementDirection;
 		}
 
-			bool stillRotating = false;
+		bool stillRotating = false;
 		if (direction != Vector2.zero)
 		{
 			float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -240,7 +240,7 @@ public class ShipControllerStarmap : MonoBehaviour
 		}
 		if (CruiseFire != null)
 			CruiseFire.SetActive(!PrecisionFlyMode && emissionRate > 0);
-		if(SmolFire != null) 
+		if (SmolFire != null)
 			SmolFire.SetActive(PrecisionFlyMode && emissionRate > 0);
 	}
 }

@@ -86,7 +86,7 @@ public class StarmapShip
 		Accelleration = 26f,
 		RotationSpeed = 240f,
 		LinearDampening = 0.5f,
-		CameraOffset = -25
+		CameraOffset = -15
 	};
 	public FlightStats CruiseMode = new()
 	{
@@ -94,7 +94,7 @@ public class StarmapShip
 		Accelleration = 100f,
 		RotationSpeed = 180f,
 		LinearDampening = 0.5f,
-		CameraOffset = -45
+		CameraOffset = -25
 	};
 	public FlightStats PodMode = new()
 	{
@@ -221,8 +221,8 @@ public class MiningResourceStorage
 
 public class GameUpgrades
 {
-	public bool RadarUnlocked = false;
-	public bool SuperCruiseUnlocked = false;
+	public bool RadarUnlocked = false || true;
+	public bool SuperCruiseUnlocked = false ||true;
 	public bool MeatWorldItemFound = false;
 	public bool TennisWorldItemFound = false;
 	public bool DesertWorldItemFound = false;

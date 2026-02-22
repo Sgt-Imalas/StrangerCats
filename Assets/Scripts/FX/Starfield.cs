@@ -16,12 +16,12 @@ public class Starfield : MonoBehaviour
     private float MaxStarDistanceSq;
     public float MaxStarClipDistance = 40f;
     private float MaxStarClipDistanceSq; 
-    public Camera MainCam;
 
     public float yDiff = 10f;
-    public float xDiff = 10f;
+    public float xDiff = 0f;
+    public float zDiff = 10f;
 
-    public GameObject player;
+	public GameObject player;
     private Vector3 offset;
 
     private ParticleSystem ps;
@@ -89,11 +89,11 @@ public class Starfield : MonoBehaviour
     //
     Vector3 GetRandomInRectangle(float width, float height)
     {
-        float x = Random.Range(player.transform.position.x - width, player.transform.position.x + width);
+        float x = Random.Range(player.transform.position.x + xDiff - width, player.transform.position.x+xDiff + width);
 
-        float y = Random.Range(player.transform.position.y - width, player.transform.position.y + width);
+        float y = Random.Range(player.transform.position.y+ yDiff - height, player.transform.position.y + yDiff + height);
 
-        float z = Random.Range(0,20);
+        float z = Random.Range(0+zDiff,20 + zDiff);
 
         return new Vector3(x, y, z);
     }
