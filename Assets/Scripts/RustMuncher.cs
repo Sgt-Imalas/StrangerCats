@@ -8,11 +8,12 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class RustMuncher : MonoBehaviour, ISpawnRules
 {
+	private static readonly WaitForSecondsRealtime _waitForSecondsRealtime1_0 = new(1.0f);
 	public Animator animator;
 	public ParticleSystem deathSplat;
 	public AudioSource audioSource;
 	public Vector3Int homeTile;
-
+	private Vector3Int looking;
 	private static readonly Vector3Int[] offsets =
 	{
 		Vector3Int.up,
@@ -37,6 +38,7 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 		audioSource.Play();
 		deathSplat.Emit(20);
 		animator.gameObject.SetActive(false);
+		GetComponent<BoxCollider2D>().enabled = false;
 
 		StartCoroutine(DieLater());
 	}
@@ -44,10 +46,7 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 
 	private IEnumerator DieLater()
 	{
-		yield return new WaitUntil(() =>
-		{
-			return !audioSource.isPlaying && deathSplat.isStopped;
-		});
+		yield return _waitForSecondsRealtime1_0;
 
 		Object.Destroy(gameObject);
 	}
@@ -56,7 +55,10 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 	{
 		if (coords == homeTile)
 		{
-			Die(false);
+			var rb = GetComponent<Rigidbody2D>();
+			rb.simulated = true;
+			rb.AddForce(-(Vector3)looking * 200.0f);
+			rb.AddTorque(10f);
 		}
 	}
 
@@ -92,8 +94,10 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 		claimedPositions.Add(coord);
 		//Debug.Log($"configuring spawn {((Vector3Int)data)}");
 
-		homeTile = coord;
 		var offset = (Vector3Int)data;
+		homeTile = coord + offset;
+
+		this.looking = offset;
 
 		if (offset == Vector3Int.up)
 		{

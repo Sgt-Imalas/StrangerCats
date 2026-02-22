@@ -1,17 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
 	[RequireComponent(typeof(Health))]
 	[RequireComponent(typeof(AudioSource))]
+	[RequireComponent(typeof(PolygonCollider2D))]
 	internal class Satellite : MonoBehaviour, ISpawnRules
 	{
 		private Dictionary<Vector3Int, int> materialOverrides;
+		private static readonly WaitForSecondsRealtime _waitForSecondsRealtime1_0 = new(1.0f);
 
-		private AudioSource audio;
+		private AudioSource audioSource;
 
 		public AudioClip[] pickSounds;
+		public AudioClip deconstructSound;
+
+		public ParticleSystem particles;
 
 		private Dictionary<Vector3Int, int> GetMaterialOverrides()
 		{
@@ -43,7 +49,7 @@ namespace Assets.Scripts
 
 		public void Start()
 		{
-			audio = GetComponent<AudioSource>();
+			audioSource = GetComponent<AudioSource>();
 			GetComponent<Health>().OnDeath += OnDeath;
 			GetComponent<Health>().OnHurt += OnHurt;
 		}
@@ -51,14 +57,34 @@ namespace Assets.Scripts
 		private void OnHurt(bool fatal)
 		{
 			var idx = Random.Range(0, pickSounds.Length - 1);
-			audio.clip = pickSounds[idx];
-			audio.pitch = Random.Range(0.9f, 1.1f);
-			audio.Play();
+			audioSource.clip = pickSounds[idx];
+			audioSource.pitch = Random.Range(0.9f, 1.1f);
+			audioSource.Play();
+
+			particles.Emit(5);
 		}
 
 		private void OnDeath()
 		{
-			UnityEngine.Object.Destroy(gameObject);
+			audioSource.clip = deconstructSound;
+			audioSource.pitch = 1.0f;
+			audioSource.Play();
+
+			particles.Emit(40);
+
+			GetComponentInChildren<SpriteRenderer>().gameObject.SetActive(false);
+
+			GetComponent<PolygonCollider2D>().enabled = false;
+
+			StartCoroutine(DieLater());
+		}
+
+
+		private IEnumerator DieLater()
+		{
+			yield return _waitForSecondsRealtime1_0;
+
+			Object.Destroy(gameObject);
 		}
 
 		public bool CanSpawnHere(Vector3Int coord, Dictionary<Vector3Int, int> materials, out object data)

@@ -96,7 +96,7 @@ public class MapGenerator : MonoBehaviour
 		}
 
 		if (GlobalEvents.Instance != null)
-			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials);
+			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials, descriptor);
 
 		//DestructibleTerrain.Instance.ApplyNewMap(materials);
 	}
@@ -162,6 +162,7 @@ public class MapGenerator : MonoBehaviour
 			Apply(mats, center, size, Global.Instance.loadPlanet);
 
 			Global.Instance.loadPlanet = null;
+
 		}
 
 		if (refresh)

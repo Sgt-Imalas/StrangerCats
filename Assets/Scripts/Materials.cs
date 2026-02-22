@@ -26,7 +26,6 @@ namespace Assets.Scripts
 			if (Instance == null)
 			{
 				Instance = this;
-				DontDestroyOnLoad(gameObject);
 				Debug.Log("Materials instance created");
 			}
 			else

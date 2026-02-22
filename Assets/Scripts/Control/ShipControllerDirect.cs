@@ -1,8 +1,8 @@
 using Assets.Scripts;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static UnityEngine.Rendering.DebugUI;
 
 // simpler direct controls for the smaller ship
 [DefaultExecutionOrder(10)]
@@ -28,9 +28,22 @@ public class ShipControllerDirect : MonoBehaviour
 
 		controls.Player.Move.performed += OnMove;
 		controls.Player.Move.canceled += OnMove;
-		
+
+		GlobalEvents.Instance.OnNewMapGenerated += OnNewMapGenerated;
 		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
 	}
+
+	private void OnDestroy()
+	{
+		GlobalEvents.Instance.OnNewMapGenerated -= OnNewMapGenerated;
+		GlobalEvents.Instance.OnPlayerAttributesChanged -= OnPlayerAttributesChanged;
+	}
+
+	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor)
+	{
+		transform.position = descriptor.playerSpawnPoint;
+	}
+
 	void OnExit(InputAction.CallbackContext context)
 	{
 		SceneManager.LoadScene("Starmap");

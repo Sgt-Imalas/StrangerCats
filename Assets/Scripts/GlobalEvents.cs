@@ -13,7 +13,7 @@ namespace Assets.Scripts
 		public OnNewMapGeneratedDelegate OnNewMapGenerated;
 		public Action<Vector3Int, int> OnTileDestroyed;
 
-		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials);
+		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor);
 
 		private void Awake()
 		{
