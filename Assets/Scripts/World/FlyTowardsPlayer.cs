@@ -12,6 +12,8 @@ public class FlyTowardsPlayer : MonoBehaviour
 
 	public float CollectionSpeed = 5f;
 	public bool LosesTargeting = false;
+	public bool Accellerates = true;
+
 
 	private void Awake()
 	{
@@ -40,7 +42,8 @@ public class FlyTowardsPlayer : MonoBehaviour
 		if(currentPlayer != null)
 		{
 			rb.AddForce((currentPlayer.transform.position - rb.transform.position) * Time.fixedDeltaTime * CollectionSpeed * incrementalMultiplier);
-			incrementalMultiplier += Time.fixedDeltaTime;
+			if (Accellerates)
+				incrementalMultiplier += Time.fixedDeltaTime;
 		}
 	}
 }
