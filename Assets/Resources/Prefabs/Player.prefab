@@ -47,6 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PersistentPlayer
   attributes: {fileID: 0}
   testMod: 0
+  LanderEnergy: 120
+  InLander: 0
+  LaserFiring: 0
 --- !u!114 &6740822786564916747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,26 +64,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attributes
   baseValues:
   - id: 0
-    name: 
     tooltip: 
     minValue: 0.01
     maxValue: 10
     value: 0.8
   - id: 3
-    name: 
     tooltip: 
     minValue: 1
     maxValue: 3000
-    value: 50
+    value: 100
   - id: 1
-    name: 
     tooltip: 
     minValue: 0
     maxValue: 16
     value: 1
   - id: 4
-    name: 
     tooltip: 
     minValue: 1
     maxValue: 100
     value: 10
+  - id: 7
+    tooltip: 
+    minValue: 0
+    maxValue: 9999999
+    value: 0
+  - id: 10
+    tooltip: 
+    minValue: 1
+    maxValue: 10
+    value: 1
+  - id: 8
+    tooltip: 
+    minValue: 1
+    maxValue: 10
+    value: 1
+  - id: 9
+    tooltip: 
+    minValue: 1
+    maxValue: 10
+    value: 1
+  - id: 2
+    tooltip: 
+    minValue: 120
+    maxValue: 9999999
+    value: 120
+  - id: 6
+    tooltip: 
+    minValue: 1
+    maxValue: 10
+    value: 1
+  - id: 5
+    tooltip: 
+    minValue: 1
+    maxValue: 1000000
+    value: 1

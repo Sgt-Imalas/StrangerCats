@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Attributes : MonoBehaviour
@@ -95,18 +96,50 @@ public class Attributes : MonoBehaviour
 		foreach (var key in baseValues)
 			currentValues[key.id] = key.value;
 
-		foreach (var mod in mods)
+		//foreach (var mod in mods)
+		//{
+		//	var attributeId = mod.attributeId;
+
+		//	if (!currentValues.ContainsKey(attributeId))
+		//		currentValues[attributeId] = 0.0f;
+
+		//	var defaultAttr = GetBaseAttribute(attributeId);
+
+		//	var value = mod.multiplier ? (defaultAttr.value * mod.value) : currentValues[attributeId] + mod.value;
+		//	value = Mathf.Clamp(value, defaultAttr.minValue, defaultAttr.maxValue);
+		//	currentValues[attributeId] = value;
+		//}
+
+		foreach(var flat in mods.Where(mod => !mod.multiplier))
 		{
-			var attributeId = mod.attributeId;
+			if (!currentValues.ContainsKey(flat.attributeId))
+			{
+				var baseAttribute = GetBaseAttribute(flat.attributeId);
+				if(baseAttribute != null)
+					currentValues[flat.attributeId] = baseAttribute.value;
+				else
+					currentValues[flat.attributeId] = 0;
+			}
+			currentValues[flat.attributeId] += flat.value;
+		}
+		foreach (var flat in mods.Where(mod => mod.multiplier))
+		{
+			if (!currentValues.ContainsKey(flat.attributeId))
+			{
+				var baseAttribute = GetBaseAttribute(flat.attributeId);
+				if (baseAttribute != null)
+					currentValues[flat.attributeId] = baseAttribute.value;
+				else
+					currentValues[flat.attributeId] = 0;
+			}
+			currentValues[flat.attributeId] *= flat.value;
+		}
 
-			if (!currentValues.ContainsKey(attributeId))
-				currentValues[attributeId] = 0.0f;
-
-			var defaultAttr = GetBaseAttribute(attributeId);
-
-			var value = mod.multiplier ? (defaultAttr.value * mod.value) : currentValues[attributeId] + mod.value;
-			value = Mathf.Clamp(value, defaultAttr.minValue, defaultAttr.maxValue);
-			currentValues[attributeId] = value;
+		foreach(var attrobiteKey in currentValues.Keys.ToList())
+		{
+			var attribute = GetBaseAttribute(attrobiteKey);
+			if (attribute != null)
+				currentValues[attrobiteKey] = Mathf.Clamp(currentValues[attrobiteKey], attribute.minValue, attribute.maxValue);
 		}
 	}
 }

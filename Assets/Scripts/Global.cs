@@ -258,65 +258,73 @@ public class GameUpgrades
 
 
 
-	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range", 10, 1.2f)
+	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range", 50, 1.2f)
 		.Max(5)
 		.Modifier(AttributeType.RadarRange, 100f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
-		.IncrementalCostThreshold(ResourceType.Meat, 5)
-		.IncrementalCostThreshold(ResourceType.Ball, 10)
+		.IncrementalCostThreshold(ResourceType.Meat, 10)
+		.IncrementalCostThreshold(ResourceType.Ball, 20)
 		.UnlockCondition(() => Global.Instance.Upgrades.RadarUnlocked)
 		;
 
-
-	public BuyableUpgrade SuperCruise = new BuyableUpgrade("Supercruise Speed", 15, 1.2f)
-		.Modifier(AttributeType.SpaceShipSuperCruiseAccelleration, 1.1f, true)
-		.Modifier(AttributeType.SpaceShipSuperCruiseSpeed, 1.25f, true)
+	//flat value is mult
+	public BuyableUpgrade SuperCruise = new BuyableUpgrade("Supercruise Speed", 75, 1.2f)
+		.Modifier(AttributeType.SpaceShipSuperCruiseSpeed, 0.25f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Meat, 0)
-		.IncrementalCostThreshold(ResourceType.Dust, 10)
+		.IncrementalCostThreshold(ResourceType.Dust, 20)
 		.UnlockCondition(() => Global.Instance.Upgrades.SuperCruiseUnlocked);
 
-	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed", 10, 1.125f)
-		.Modifier(AttributeType.SpaceShipRotationSpeed, 0.15f)
+	//flat value is mult
+	public BuyableUpgrade RotationSpeed = new BuyableUpgrade("Rotation Speed", 30, 1.125f)
+		.Modifier(AttributeType.SpaceShipRotationSpeed, 0.10f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Ball, 10)
 		.IncrementalCostThreshold(ResourceType.Dust, 20);
 
-
-	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport", 20, 1.3f)
+	//flat +60s
+	public BuyableUpgrade LifeSupport = new BuyableUpgrade("Lifesupport", 25, 1.3f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Meat, 3)
 		.IncrementalCostThreshold(ResourceType.Dust, 15)
 		.Modifier(AttributeType.LifeTime, 60f);
 
-	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 10, 1.125f)
+	//flat +0.25
+	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 20, 1.125f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Ball, 10)
-		.Modifier(AttributeType.PodSpeed, 50f);
+		.Modifier(AttributeType.PodSpeed, 0.25f);
 
+	//flat +2 tiles
 	public BuyableUpgrade LaserRange = new BuyableUpgrade("Laser Reach", 40, 1.2f)
 		.IncrementalCostThreshold(ResourceType.Ball, 0)
 		.IncrementalCostThreshold(ResourceType.Dust, 0)
-		.Modifier(AttributeType.LaserRange, 50f);
+		.Modifier(AttributeType.LaserRange, 2);
 
-	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage", 30, 1.2f)
+	//funny scaling
+	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage", 50, 1.2f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
-		.IncrementalCostThreshold(ResourceType.Meat, 0)
-		.IncrementalCostThreshold(ResourceType.Dust, 10)
-		.Modifier(AttributeType.DigDamage, 50f);
+		.IncrementalCostThreshold(ResourceType.Meat, 10)
+		.IncrementalCostThreshold(ResourceType.Dust, 15)
+		.Modifier(AttributeType.DigDamage, 1)
+		.Modifier(AttributeType.DigDamage, 1.15f, true);
 
-	public BuyableUpgrade LaserSpeed = new BuyableUpgrade("Laser Fire Rate", 30, 1.2f)
-		.IncrementalCostThreshold(ResourceType.Rust, 12)
-		.IncrementalCostThreshold(ResourceType.Meat, 0)
+	//funny scaling
+	public BuyableUpgrade LaserSpeed = new BuyableUpgrade("Laser Fire Rate", 50, 1.2f)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
+		.IncrementalCostThreshold(ResourceType.Meat, 10)
+		.IncrementalCostThreshold(ResourceType.Ball, 15)
+		.Modifier(AttributeType.FireRate, -0.025f)
+		.Modifier(AttributeType.FireRate, 0.9f, true);
+
+	//funny scaling
+	public BuyableUpgrade ResourceYield = new BuyableUpgrade("Resource Yield", 250, 1.5f)
+		.IncrementalCostThreshold(ResourceType.Meat, 3)
+		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Ball, 6)
-		.Modifier(AttributeType.FireRate, -0.1f);
-
-	public BuyableUpgrade ResourceYield = new BuyableUpgrade("Resource Yield", 50, 1.5f)
-		.IncrementalCostThreshold(ResourceType.Meat, 0)
-		.IncrementalCostThreshold(ResourceType.Rust, 0)
-		.IncrementalCostThreshold(ResourceType.Ball, 0)
-		.IncrementalCostThreshold(ResourceType.Dust, 0)
-		.Modifier(AttributeType.ResourceTileMultiplier, 1.25f, true);
+		.IncrementalCostThreshold(ResourceType.Dust, 9)
+		.Modifier(AttributeType.ResourceTileMultiplier, 1)
+		.Modifier(AttributeType.ResourceTileMultiplier, 1.10f, true);
 }
 
 public class BuyableUpgrade

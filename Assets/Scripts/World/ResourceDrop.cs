@@ -10,8 +10,10 @@ public class ResourceDrop : Collectible
 	public uint Amount = 1; 
 	protected override void DoCollect()
 	{
-		Global.Instance.SpaceshipResources.CollectResource(ResourceType, Amount);
+		var multiplier = PersistentPlayer.GetAttribute(AttributeType.ResourceTileMultiplier, 1f);
+
+		int amount = Mathf.RoundToInt(multiplier * Amount);
+		Global.Instance.SpaceshipResources.CollectResource(ResourceType,(uint)amount);
 		base.DoCollect();
 	}
-
 }
