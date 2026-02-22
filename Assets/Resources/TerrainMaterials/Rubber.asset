@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rubber
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.TerrainMaterial
   materialName: Rubber
-  hardness: 10
+  hardness: 250
   textureIdx: 2
   resourceType: 2
   resourceAmount: 1

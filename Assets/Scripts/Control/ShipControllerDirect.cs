@@ -55,10 +55,11 @@ public class ShipControllerDirect : MonoBehaviour
 		switch (type)
 		{
 			case AttributeType.PodSpeed:
-				AccellerationSpeed = finalValue;
+				CachedSpeedIncrease = finalValue;
 				break;
 		}
 	}
+	float CachedSpeedIncrease = 0f;
 
 	void OnMove(InputAction.CallbackContext context)
 	{
@@ -87,11 +88,11 @@ public class ShipControllerDirect : MonoBehaviour
 	{
 		if (Global.Instance.LockedInputs) return;
 
-		rb.AddForce(AccellerationSpeed * rb.mass * movementDirection);
+		rb.AddForce((AccellerationSpeed + CachedSpeedIncrease) * rb.mass * movementDirection);
 
 		if (rb.linearVelocity.magnitude > MaxVelocity)
 		{
-			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
+			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity + CachedSpeedIncrease);
 		}
 
 		var targetRotation = -rb.linearVelocityX;

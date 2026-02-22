@@ -251,6 +251,6 @@ public class ResourceTopBar : MonoBehaviour
 	public void CollectRandomResource()
 	{
 		var randomType = (ResourceType)UnityEngine.Random.Range(0, 4);
-		Global.Instance.SpaceshipResources.CollectResource(randomType, 999);
+		Global.Instance.SpaceshipResources.CollectResource(randomType, 999999);
 	}
 }

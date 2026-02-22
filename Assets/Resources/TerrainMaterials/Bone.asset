@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bone
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.TerrainMaterial
   materialName: Bone
-  hardness: 10
+  hardness: 200
   textureIdx: 1
   resourceType: 0
   resourceAmount: 3

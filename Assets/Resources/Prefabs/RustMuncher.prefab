@@ -4919,8 +4919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd71f4299d5839d43a5356a24653928f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.DiceyTiles.Scripts.Health
-  maxHP: 3
-  currentHP: 3
+  maxHP: 20
+  currentHP: 20
   isDead: 0
   healthIndicator: {fileID: 1952025011110527744}
 --- !u!61 &7801797194728085732

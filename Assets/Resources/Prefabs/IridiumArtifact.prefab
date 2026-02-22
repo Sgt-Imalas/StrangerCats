@@ -5005,8 +5005,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd71f4299d5839d43a5356a24653928f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.DiceyTiles.Scripts.Health
-  maxHP: 1000
-  currentHP: 1000
+  maxHP: 80000
+  currentHP: 80000
   isDead: 0
   healthIndicator: {fileID: 2337424748670720770}
 --- !u!114 &5502198428076240498
@@ -5028,7 +5028,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a74389ec926b06d4c9f4574bb7035344, type: 3}
   deconstructSound: {fileID: 8300000, guid: 79eda2b514fe41c45a6d5c5d080409a3, type: 3}
   dustColor: {r: 0.5352036, g: 0.3820755, b: 1, a: 0}
-  findableItem: 1
+  findableItem: 4
   floating: 1
   frame: {fileID: 11400000, guid: 405f6910bebf8a94d8217677db58c026, type: 2}
   particles: {fileID: 3835505222059213662}

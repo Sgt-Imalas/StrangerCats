@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,12 +22,14 @@ public class SpeedMeter : MonoBehaviour
 		float velocity = Global.Instance.Spaceship.CurrentVelocity, maxVelocity = 0;
 		if (SceneManager.GetActiveScene().name == "MineableTerrain")
 		{
-			maxVelocity = Global.Instance.Spaceship.PodMode.MaxVelocity;
+			maxVelocity = Global.Instance.Spaceship.PodMode.MaxVelocity + PersistentPlayer.GetAttribute(AttributeType.PodSpeed,0f);
 		}
 		else
 		{
 			maxVelocity = Global.Instance.Spaceship.CurrentMode.MaxVelocity;
-
+			
+			if(!Global.Instance.Spaceship.InPrecisionFlightMode) 
+				maxVelocity *= PersistentPlayer.GetAttribute(AttributeType.SpaceShipSuperCruiseSpeed, 1f);
 		}
 
 		FillImage.fillAmount = velocity / maxVelocity;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stardust
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.TerrainMaterial
   materialName: Star Dust
-  hardness: 40
+  hardness: 1000
   textureIdx: 7
   resourceType: 3
   resourceAmount: 10

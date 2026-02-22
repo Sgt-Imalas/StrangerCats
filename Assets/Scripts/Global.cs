@@ -325,7 +325,8 @@ public class GameUpgrades
 	public BuyableUpgrade LaserRange = new BuyableUpgrade("Laser Reach", 40, 1.2f)
 		.IncrementalCostThreshold(ResourceType.Ball, 0)
 		.IncrementalCostThreshold(ResourceType.Dust, 0)
-		.Modifier(AttributeType.LaserRange, 2);
+		.Modifier(AttributeType.LaserRange, 2)
+		.Modifier(AttributeType.ExplosionRadius, 0.25f);
 
 	//funny scaling
 	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage", 50, 1.2f)

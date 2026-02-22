@@ -358,8 +358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd71f4299d5839d43a5356a24653928f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Health
-  maxHP: 50
-  currentHP: 50
+  maxHP: 6000
+  currentHP: 6000
   isDead: 0
   healthIndicator: {fileID: 2284543849362023986}
 --- !u!50 &6026193124433562177
