@@ -199,6 +199,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cheat_Resources"",
+                    ""type"": ""Button"",
+                    ""id"": ""1ac07274-5c9f-48f6-ad8b-57f25d291472"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cheat_Unlocks"",
+                    ""type"": ""Button"",
+                    ""id"": ""74116b13-a7d5-4030-baff-44370f3753c0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CloseAllScreens"",
+                    ""type"": ""Button"",
+                    ""id"": ""6bc6bb78-4066-4fde-9d97-88ba98029bc1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -606,6 +633,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse;Touch"",
                     ""action"": ""ToggleEngineMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b5edebe-0790-4121-9e39-3a75cb556ee2"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": ""Hold(duration=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cheat_Resources"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25e2851f-92e7-48af-bbe4-218558d317ad"",
+                    ""path"": ""<Keyboard>/f2"",
+                    ""interactions"": ""Hold(duration=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cheat_Unlocks"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f002751c-4539-46aa-a44d-4194a76ef057"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse;Gamepad"",
+                    ""action"": ""CloseAllScreens"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1205,6 +1265,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_ToggleUpgradeScreen = m_Player.FindAction("ToggleUpgradeScreen", throwIfNotFound: true);
         m_Player_LeaveLevelEarly = m_Player.FindAction("LeaveLevelEarly", throwIfNotFound: true);
         m_Player_ToggleEngineMode = m_Player.FindAction("ToggleEngineMode", throwIfNotFound: true);
+        m_Player_Cheat_Resources = m_Player.FindAction("Cheat_Resources", throwIfNotFound: true);
+        m_Player_Cheat_Unlocks = m_Player.FindAction("Cheat_Unlocks", throwIfNotFound: true);
+        m_Player_CloseAllScreens = m_Player.FindAction("CloseAllScreens", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1310,6 +1373,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ToggleUpgradeScreen;
     private readonly InputAction m_Player_LeaveLevelEarly;
     private readonly InputAction m_Player_ToggleEngineMode;
+    private readonly InputAction m_Player_Cheat_Resources;
+    private readonly InputAction m_Player_Cheat_Unlocks;
+    private readonly InputAction m_Player_CloseAllScreens;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1369,6 +1435,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ToggleEngineMode".
         /// </summary>
         public InputAction @ToggleEngineMode => m_Wrapper.m_Player_ToggleEngineMode;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Cheat_Resources".
+        /// </summary>
+        public InputAction @Cheat_Resources => m_Wrapper.m_Player_Cheat_Resources;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Cheat_Unlocks".
+        /// </summary>
+        public InputAction @Cheat_Unlocks => m_Wrapper.m_Player_Cheat_Unlocks;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/CloseAllScreens".
+        /// </summary>
+        public InputAction @CloseAllScreens => m_Wrapper.m_Player_CloseAllScreens;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1431,6 +1509,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleEngineMode.started += instance.OnToggleEngineMode;
             @ToggleEngineMode.performed += instance.OnToggleEngineMode;
             @ToggleEngineMode.canceled += instance.OnToggleEngineMode;
+            @Cheat_Resources.started += instance.OnCheat_Resources;
+            @Cheat_Resources.performed += instance.OnCheat_Resources;
+            @Cheat_Resources.canceled += instance.OnCheat_Resources;
+            @Cheat_Unlocks.started += instance.OnCheat_Unlocks;
+            @Cheat_Unlocks.performed += instance.OnCheat_Unlocks;
+            @Cheat_Unlocks.canceled += instance.OnCheat_Unlocks;
+            @CloseAllScreens.started += instance.OnCloseAllScreens;
+            @CloseAllScreens.performed += instance.OnCloseAllScreens;
+            @CloseAllScreens.canceled += instance.OnCloseAllScreens;
         }
 
         /// <summary>
@@ -1478,6 +1565,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleEngineMode.started -= instance.OnToggleEngineMode;
             @ToggleEngineMode.performed -= instance.OnToggleEngineMode;
             @ToggleEngineMode.canceled -= instance.OnToggleEngineMode;
+            @Cheat_Resources.started -= instance.OnCheat_Resources;
+            @Cheat_Resources.performed -= instance.OnCheat_Resources;
+            @Cheat_Resources.canceled -= instance.OnCheat_Resources;
+            @Cheat_Unlocks.started -= instance.OnCheat_Unlocks;
+            @Cheat_Unlocks.performed -= instance.OnCheat_Unlocks;
+            @Cheat_Unlocks.canceled -= instance.OnCheat_Unlocks;
+            @CloseAllScreens.started -= instance.OnCloseAllScreens;
+            @CloseAllScreens.performed -= instance.OnCloseAllScreens;
+            @CloseAllScreens.canceled -= instance.OnCloseAllScreens;
         }
 
         /// <summary>
@@ -1862,6 +1958,27 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleEngineMode(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cheat_Resources" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCheat_Resources(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cheat_Unlocks" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCheat_Unlocks(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CloseAllScreens" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCloseAllScreens(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

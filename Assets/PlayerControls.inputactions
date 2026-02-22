@@ -113,6 +113,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Cheat_Resources",
+                    "type": "Button",
+                    "id": "1ac07274-5c9f-48f6-ad8b-57f25d291472",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cheat_Unlocks",
+                    "type": "Button",
+                    "id": "74116b13-a7d5-4030-baff-44370f3753c0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseAllScreens",
+                    "type": "Button",
+                    "id": "6bc6bb78-4066-4fde-9d97-88ba98029bc1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -520,6 +547,39 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse;Touch",
                     "action": "ToggleEngineMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b5edebe-0790-4121-9e39-3a75cb556ee2",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cheat_Resources",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25e2851f-92e7-48af-bbe4-218558d317ad",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cheat_Unlocks",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f002751c-4539-46aa-a44d-4194a76ef057",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse;Gamepad",
+                    "action": "CloseAllScreens",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

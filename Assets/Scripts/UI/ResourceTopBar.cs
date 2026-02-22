@@ -23,6 +23,11 @@ public class ResourceTopBar : MonoBehaviour
 	{
 		controls = new();
 		controls.Player.ToggleUpgradeScreen.performed += OnToggleUpgradeScreen;
+		controls.Player.Cheat_Resources.performed += CHEAT_AddResources;
+		controls.Player.Cheat_Unlocks.performed += CHEAT_AddNextItem;
+		controls.Player.CloseAllScreens.performed += DEBUG_CloseAllMenus;
+
+
 		Canvas = GetComponentInParent<Canvas>().transform;
 		UpgradeBtn = UpgradeButton.GetComponent<Button>();
 		UpgradeBtn.onClick.AddListener(() => OnToggleUpgradeScreen(default));
@@ -36,6 +41,38 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceCollected += OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent += OnResourceSpent;
 		Global.Instance.Upgrades.OnItemCollected += OnItemCollected;
+	}
+
+	void CHEAT_AddResources(InputAction.CallbackContext context)
+	{
+		Debug.Log("CHEAT getting resources");
+		Global.Instance.SpaceshipResources.CollectResource(ResourceType.Meat, 999999999);
+		Global.Instance.SpaceshipResources.CollectResource(ResourceType.Rust, 999999999);
+		Global.Instance.SpaceshipResources.CollectResource(ResourceType.Ball, 999999999);
+		Global.Instance.SpaceshipResources.CollectResource(ResourceType.Dust, 999999999);
+	}
+	void CHEAT_AddNextItem(InputAction.CallbackContext context)
+	{
+		Debug.Log("CHEAT getting next item");
+		if (!Global.Instance.Upgrades.RadarUnlocked)
+			Global.Instance.Upgrades.CollectFindableItem(FindableItem.Radar);
+		else if (!Global.Instance.Upgrades.SuperCruiseUnlocked)
+			Global.Instance.Upgrades.CollectFindableItem(FindableItem.SuperCruise);
+		else if (!Global.Instance.Upgrades.MeatWorldItemFound)
+			Global.Instance.Upgrades.CollectFindableItem(FindableItem.Meat);
+		else if (!Global.Instance.Upgrades.TennisWorldItemFound)
+			Global.Instance.Upgrades.CollectFindableItem(FindableItem.Tennis);
+		else if (!Global.Instance.Upgrades.DesertWorldItemFound)
+			Global.Instance.Upgrades.CollectFindableItem(FindableItem.Desert);
+	}
+
+	void DEBUG_CloseAllMenus(InputAction.CallbackContext context)
+	{
+		Debug.Log("DEBUG clearing ui states");
+		Global.Instance.InPauseMenu = false;
+		Global.Instance.InUpgradeMenu = false;
+		Global.Instance.InDialogue = false;
+		Global.Instance.InCameraTransition = false;
 	}
 
 	private void OnItemCollected(FindableItem item)
