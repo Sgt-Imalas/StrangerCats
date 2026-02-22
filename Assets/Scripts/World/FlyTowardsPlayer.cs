@@ -11,6 +11,7 @@ public class FlyTowardsPlayer : MonoBehaviour
 	[SerializeField]Rigidbody2D rb;
 
 	public float CollectionSpeed = 5f;
+	public bool LosesTargeting = false;
 
 	private void Awake()
 	{
@@ -20,12 +21,12 @@ public class FlyTowardsPlayer : MonoBehaviour
 			rb = transform.parent.GetComponent<Rigidbody2D>();
 	}
 
-	//private void OnTriggerExit2D(Collider2D collision)
-	//{
-	//	if (collision.gameObject.tag != "Player")
-	//		return;
-	//	currentPlayer = null;
-	//}
+	private void OnTriggerExit2D(Collider2D collision)
+	{
+		if (collision.gameObject.tag != "Player" || !LosesTargeting)
+			return;
+		currentPlayer = null;
+	}
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag != "Player")
