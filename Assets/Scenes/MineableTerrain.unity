@@ -1292,10 +1292,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 837065598838144040, guid: 26ec8379723b68d4bbf341345e125b89, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2235183959250758583, guid: 26ec8379723b68d4bbf341345e125b89, type: 3}
       propertyPath: ItemBox
       value: 
       objectReference: {fileID: 1126971287}
+    - target: {fileID: 3385922263299608047, guid: 26ec8379723b68d4bbf341345e125b89, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3766693098600666893, guid: 26ec8379723b68d4bbf341345e125b89, type: 3}
       propertyPath: ItemBox
       value: 
@@ -86898,10 +86906,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MeatMaterial (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance)
   m_Shader: {fileID: -6465566751694194690, guid: c6a14c21fc7b479489fcc4c12739d5b2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 4

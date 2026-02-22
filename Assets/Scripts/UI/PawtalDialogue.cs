@@ -82,7 +82,7 @@ public class PawtalDialogue : MonoBehaviour
 		///first meeting, giving schwartz
 		if (!Global.Instance.Upgrades.SuperCruiseUnlocked)
 		{
-			PawtalRadar.IgnoreDistanceLimit = true;
+			PawtalRadar.SetIgnoreDistanceLimit(true);
 			StartTalking(dialogue_firsttime);
 			ButtonText.SetText("Thanks Master Meowgurt!");
 		}
