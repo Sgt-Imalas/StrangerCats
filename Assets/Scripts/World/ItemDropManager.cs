@@ -7,7 +7,7 @@ public class ItemDropManager : MonoBehaviour
 	public Tilemap TileMap;
 	public ConfigurableItem Res_Drop_Meat, Res_Drop_Rust, Res_Drop_Ball, Res_Drop_Dust;
 	public ConfigurableItem Drop_Meat_Item, Drop_Radar_Item, Drop_Ball_Item, Drop_Comb_Item;
-
+	public GameObject Player;
 
 	private void Start()
 	{
@@ -51,6 +51,7 @@ public class ItemDropManager : MonoBehaviour
 		var itemDrop = Instantiate(prefab);
 		itemDrop.Amount = 1;
 		itemDrop.transform.position = pos;
+		itemDrop.FlyTowards(Player);
 		itemDrop.gameObject.SetActive(true);
 		
 	}
@@ -89,8 +90,7 @@ public class ItemDropManager : MonoBehaviour
 		var itemDrop = Instantiate(prefab);
 		itemDrop.Amount = (uint)Mathf.Max(mat.resourceAmount, 1);
 		itemDrop.transform.position = TileMap.CellToWorld(pos) + new Vector3(0.5f, 0.5f);
-		itemDrop.gameObject.gameObject.SetActive(true);
-
+		itemDrop.gameObject.SetActive(true);
 	}
 	private void HandleCollectibleContainerDestroyed(Vector3 pos, FindableItem item)
 	{
@@ -120,7 +120,7 @@ public class ItemDropManager : MonoBehaviour
 
 		var itemDrop = Instantiate(prefab);
 		itemDrop.gameObject.SetActive(true);
-		itemDrop.transform.position = pos;
+		itemDrop.transform.position = pos;		
 
 	}
 }

@@ -36,7 +36,7 @@ public class CardAnimation : MonoBehaviour
 
 			transform.rotation = Quaternion.Euler(0f, 0f, rotationValue);
 
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 
 			yield return null;
 		}
@@ -67,7 +67,7 @@ public class CardAnimation : MonoBehaviour
 			transform.rotation = Quaternion.Euler(0f, 0f, rotationValue);
 			transform.localPosition = Vector3.Lerp(startLocalPos, localTargetPosition, curvedT);
 
-			timer += Time.deltaTime;
+			timer += Time.unscaledDeltaTime;
 
 			yield return null;
 		}

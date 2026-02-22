@@ -1,8 +1,10 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class ConfigurableItem : MonoBehaviour
 {
+	public FlyTowardsPlayer flyTowards;
 	public Sprite TargetSprite;
 	SpriteRenderer spriteRenderer;
 	public ResourceType resourceType = ResourceType.None;
@@ -30,5 +32,11 @@ public class ConfigurableItem : MonoBehaviour
 			if (itemCfg != null)
 				itemCfg.TurnOff();
 		}
+	}
+
+	internal void FlyTowards(GameObject player)
+	{
+		if(flyTowards!=null)
+			flyTowards.currentPlayer = player;
 	}
 }

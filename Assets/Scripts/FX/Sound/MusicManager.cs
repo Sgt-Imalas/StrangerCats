@@ -74,7 +74,7 @@ public class MusicManager : MonoBehaviour
 	}
 	public static void PlayFx(AudioClip sound, float volume = 1.0f)
 	{
-		Instance.SfxSource.PlayOneShot(sound, volume);
+		Instance?.SfxSource?.PlayOneShot(sound, volume);
 	}
 
 	Queue<Tuple<AudioClip, float>> Queued = new();

@@ -38,6 +38,7 @@ public class Global
 	public int WorldSeed;
 	public PlanetDescriptor generateWorld;
 	public PlanetDescriptor loadPlanet;
+	public bool PortalOpened = false;
 
 
 	public void StartLoadingStarmapScene()

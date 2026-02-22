@@ -10,23 +10,21 @@ public class PortalIgniter : MonoBehaviour
 		if (!Global.Instance.Upgrades.MeatWorldItemFound || !Global.Instance.Upgrades.TennisWorldItemFound || !Global.Instance.Upgrades.DesertWorldItemFound)
 		{
 			Debug.Log("Started listening to item collection for warp portal opening");
-			InvokeRepeating("TryRekindlePortal", 5, 5f);
-		}
-		else
-			TryRekindlePortal();
-
+			InvokeRepeating(nameof(TryRekindlePortal), 1, 1f);
+		}		
+		TryRekindlePortal();
 	}
 
 	private void TryRekindlePortal()
 	{
-		if(Global.Instance.Upgrades.MeatWorldItemFound && Global.Instance.Upgrades.TennisWorldItemFound && Global.Instance.Upgrades.DesertWorldItemFound && PortalLight.gameObject.activeSelf)
+		if(Global.Instance.Upgrades.MeatWorldItemFound && Global.Instance.Upgrades.TennisWorldItemFound && Global.Instance.Upgrades.DesertWorldItemFound)
 		{
-			if (RekindlePortal)
+			if (RekindlePortal && !Global.Instance.PortalOpened)
+			{
 				MusicManager.PlayFx(RekindlePortal);
-
+				Global.Instance.PortalOpened = true;
+			}
 			PortalLight.SetActive(true);
-
-			Destroy(gameObject);
 		}
 	}
 }

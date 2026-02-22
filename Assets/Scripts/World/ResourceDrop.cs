@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResourceDrop : Collectible
 {
-	public ResourceType ResourceType;
+	public ResourceType ResourceType = ResourceType.None;
 	public uint Amount = 1; 
 	protected override void DoCollect()
 	{

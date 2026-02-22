@@ -102,10 +102,10 @@ public class ResourceTopBar : MonoBehaviour
 				break;
 		}
 
-		yield return new WaitForSeconds(0.25f);
+		yield return new WaitForSecondsRealtime(0.25f);
 		if (ColleccItem != null)
 			MusicManager.PlayFx(ColleccItem, 0.3f);
-		yield return new WaitForSeconds(4.75f);
+		yield return new WaitForSecondsRealtime(4.75f);
 		RefreshVisibility(item);
 	}
 

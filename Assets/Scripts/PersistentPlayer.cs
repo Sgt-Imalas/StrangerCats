@@ -47,6 +47,7 @@ namespace Assets.Scripts
 			LanderEnergy = GetAttribute(AttributeType.LifeTime, MaxLanderEnergy);
 		}
 
+
 		void OnSceneLoaded(Scene s, LoadSceneMode mode)
 		{
 			InLander = s.name == "MineableTerrain";
