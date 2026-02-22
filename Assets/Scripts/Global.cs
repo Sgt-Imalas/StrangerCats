@@ -227,8 +227,8 @@ public class MiningResourceStorage
 
 public class GameUpgrades
 {
-	public bool RadarUnlocked = false || true;
-	public bool SuperCruiseUnlocked = false ||true;
+	public bool RadarUnlocked = false;
+	public bool SuperCruiseUnlocked = false;
 	public bool MeatWorldItemFound = false;
 	public bool TennisWorldItemFound = false;
 	public bool DesertWorldItemFound = false;

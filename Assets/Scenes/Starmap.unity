@@ -1405,7 +1405,7 @@ Transform:
   m_GameObject: {fileID: 314561617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.92, y: 0.83, z: 0}
+  m_LocalPosition: {x: 6.95, y: 1.52, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2140,6 +2140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59974a50de2e51040bae591fc4d29724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeScreen
+  BuySound: {fileID: 8300000, guid: 309e32dba2028ed428588a7f2ad4eb18, type: 3}
   GO_Radar: {fileID: 626639866}
   GO_RotationSpeed: {fileID: 1995647317}
   GO_SuperCruise: {fileID: 1572170911}
@@ -5083,7 +5084,7 @@ Transform:
   m_GameObject: {fileID: 1037043826}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.94, z: 0}
+  m_LocalPosition: {x: 0.63, y: -5.44, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5354,6 +5355,7 @@ MonoBehaviour:
   SmolFire: {fileID: 1031211153}
   ControllerAim: 0
   CachedRotationSpeedMultiplier: 1
+  CachedSupercruiseBoostMultiplier: 1
 --- !u!1 &1076738980
 GameObject:
   m_ObjectHideFlags: 0
@@ -7821,7 +7823,7 @@ Transform:
   m_GameObject: {fileID: 1661253607}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.74, y: 1.32, z: 0}
+  m_LocalPosition: {x: -7, y: -0.06, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

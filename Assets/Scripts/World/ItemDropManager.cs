@@ -15,10 +15,13 @@ public class ItemDropManager : MonoBehaviour
 	private void Start()
 	{
 		GlobalEvents.Instance.OnTileDestroyed += HandleTileDestroyed;
+		GlobalEvents.Instance.OnFindableItemRevealed += HandleCollectibleContainerDestroyed;
 	}
 	private void OnDestroy()
 	{
 		GlobalEvents.Instance.OnTileDestroyed -= HandleTileDestroyed;
+		GlobalEvents.Instance.OnFindableItemRevealed -= HandleCollectibleContainerDestroyed;
+		
 	}
 
 	private void HandleTileDestroyed(Vector3Int pos, int matIdx)
@@ -57,7 +60,7 @@ public class ItemDropManager : MonoBehaviour
 		itemDrop.gameObject.gameObject.SetActive(true);
 
 	}
-	private void HandleCollectibleCollected(Vector3 pos, FindableItem item)
+	private void HandleCollectibleContainerDestroyed(Vector3 pos, FindableItem item)
 	{
 		ConfigurableItem prefab = null;
 		switch (item)
