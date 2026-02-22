@@ -107,7 +107,7 @@ public class LaserCanon : MonoBehaviour
 					new Vector2(0.1f, 0.2f),
 					0f,
 					dir,
-					500.0f,
+					cachedLaserRange,
 					layerMask
 				);
 
