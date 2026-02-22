@@ -1640,7 +1640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RadarTarget
   Tint: {r: 1, g: 0.80166054, b: 0, a: 1}
-  IgnoreDistanceLimit: 0
+  IgnoreDistanceLimit: 1
 --- !u!212 &328265342
 SpriteRenderer:
   serializedVersion: 2

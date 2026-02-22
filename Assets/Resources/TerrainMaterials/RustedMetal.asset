@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RustedMetal
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.TerrainMaterial
   materialName: Rusted Metal
-  hardness: 3
+  hardness: 2
   textureIdx: 5
   resourceType: 1
   resourceAmount: 2

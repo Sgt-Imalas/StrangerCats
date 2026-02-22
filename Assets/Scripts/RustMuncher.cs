@@ -39,6 +39,7 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 		deathSplat.Emit(20);
 		animator.gameObject.SetActive(false);
 		GetComponent<BoxCollider2D>().enabled = false;
+		GlobalEvents.Instance.OnTileDestroyed -= OnTileDestroyed;
 
 		StartCoroutine(DieLater());
 

@@ -4941,6 +4941,7 @@ GameObject:
   - component: {fileID: 5502198428076240498}
   - component: {fileID: 6645403193580793314}
   - component: {fileID: 1769373145534170683}
+  - component: {fileID: 925206934238107008}
   m_Layer: 8
   m_Name: IridiumArtifact
   m_TagString: Untagged
@@ -5181,6 +5182,19 @@ PolygonCollider2D:
       - {x: -0.08729398, y: -4.0541496}
       - {x: 3.7698164, y: 0.0247764}
   m_UseDelaunayMesh: 1
+--- !u!114 &925206934238107008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322849706372164715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6895f6899e4c2c642a4bb8d273ab2393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropCollectibleOnDeath
+  ToDrop: 4
 --- !u!1001 &1648426126966092346
 PrefabInstance:
   m_ObjectHideFlags: 0

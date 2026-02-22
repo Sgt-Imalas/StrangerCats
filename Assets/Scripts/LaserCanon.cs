@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -111,10 +112,10 @@ public class LaserCanon : MonoBehaviour
 					layerMask
 				);
 
-		if (hit.collider != null)
+		if (hit.collider != null && !hit.collider.IsDestroyed())
 		{
 			var damage = PersistentPlayer.GetAttribute(AttributeType.DigDamage);
-			if (hit.collider.TryGetComponent(out Health health))
+			if (hit.collider.TryGetComponent(out Health health) && !health.IsDestroyed())
 			{
 				health.Damage(damage);
 			}

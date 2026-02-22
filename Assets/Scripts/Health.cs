@@ -61,14 +61,15 @@ namespace Assets.Scripts
 			if (damage == 0)
 				return;
 
-			if (healthIndicator != null && IsFullHealth())
+			if (healthIndicator != null && IsFullHealth() && healthIndicator.gameObject != null)
 				healthIndicator.gameObject.SetActive(true);
 
 			AddHP(-damage);
 
 			OnHurt?.Invoke(GetTotalHealth() <= 0);
 
-			healthIndicator.SetPercent(GetHealthPercent());
+			if(healthIndicator != null) 
+				healthIndicator.SetPercent(GetHealthPercent());
 		}
 
 		public void SetMaxHP(int health, bool triggerEvent = true)
