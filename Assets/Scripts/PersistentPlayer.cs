@@ -21,6 +21,8 @@ namespace Assets.Scripts
 
 		public bool InLander, LaserFiring;
 
+		public float iframes = 0.5f;
+		public float lastDamageTaken;
 
 
 		private void Awake()
@@ -42,7 +44,7 @@ namespace Assets.Scripts
 		void Start()
 		{
 			attributes.OnAttributeChanged += OnAttributesChanged;
-			LanderEnergy = GetAttribute(AttributeType.LifeTime, MaxLanderEnergy);			
+			LanderEnergy = GetAttribute(AttributeType.LifeTime, MaxLanderEnergy);
 		}
 
 		void OnSceneLoaded(Scene s, LoadSceneMode mode)
@@ -54,7 +56,7 @@ namespace Assets.Scripts
 		{
 			GlobalEvents.Instance.OnPlayerAttributesChanged.Invoke(type, finalValue);
 
-			if(type == AttributeType.LifeTime)
+			if (type == AttributeType.LifeTime)
 			{
 				MaxLanderEnergy = finalValue;
 				LanderEnergy = Mathf.Clamp(LanderEnergy, 0, MaxLanderEnergy);
@@ -74,30 +76,41 @@ namespace Assets.Scripts
 				testMod = false;
 			}
 
+			lastDamageTaken += Time.deltaTime;
+		}
+
+		public void DamageEnergy(float damage)
+		{
+			if (iframes < lastDamageTaken)
+			{
+				LanderEnergy = Mathf.Clamp(LanderEnergy - damage, 0, MaxLanderEnergy);
+				lastDamageTaken = 0.0f;
+			}
 		}
 
 		private void FixedUpdate()
 		{
 			if (!InLander)
 			{
-				float rechargeAmount = MaxLanderEnergy * 0.334f * Time.deltaTime;
+				var rechargeAmount = MaxLanderEnergy * 0.334f * Time.deltaTime;
 				LanderEnergy = Mathf.Clamp(LanderEnergy + rechargeAmount, 0, MaxLanderEnergy);
 			}
 			else
 			{
-				float decayAmount = LanderEnergyDecayPerSecond;
-				if(LaserFiring)
+				var decayAmount = LanderEnergyDecayPerSecond;
+				if (LaserFiring)
 					decayAmount += LaserEnergyDrainPerSecond;
 
 				decayAmount *= Time.fixedDeltaTime;
 
 				LanderEnergy = Mathf.Clamp(LanderEnergy - decayAmount, 0, MaxLanderEnergy);
-				if(LanderEnergy == 0)
+				if (LanderEnergy == 0)
 					LoadStarmap();
 			}
 		}
 		public static void LoadStarmap()
 		{
+
 			Global.Instance.StartLoadingStarmapScene();
 		}
 

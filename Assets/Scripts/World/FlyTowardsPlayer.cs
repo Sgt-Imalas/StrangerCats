@@ -1,14 +1,12 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider2D))]
 public class FlyTowardsPlayer : MonoBehaviour
 {
 	public Collider2D currentPlayer = null;
 
-	[SerializeField]GameObject Target;
-	[SerializeField]Rigidbody2D rb;
+	[SerializeField] GameObject Target;
+	[SerializeField] Rigidbody2D rb;
 
 	public float CollectionSpeed = 5f;
 
@@ -16,7 +14,7 @@ public class FlyTowardsPlayer : MonoBehaviour
 	{
 		if (Target == null)
 			Target = transform.parent.gameObject;
-		if(rb == null)
+		if (rb == null)
 			rb = transform.parent.GetComponent<Rigidbody2D>();
 	}
 
@@ -36,7 +34,7 @@ public class FlyTowardsPlayer : MonoBehaviour
 	float incrementalMultiplier = 1f;
 	private void FixedUpdate()
 	{
-		if(currentPlayer != null)
+		if (currentPlayer != null)
 		{
 			rb.AddForce((currentPlayer.transform.position - rb.transform.position) * Time.fixedDeltaTime * CollectionSpeed * incrementalMultiplier);
 			incrementalMultiplier += Time.fixedDeltaTime;

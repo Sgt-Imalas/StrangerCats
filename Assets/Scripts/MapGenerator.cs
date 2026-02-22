@@ -27,6 +27,15 @@ public class MapGenerator : MonoBehaviour
 			Materials.Load();
 		}
 
+		if (Global.Instance != null && Global.Instance.entities != null)
+		{
+			for (var i = Global.Instance.entities.Count - 1; i >= 0; i--)
+			{
+				var entity = Global.Instance.entities[i];
+				Object.Destroy(entity);
+			}
+		}
+
 		tileMap.ClearAllTiles();
 
 		var tex = new Texture2D(size, size, TextureFormat.R16, false, true);
@@ -35,7 +44,7 @@ public class MapGenerator : MonoBehaviour
 
 		//var tilePositions = new List<Vector3Int>();
 
-		if (generateEnemies && descriptor.enemyPreset != null)
+		if (generateEnemies && (descriptor.enemyPreset != null || descriptor.gizmoPrefab != null))
 			SpawnEnemies(materials, tileMap, center, size, descriptor);
 
 		foreach (var mat in materials)
@@ -114,6 +123,9 @@ public class MapGenerator : MonoBehaviour
 			randomSpot += center;
 			var position = new Vector3Int((int)randomSpot.x, (int)randomSpot.y);
 
+			if (descriptor.generationPreset == PlanetDescriptor.GenerationPreset.Plastic)
+				position = new Vector3Int((int)center.x, (int)center.y); ;
+
 			if (descriptor.gizmoPrefab.TryGetComponent(out ISpawnRules rules))
 			{
 				if (rules.CanSpawnHere(position, materials, out var data))
@@ -128,27 +140,31 @@ public class MapGenerator : MonoBehaviour
 			}
 		}
 
-		while (attempts-- > 0 && enemiesSpawned < descriptor.enemiesToSpawn)
+		if (descriptor.enemyPreset != null)
 		{
-			var randomSpot = 0.35f * size * Random.insideUnitCircle;
-			randomSpot += center;
-			var position = new Vector3Int((int)randomSpot.x, (int)randomSpot.y);
 
-			if (claimedPositions.Contains(position))
-				continue;
-
-			claimedPositions.Add(position);
-
-			if (descriptor.enemyPreset.TryGetComponent(out ISpawnRules rules))
+			while (attempts-- > 0 && enemiesSpawned < descriptor.enemiesToSpawn)
 			{
-				if (rules.CanSpawnHere(position, materials, out var data))
-				{
-					var enemy = Object.Instantiate(descriptor.enemyPreset);
-					enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
-					enemy.gameObject.SetActive(true);
+				var randomSpot = 0.35f * size * Random.insideUnitCircle;
+				randomSpot += center;
+				var position = new Vector3Int((int)randomSpot.x, (int)randomSpot.y);
 
-					enemy.GetComponent<ISpawnRules>().ConfigureSpawn(position, materials, claimedPositions, data);
-					Global.Instance.entities.Add(enemy);
+				if (claimedPositions.Contains(position))
+					continue;
+
+				claimedPositions.Add(position);
+
+				if (descriptor.enemyPreset.TryGetComponent(out ISpawnRules rules))
+				{
+					if (rules.CanSpawnHere(position, materials, out var data))
+					{
+						var enemy = Object.Instantiate(descriptor.enemyPreset);
+						enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
+						enemy.gameObject.SetActive(true);
+
+						enemy.GetComponent<ISpawnRules>().ConfigureSpawn(position, materials, claimedPositions, data);
+						Global.Instance.entities.Add(enemy);
+					}
 				}
 			}
 		}

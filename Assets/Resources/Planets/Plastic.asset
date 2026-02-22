@@ -23,6 +23,11 @@ MonoBehaviour:
   innerRadius: 40
   generationPreset: 1
   enemyPreset: {fileID: 0}
+  gizmoPrefab: {fileID: 6322849706372164715, guid: 71faf483ecaac2e498bccd4097e6fc94, type: 3}
+  enemiesToSpawn: 0
+  playerSpawnPoint: {x: 0, y: 0, z: 0}
+  fractalGain: 1
+  octaves: 3
   boneNoiseScale: 1.45
   boneAmpl: 7.78
   boneThreshold: 0.1

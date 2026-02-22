@@ -20,6 +20,8 @@ namespace Assets.Scripts
 		public GameObject gizmoPrefab;
 		public int enemiesToSpawn = 32;
 		public Vector3 playerSpawnPoint;
+		public float fractalGain = 1.0f;
+		public int octaves = 3;
 
 
 		public float boneNoiseScale = 1.45f, boneAmpl = 7.78f, boneThreshold = 0.1f;
@@ -197,6 +199,8 @@ namespace Assets.Scripts
 
 			var noise = new FastNoiseLite(seed);
 			noise.SetFractalType(FastNoiseLite.FractalType.Ridged);
+			noise.SetFractalGain(fractalGain);
+			noise.SetFractalOctaves(octaves);
 
 			size = radius * 2 + 10;
 

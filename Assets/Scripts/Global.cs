@@ -40,10 +40,21 @@ public class Global
 
 	public void StartLoadingStarmapScene()
 	{
+		if (Global.Instance != null && Global.Instance.entities != null)
+		{
+			for (var i = Global.Instance.entities.Count - 1; i >= 0; i--)
+			{
+				var entity = Global.Instance.entities[i];
+				UnityEngine.Object.Destroy(entity);
+			}
+		}
+
 		LoadOverlay.ShowOverlay();
 		LoadingScene = true;
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
 		SceneManager.LoadScene("Starmap");
+
+
 	}
 
 	public void StartLoadingMainMenu()
@@ -157,7 +168,7 @@ public class MiningResourceStorage
 		{ResourceType.Dust, new Color32(0, 64, 255,byte.MaxValue)}
 	};
 
-	public Dictionary<ResourceType, uint> Current = new() 
+	public Dictionary<ResourceType, uint> Current = new()
 	//DEBUG!!
 	//{ { ResourceType.Meat,999999 },{ ResourceType.Rust,999999 },{ ResourceType.Ball,999999 },{ ResourceType.Dust,999999 }, }
 	;
@@ -169,11 +180,18 @@ public class MiningResourceStorage
 
 	public void CollectResource(ResourceType type, uint amount)
 	{
+		if (Current == null)
+		{
+			Debug.LogWarning("Current is null");
+			return;
+		}
+
 		if (!Current.ContainsKey(type))
 		{
 			Current[type] = 0;
-			OnResourceDiscovered(type);
+			OnResourceDiscovered?.Invoke(type);
 		}
+
 		var collected = Math.Clamp(amount + Current[type], 0, uint.MaxValue);
 		Current[type] = collected;
 		OnResourceCollected?.Invoke(type, collected);

@@ -5175,6 +5175,7 @@ GameObject:
   - component: {fileID: 1045476050}
   - component: {fileID: 1045476048}
   - component: {fileID: 1045476049}
+  - component: {fileID: 1045476051}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Player
@@ -5302,6 +5303,18 @@ MonoBehaviour:
   SmolFire: {fileID: 1031211153}
   ControllerAim: 0
   CachedRotationSpeedMultiplier: 1
+--- !u!114 &1045476051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045476043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e8050e6c62ecf42a1587acd7fd4b7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HurtablePlayer
 --- !u!1 &1076738980
 GameObject:
   m_ObjectHideFlags: 0
@@ -8669,7 +8682,8 @@ MonoBehaviour:
   m_text: 'Tip:
 
 
-    Pour the liquid Schwartz into your fuel tank with Q to go into supercruise mode'
+    Pour the liquid Schwartz into your fuel tank with Q to go into
+    supercruise mode'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -8903,20 +8917,23 @@ MonoBehaviour:
   m_text: 'Your quest incomplete still is.
 
 
-    All the legendary items, you have not.
+    All the legendary items, you have
+    not.
 
 
     Collecting them, you must!
 
 
-    Revealing themselves, they will in time.
+    Revealing themselves, they will in
+    time.
 
 
     Improving your spaceship, you should!
 
 
 
-    Better chances it will give you in finding them!'
+    Better chances it will
+    give you in finding them!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -15616,23 +15633,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[0].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[0].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[1].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[1].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 5a0365375937d8d42ba102d9ca001816, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[2].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[2].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[3].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[3].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[4].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[4].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 0778d87b9c4920d4f98d7d4ed20b472a, type: 3}
     m_RemovedComponents: []

@@ -41,6 +41,8 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 		GetComponent<BoxCollider2D>().enabled = false;
 
 		StartCoroutine(DieLater());
+
+		GlobalEvents.Instance.OnEnemyKilled?.Invoke(transform.position, ResourceType.Rust);
 	}
 
 
@@ -60,11 +62,6 @@ public class RustMuncher : MonoBehaviour, ISpawnRules
 			rb.AddForce(-(Vector3)looking * 200.0f);
 			rb.AddTorque(10f);
 		}
-	}
-
-	private void Die(bool byPlayer)
-	{
-		Object.Destroy(gameObject);
 	}
 
 	public bool CanSpawnHere(Vector3Int coord, Dictionary<Vector3Int, int> materials, out object data)

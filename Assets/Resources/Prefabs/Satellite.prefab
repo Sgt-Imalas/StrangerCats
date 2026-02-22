@@ -5093,6 +5093,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3e13b8fcf38503647ad56363cda50c67, type: 3}
   - {fileID: 8300000, guid: a74389ec926b06d4c9f4574bb7035344, type: 3}
   deconstructSound: {fileID: 8300000, guid: 79eda2b514fe41c45a6d5c5d080409a3, type: 3}
+  dustColor: {r: 0.509434, g: 0.27538088, b: 0.1994482, a: 0}
+  findableItem: 0
+  floating: 0
+  frame: {fileID: 11400000, guid: 4293b3455c83b884f933773d970924c1, type: 2}
   particles: {fileID: 3835505222059213662}
 --- !u!82 &6645403193580793314
 AudioSource:

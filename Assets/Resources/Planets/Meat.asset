@@ -16,13 +16,18 @@ MonoBehaviour:
   bg: {fileID: 2800000, guid: 9a787fec772018d4b9d9780d3b61071b, type: 3}
   resourceType: 0
   noiseScale: 0.39
-  noiseThreshold: 0.01
+  noiseThreshold: 0.02
   bumpinessFrequency: 1
   bumpinessAmplitude: 2.97
   radius: 64
   innerRadius: 40
   generationPreset: 0
-  enemyPreset: {fileID: 0}
+  enemyPreset: {fileID: 3265589927645441340, guid: f433b82f2a46bc54a94b31ccddbc0aee, type: 3}
+  gizmoPrefab: {fileID: 6322849706372164715, guid: b825b800ff09bee47bc1bc3612dad06d, type: 3}
+  enemiesToSpawn: 16
+  playerSpawnPoint: {x: 69, y: 148, z: 0}
+  fractalGain: 1.3
+  octaves: 4
   boneNoiseScale: 1.45
   boneAmpl: 7.78
   boneThreshold: 0.1

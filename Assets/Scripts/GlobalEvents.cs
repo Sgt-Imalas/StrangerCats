@@ -12,6 +12,7 @@ namespace Assets.Scripts
 		public Attributes.OnAttributeChangedDelegate OnPlayerAttributesChanged;
 		public OnNewMapGeneratedDelegate OnNewMapGenerated;
 		public Action<Vector3Int, int> OnTileDestroyed;
+		public Action<Vector3, ResourceType> OnEnemyKilled;
 
 		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor);
 

@@ -17,6 +17,11 @@ namespace Assets.Scripts
 		public AudioClip[] pickSounds;
 		public AudioClip deconstructSound;
 
+		public Color dustColor;
+		public FindableItem findableItem;
+		public bool floating;
+		public TerrainMaterial frame;
+
 		public ParticleSystem particles;
 
 		private Dictionary<Vector3Int, int> GetMaterialOverrides()
@@ -25,6 +30,9 @@ namespace Assets.Scripts
 				return materialOverrides;
 
 			materialOverrides = new Dictionary<Vector3Int, int>();
+
+			if (frame == null)
+				return materialOverrides;
 
 			string[] map = {
 				"       XX       ",
@@ -42,7 +50,22 @@ namespace Assets.Scripts
 				"      XXXX      ",
 				"       XX       " };
 
-			materialOverrides = Utils.MakeOffsetsFromMap(false, Materials.SteelSheets, map);
+			string[] floatymap = {
+				"       XX       ",
+				"      XXXX      ",
+				"     XXXXXXX    ",
+				"    XXX,,XXXX   ",
+				"   XXX,,,,XXXX  ",
+				"  XXX,,,,,,,XXX ",
+				"XXX,,,,,,,,,,XXX",
+				"XXXX,,,,O,,,,XX ",
+				" XXX,,,,,,,,XXX ",
+				" XXXXX,,,,,,XXX ",
+				"  XXXXXX,,XXX   ",
+				"    XXXXXXXX    ",
+				"      XXXX      ",
+				"       XX       " };
+			materialOverrides = Utils.MakeOffsetsFromMap(false, frame.materialName.GetHashCode(), floating ? floatymap : map);
 
 			return materialOverrides;
 		}
@@ -52,6 +75,9 @@ namespace Assets.Scripts
 			audioSource = GetComponent<AudioSource>();
 			GetComponent<Health>().OnDeath += OnDeath;
 			GetComponent<Health>().OnHurt += OnHurt;
+
+			var main = particles.main;
+			main.startColor = dustColor;
 		}
 
 		private void OnHurt(bool fatal)

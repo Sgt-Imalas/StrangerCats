@@ -20,6 +20,5 @@ public class Starfish : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		body.Rotate(Vector3.forward, idleRotationSpeed);
 	}
 }
