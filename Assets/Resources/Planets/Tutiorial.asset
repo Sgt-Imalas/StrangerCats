@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PlanetDescriptor
   icon: {fileID: 0}
   bg: {fileID: 0}
-  resourceType: 0
+  resourceType: 1
   noiseScale: 3.99
   noiseThreshold: 0.25
   bumpinessFrequency: 1
@@ -26,3 +26,4 @@ MonoBehaviour:
   boneNoiseScale: 1.45
   boneAmpl: 7.78
   boneThreshold: 0.1
+  MusicIndex: 0

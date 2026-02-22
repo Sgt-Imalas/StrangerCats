@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PrecisionModeEngine
   - CruiseModeEngine
+  - Collectible
   layers:
   - Default
   - TransparentFX

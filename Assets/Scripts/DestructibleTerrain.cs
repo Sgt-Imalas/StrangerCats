@@ -90,7 +90,7 @@ public class DestructibleTerrain : MonoBehaviour
 		{
 			foreach (var tile in queuedToDamage)
 			{
-				if (!materials.TryGetValue(tile.Key, out var mat))
+				if (!materials.TryGetValue(tile.Key, out MaterialData mat))
 				{
 					Debug.LogWarning($"trying to damage a tile that doesn't exist {tile.Key}");
 					continue;
@@ -98,7 +98,9 @@ public class DestructibleTerrain : MonoBehaviour
 
 				mat.currentHp -= tile.Value;
 
-				if (mat.currentHp <= 0.0f)
+				bool destroyed = mat.currentHp <= 0f;
+
+				if (destroyed)
 					queuedToDestroy.Add(tile.Key);
 				else
 				{
@@ -110,8 +112,8 @@ public class DestructibleTerrain : MonoBehaviour
 				digParticles.Configure(mat.particleColor, 1, 1);
 				digParticles.transform.position = tile.Key;
 				digParticles.Emit();
-
-				GlobalEvents.Instance.OnTileDestroyed?.Invoke(tile.Key);
+				if(destroyed)
+					GlobalEvents.Instance.OnTileDestroyed?.Invoke(tile.Key, mat.idx);
 			}
 
 

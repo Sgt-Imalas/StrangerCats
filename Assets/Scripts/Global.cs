@@ -131,13 +131,16 @@ public class FlightStats
 	public float CameraOffset = -20;
 }
 
+/// <summary>
+/// !!none is only used in the configurator of drops
+/// </summary>
 public enum ResourceType
 {
-	Meat, Rust, Ball, Dust
+	Meat, Rust, Ball, Dust, None = -1
 }
 public enum FindableItem
 {
-	Radar, SuperCruise, Meat, Tennis, Desert
+	Radar, SuperCruise, Meat, Tennis, Desert, None = -1
 }
 
 //public record ResourceInfo(ResourceType Type, string Name, Color color);
@@ -146,15 +149,15 @@ public class MiningResourceStorage
 {
 	public static Dictionary<ResourceType, Color> ResourceInfos = new()
 	{
-		{ResourceType.Meat, Color.red},
-		{ResourceType.Rust, Color.yellow},
-		{ResourceType.Ball, Color.green},
-		{ResourceType.Dust, Color.blue}
+		{ResourceType.Meat, new Color32(185, 0, 0,byte.MaxValue)},
+		{ResourceType.Rust,new Color32(242, 134, 0,byte.MaxValue)},
+		{ResourceType.Ball, new Color32(13, 255, 0,byte.MaxValue)},
+		{ResourceType.Dust, new Color32(0, 64, 255,byte.MaxValue)}
 	};
 
 	public Dictionary<ResourceType, uint> Current = new() 
 	//DEBUG!!
-	{ { ResourceType.Meat,999999 },{ ResourceType.Rust,999999 },{ ResourceType.Ball,999999 },{ ResourceType.Dust,999999 }, }
+	//{ { ResourceType.Meat,999999 },{ ResourceType.Rust,999999 },{ ResourceType.Ball,999999 },{ ResourceType.Dust,999999 }, }
 	;
 
 	public event Action<ResourceType> OnResourceDiscovered;
@@ -171,8 +174,8 @@ public class MiningResourceStorage
 		}
 		var collected = Math.Clamp(amount + Current[type], 0, uint.MaxValue);
 		Current[type] = collected;
-		OnResourceCollected(type, collected);
-		OnResourceAmountChanged(type, (int)collected);
+		OnResourceCollected?.Invoke(type, collected);
+		OnResourceAmountChanged?.Invoke(type, (int)collected);
 	}
 	public void SpendResource(ResourceType type, uint amount)
 	{
@@ -180,8 +183,8 @@ public class MiningResourceStorage
 			return;
 		var spent = Math.Clamp(Current[type] - amount, 0, uint.MaxValue);
 		Current[type] = spent;
-		OnResourceSpent(type, spent);
-		OnResourceAmountChanged(type, -((int)spent));
+		OnResourceSpent?.Invoke(type, spent);
+		OnResourceAmountChanged?.Invoke(type, -((int)spent));
 	}
 	public bool CanAfford(ResourceType type, uint amount)
 	{

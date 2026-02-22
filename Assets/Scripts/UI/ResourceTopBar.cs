@@ -193,7 +193,6 @@ public class ResourceTopBar : MonoBehaviour
 			time += Time.deltaTime;
 			float t = time / duration;
 
-			// Optional easing (remove this line for perfectly linear motion)
 			t = t * t;
 
 			rect.position = Vector2.Lerp(startPos, endPos, t);

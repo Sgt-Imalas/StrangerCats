@@ -7,20 +7,20 @@ using UnityEngine;
 public class TalkingEffect : MonoBehaviour
 {
 	[TextArea]
-	public string fullText;
+	public string fullText = string.Empty;
 
 	public float charactersPerSecond = 20f;
 
-	private TextMeshProUGUI textComponent;
+	[SerializeField]private TextMeshProUGUI textComponent;
 
 	public event Action OnTypingCompleted;
 
 	AudioSource audioSource;
+	Coroutine current;
 
 	void Awake()
 	{
-		textComponent = GetComponent<TextMeshProUGUI>();
-		audioSource = GetComponent<AudioSource>();
+		Init();
 	}
 
 	public void SetTextAndStartTyping(string text)
@@ -33,14 +33,25 @@ public class TalkingEffect : MonoBehaviour
 	{
 		StartTyping();
 	}
-
 	public void StartTyping()
 	{
-		StartCoroutine(TypeText());
-	}
+		if(current != null)
+			StopCoroutine(current);
 
+		current = StartCoroutine(TypeText());
+	}
+	void Init()
+	{
+		if (textComponent == null)
+			textComponent = GetComponent<TextMeshProUGUI>();
+		if (audioSource == null)
+			audioSource = GetComponent<AudioSource>();
+		if(fullText == null)
+			fullText = string.Empty;
+	}
 	IEnumerator TypeText()
 	{
+		Init();
 		textComponent.text = fullText;
 		textComponent.maxVisibleCharacters = 0;
 		if(audioSource != null) 

@@ -15,6 +15,6 @@ MonoBehaviour:
   materialName: Iridium Ore
   hardness: 5000
   textureIdx: 8
-  resourceType: 0
-  resourceAmount: 1
+  resourceType: 3
+  resourceAmount: 100
   particlesColor: {r: 0.38313335, g: 0.256675, b: 0.5283019, a: 0}

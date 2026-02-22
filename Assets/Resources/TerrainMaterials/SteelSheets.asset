@@ -15,6 +15,6 @@ MonoBehaviour:
   materialName: Steel Sheets
   hardness: 10
   textureIdx: 6
-  resourceType: 0
+  resourceType: 1
   resourceAmount: 5
   particlesColor: {r: 0.36632255, g: 0.39740413, b: 0.5283019, a: 0}

@@ -975,7 +975,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 0
-  orthographic size: 11.25
+  orthographic size: 2.8125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1000,7 +1000,7 @@ Transform:
   m_GameObject: {fileID: 229524355}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -25}
+  m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1064,7 +1064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Follower
   Target: {fileID: 1045476043}
-  Offset: -14
+  Offset: -15
 --- !u!114 &229524361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,7 +1405,7 @@ Transform:
   m_GameObject: {fileID: 314561617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 717, y: 125, z: 20}
+  m_LocalPosition: {x: 2.92, y: 0.83, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1426,7 +1426,7 @@ MonoBehaviour:
   CanInteract: 0
   InteractHint: {fileID: 1083939571}
   SceneToLoad: MineableTerrain
-  planetDescriptor: {fileID: 11400000, guid: 6db87838a52429149843fb7351c67d71, type: 2}
+  planetDescriptor: {fileID: 11400000, guid: f43d872be2b594d41864e3a89ad0c726, type: 2}
 --- !u!58 &314561620
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1565,7 +1565,7 @@ Transform:
   m_GameObject: {fileID: 328265337}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.006, y: 1.5, z: 20}
+  m_LocalPosition: {x: 0, y: 4, z: 20}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1686,7 +1686,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 4252f91318cf03643ba9d131dd642682, type: 3}
+  m_Sprite: {fileID: 7519121072522729631, guid: 33892ab4fca89184792c2511b7a9caff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2204,7 +2204,7 @@ Transform:
   m_GameObject: {fileID: 522250030}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.532, y: 0.076, z: 20}
+  m_LocalPosition: {x: -2.89, y: -1.2, z: 20}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4982,7 +4982,7 @@ Transform:
   m_GameObject: {fileID: 1037043826}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -56.7, y: 141.5, z: 20}
+  m_LocalPosition: {x: 0, y: -1.94, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7836,7 +7836,7 @@ Transform:
   m_GameObject: {fileID: 1661253607}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -48.5, y: -69.8, z: 20}
+  m_LocalPosition: {x: -3.74, y: 1.32, z: 20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8615,7 +8615,8 @@ MonoBehaviour:
   m_text: 'Tip:
 
 
-    Pour the liquid Schwartz into your fuel tank with Q to go into supercruise mode'
+    Pour the liquid Schwartz into your fuel tank with Q to go into
+    supercruise mode'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -8849,20 +8850,23 @@ MonoBehaviour:
   m_text: 'Your quest incomplete still is.
 
 
-    All the legendary items, you have not.
+    All the legendary items, you have
+    not.
 
 
     Collecting them, you must!
 
 
-    Revealing themselves, they will in time.
+    Revealing themselves, they will in
+    time.
 
 
     Improving your spaceship, you should!
 
 
 
-    Better chances it will give you in finding them!'
+    Better chances it will
+    give you in finding them!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -15549,11 +15553,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[0].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[0].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[1].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[1].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     m_RemovedComponents: []

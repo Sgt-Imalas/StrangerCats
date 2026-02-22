@@ -59,6 +59,8 @@ public class MusicManager : MonoBehaviour
 
 	public static void PlayNewSong(int index, float fadeDuration = 3f)
 	{
+		if (Instance == null)
+			return;
 		if(Instance.Songs == null || Instance.Songs.Length <= index)
 		{
 			Debug.LogWarning($"Invalid song index: {index}. Cannot play music.");

@@ -15,6 +15,6 @@ MonoBehaviour:
   materialName: Rusted Metal
   hardness: 3
   textureIdx: 5
-  resourceType: 0
-  resourceAmount: 0
+  resourceType: 1
+  resourceAmount: 2
   particlesColor: {r: 0.5943396, g: 0.42466682, b: 0.36165005, a: 0}

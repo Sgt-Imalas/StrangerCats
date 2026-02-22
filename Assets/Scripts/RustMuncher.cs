@@ -13,7 +13,7 @@ public class RustMuncher : MonoBehaviour
 		animator.Play("rust muncher idle");
 	}
 
-	private void OnTileDestroyed(Vector3Int coords)
+	private void OnTileDestroyed(Vector3Int coords, int _)
 	{
 		if (coords == homeTile)
 		{

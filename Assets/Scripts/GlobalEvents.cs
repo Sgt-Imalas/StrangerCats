@@ -11,7 +11,7 @@ namespace Assets.Scripts
 
 		public Attributes.OnAttributeChangedDelegate OnPlayerAttributesChanged;
 		public OnNewMapGeneratedDelegate OnNewMapGenerated;
-		public Action<Vector3Int> OnTileDestroyed;
+		public Action<Vector3Int, int> OnTileDestroyed;
 
 		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials);
 
