@@ -3631,6 +3631,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5531719901445196445, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
+      propertyPath: m_IgnoreLayout
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5789073821533817663, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3733,25 +3737,70 @@ PrefabInstance:
       objectReference: {fileID: 405600101}
     - target: {fileID: 9182034308894477944, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9182034308894477944, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9182034308894477944, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 49
       objectReference: {fileID: 0}
     - target: {fileID: 9182034308894477944, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -130
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
+--- !u!1 &871755149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 871755151}
+  - component: {fileID: 871755150}
+  m_Layer: 0
+  m_Name: SpaceThemeStarter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &871755150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871755149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 232b9aa55f91e424086060b28a90f58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaySongInScene
+  SongID: 0
+--- !u!4 &871755151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871755149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &873283043
 GameObject:
   m_ObjectHideFlags: 0
@@ -8592,6 +8641,7 @@ MonoBehaviour:
     only 3 legendary items can.\n\nfind them, you must!\n\nhelping you I will.\n\nAiding
     you in your travels, this liquid schwartz will"
   charactersPerSecond: 40
+  textComponent: {fileID: 0}
 --- !u!114 &1834930933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8963,6 +9013,7 @@ MonoBehaviour:
     only 3 legendary items can.\n\nfind them, you must!\n\nhelping you I will.\n\nAiding
     you in your travels, this liquid schwartz will"
   charactersPerSecond: 40
+  textComponent: {fileID: 0}
 --- !u!82 &1860162494
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15534,7 +15585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: Songs.Array.size
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: Songs.Array.data[0].MusicFile
@@ -15553,13 +15604,37 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.data[2].MusicFiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.data[3].MusicFiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: Songs.Array.data[4].MusicFiles.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: 'Songs.Array.data[0].MusicFiles.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
+      objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
       propertyPath: 'Songs.Array.data[1].MusicFiles.Array.data[0]'
       value: 
+      objectReference: {fileID: 8300000, guid: 5a0365375937d8d42ba102d9ca001816, type: 3}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: 'Songs.Array.data[2].MusicFiles.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: 'Songs.Array.data[3].MusicFiles.Array.data[0]'
+      value: 
       objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
+    - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
+      propertyPath: 'Songs.Array.data[4].MusicFiles.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 0778d87b9c4920d4f98d7d4ed20b472a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15703,3 +15778,4 @@ SceneRoots:
   - {fileID: 1116712040}
   - {fileID: 399722067}
   - {fileID: 1119057932}
+  - {fileID: 871755151}

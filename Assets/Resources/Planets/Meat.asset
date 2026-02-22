@@ -22,6 +22,8 @@ MonoBehaviour:
   radius: 64
   innerRadius: 40
   generationPreset: 0
+  enemyPreset: {fileID: 0}
   boneNoiseScale: 1.45
   boneAmpl: 7.78
   boneThreshold: 0.1
+  MusicIndex: 1

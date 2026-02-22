@@ -14,8 +14,8 @@ public class MusicManager : MonoBehaviour
 	[SerializeField] private AudioCollection[] SFX;
 	private static MusicManager Instance;
 	//crossfading
-	[SerializeField] 
-	AudioSource MusicSourceA, MusicSourceB, 
+	[SerializeField]
+	AudioSource MusicSourceA, MusicSourceB,
 		//sfx
 		SfxSource;
 	public AudioMixer AudioMixer;
@@ -23,7 +23,7 @@ public class MusicManager : MonoBehaviour
 	private AudioSource activeSource;
 	private AudioSource inactiveSource;
 
-
+	float Volume = 1.0f;
 	void Awake()
 	{
 		if (Instance == null)
@@ -41,8 +41,8 @@ public class MusicManager : MonoBehaviour
 
 		activeSource = MusicSourceA;
 		inactiveSource = MusicSourceB;
+		Volume = activeSource.volume;
 
-		
 	}
 
 	private void Start()
@@ -61,7 +61,7 @@ public class MusicManager : MonoBehaviour
 	{
 		if (Instance == null)
 			return;
-		if(Instance.Songs == null || Instance.Songs.Length <= index)
+		if (Instance.Songs == null || Instance.Songs.Length <= index)
 		{
 			Debug.LogWarning($"Invalid song index: {index}. Cannot play music.");
 			return;
@@ -70,8 +70,18 @@ public class MusicManager : MonoBehaviour
 		var song = Instance.Songs[index];
 
 		//Instance.audioSource.outputAudioMixerGroup = Instance.AudioMixer.FindMatchingGroups("Music")[0];
+
+		Instance.CancelActiveTransition();
 		Instance.StartCoroutine(Instance.Crossfade(song.GetSound(), fadeDuration));
 	}
+
+	void CancelActiveTransition()
+	{
+		if (Instance.CurrentCrossfade != null)
+			Instance.StopCoroutine(Instance.CurrentCrossfade);
+	}
+
+	Coroutine CurrentCrossfade;
 
 	private IEnumerator Crossfade(AudioClip newClip, float duration)
 	{
@@ -88,13 +98,13 @@ public class MusicManager : MonoBehaviour
 			float t = time / duration;
 
 			activeSource.volume = Mathf.Lerp(startVolume, 0f, t);
-			inactiveSource.volume = Mathf.Lerp(0f, startVolume, t);
+			inactiveSource.volume = Mathf.Lerp(0f, Volume, t);
 
 			yield return null;
 		}
 
 		activeSource.Stop();
-		activeSource.volume = 1f;
+		activeSource.volume = Volume;
 
 		AudioSource temp = activeSource;
 		activeSource = inactiveSource;
