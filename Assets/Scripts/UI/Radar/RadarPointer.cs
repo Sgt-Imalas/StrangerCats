@@ -56,7 +56,7 @@ public class RadarPointer : MonoBehaviour
 		float targetAngle = Mathf.Atan2(distanceVector.y, distanceVector.x) * Mathf.Rad2Deg;
 		//farther away from the ship position to visualize distance;
 		float distance = distanceVector.magnitude;
-		float visualOffset = 300 + Mathf.Clamp(distance / 10f, 0, 150);
+		float visualOffset =  Mathf.Clamp(70 + distance / 50f, 70, 120);
 		var pos = Quaternion.Euler(0, 0, targetAngle) * (Vector3.right * visualOffset);
 
 		transform.localPosition = pos;
