@@ -21,6 +21,8 @@ public class Global
 		}
 	}
 
+	public static void Reset() => _instance = null;
+
 	public List<GameObject> entities = new();
 
 	public StarmapShip Spaceship = new();
