@@ -74,6 +74,10 @@ public class MusicManager : MonoBehaviour
 		Instance.CancelActiveTransition();
 		Instance.StartCoroutine(Instance.Crossfade(song.GetSound(), fadeDuration));
 	}
+	public static void PlayFx(AudioClip sound, float volume = 1.0f)
+	{
+		Instance.SfxSource.PlayOneShot(sound, volume);
+	}
 
 	void CancelActiveTransition()
 	{

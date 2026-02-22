@@ -5052,7 +5052,7 @@ MonoBehaviour:
   CanInteract: 0
   InteractHint: {fileID: 1083939571}
   SceneToLoad: MineableTerrain
-  planetDescriptor: {fileID: 11400000, guid: 6db87838a52429149843fb7351c67d71, type: 2}
+  planetDescriptor: {fileID: 11400000, guid: 66e749fc3288a914f895d84e8e22a93d, type: 2}
 --- !u!58 &1037043829
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -164,7 +164,7 @@ public class LaserCanon : MonoBehaviour
 
 				sparkLight.transform.SetPositionAndRotation(hit.point, Quaternion.Euler(0f, 0f, angle + 90f));
 
-				if (!impactSparklerSound.isPlaying)
+				if (!impactSparklerSound.isPlaying && impactSparklerSound.isActiveAndEnabled)
 					impactSparklerSound.Play();
 			}
 			else

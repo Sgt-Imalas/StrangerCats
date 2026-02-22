@@ -436,6 +436,7 @@ MonoBehaviour:
   MeatWorldItem: {fileID: 5285339488917005907}
   TennisWorldItem: {fileID: 6340804526498493104}
   DesertWorldItem: {fileID: 2676840058460077496}
+  Collecc: {fileID: 8300000, guid: 0af60f8530c63a246b4e3ce654d80e78, type: 3}
 --- !u!114 &8245685152644895751
 MonoBehaviour:
   m_ObjectHideFlags: 0

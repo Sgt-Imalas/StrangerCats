@@ -16,6 +16,7 @@ public class ResourceTopBar : MonoBehaviour
 	private PlayerControls controls;
 	public GameObject UpgradeScreen;
 	public GameObject Radar, SuperCruise, MeatWorldItem, TennisWorldItem, DesertWorldItem;
+	public AudioClip Collecc;
 
 	private void Awake()
 	{
@@ -66,7 +67,11 @@ public class ResourceTopBar : MonoBehaviour
 	{
 		controls.Player.Disable();
 	}
-
+	void PlayCollectSound()
+	{
+		if(Collecc != null)
+			MusicManager.PlayFx(Collecc, 0.5f);
+	}
 	void OnResourceCollected(ResourceType type, uint amount)
 	{
 		StartCoroutine(AnimateCollection(type, amount));
@@ -183,17 +188,23 @@ public class ResourceTopBar : MonoBehaviour
 		if (resourceGO.TryGetComponent<Image>(out var image))
 			image.color = MiningResourceStorage.ResourceInfos[type];
 		RectTransform rect = resourceGO.GetComponent<RectTransform>();
-		var size = Mathf.Clamp(10 + amount * 5, 20, 50);
+		var size = Mathf.Clamp(10 + amount * 3, 15, 30);
 		rect.sizeDelta = new Vector2(size, size);
 
 		float time = 0f;
-
+		bool soundPlayed = false;
 		while (time < duration)
 		{
 			time += Time.deltaTime;
 			float t = time / duration;
 
 			t = t * t;
+
+			if(t>0.6f && !soundPlayed)
+			{
+				PlayCollectSound();
+				soundPlayed = true;
+			}
 
 			rect.position = Vector2.Lerp(startPos, endPos, t);
 			yield return null;
