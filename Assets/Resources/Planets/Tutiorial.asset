@@ -23,6 +23,9 @@ MonoBehaviour:
   innerRadius: 40
   generationPreset: 2
   enemyPreset: {fileID: 5437528579922202710, guid: 6a05335163c83bf4098e3ea1ad5b42d1, type: 3}
+  gizmoPrefab: {fileID: 6322849706372164715, guid: 0d7b2eb6b2ba51a45907979ef5f86fb2, type: 3}
+  enemiesToSpawn: 32
   boneNoiseScale: 1.45
   boneAmpl: 7.78
   boneThreshold: 0.1
+  MusicIndex: 0

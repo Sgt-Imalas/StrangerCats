@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 663779d55fdd1b44cbbccb0cdc5cecc4
+guid: 4ffa10e4ec21c634da6caf579abe56a8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5583683049855791881
-    second: space_bg_0
+      213: 2559749034794040335
+    second: nebulae_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: space_bg_0
+      name: nebulae_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7fcc9fa89d5c282b0800000000000000
-      internalID: -5583683049855791881
+      spriteID: f0c3c0d5f2e068320800000000000000
+      internalID: 2559749034794040335
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      space_bg_0: -5583683049855791881
+      nebulae_0: 2559749034794040335
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -5896,6 +5896,10 @@ PrefabInstance:
       value: accelleration
       objectReference: {fileID: 0}
     - target: {fileID: 6740822786564916747, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
+      propertyPath: baseValues.Array.data[1].value
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6740822786564916747, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
       propertyPath: baseValues.Array.data[4].value
       value: 0
       objectReference: {fileID: 0}
@@ -8615,7 +8619,8 @@ MonoBehaviour:
   m_text: 'Tip:
 
 
-    Pour the liquid Schwartz into your fuel tank with Q to go into supercruise mode'
+    Pour the liquid Schwartz into your fuel tank with Q to go into
+    supercruise mode'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -8849,20 +8854,23 @@ MonoBehaviour:
   m_text: 'Your quest incomplete still is.
 
 
-    All the legendary items, you have not.
+    All the legendary items, you have
+    not.
 
 
     Collecting them, you must!
 
 
-    Revealing themselves, they will in time.
+    Revealing themselves, they will in
+    time.
 
 
     Improving your spaceship, you should!
 
 
 
-    Better chances it will give you in finding them!'
+    Better chances it will
+    give you in finding them!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
   m_sharedMaterial: {fileID: -273441490027022753, guid: eac2d6063758dd442adaa30c75b85aa1, type: 2}
@@ -15549,11 +15557,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[0].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[0].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 8115685d7aaafe147ad14137a66dad8b, type: 3}
     - target: {fileID: 7781603587651112552, guid: 1bb28e8d8e9935d44a87d1e464cffba6, type: 3}
-      propertyPath: Songs.Array.data[1].MusicFiles.Array.data[0]
+      propertyPath: 'Songs.Array.data[1].MusicFiles.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 0178f458dd2bad2479963e7ce23fe4a9, type: 3}
     m_RemovedComponents: []
