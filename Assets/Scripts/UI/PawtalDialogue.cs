@@ -10,6 +10,8 @@ public class PawtalDialogue : MonoBehaviour
 	[SerializeField] TalkingEffect TalkingOutput;
 	[SerializeField] Button Confirm;
 	TextMeshProUGUI ButtonText;
+	[SerializeField] RadarTarget PawtalRadar;
+	[SerializeField] Button LeaveLaterButton;
 
 	const string dialogue_firsttime =
 		"Far away from home you are, little one.\r\n\r\n" +
@@ -32,16 +34,19 @@ public class PawtalDialogue : MonoBehaviour
 
 	//todo a bit
 	const string dialogue_win =
+		"Achieved your goal, you have!\r\n\r\n" +
 		"All the items you have found.\r\n\r\n" +
+		"the pawtal reignited it has.\r\n\r\n" +
 		"Your quest complete now is.\r\n\r\n" +
-		"the pawtal rekindle I will for you\r\n\r\n" +
-		"Had fun on this quest I hope?";
+		"Had fun on this quest I hope!\r\n\r\n" +
+		"Leave, you will now?";
 
 	private void Awake()
 	{
 		ButtonText = Confirm.GetComponentInChildren<TextMeshProUGUI>();
 		TalkingOutput.OnTypingCompleted += OnTalkingComplete;
 		Confirm.onClick.AddListener(OnConfirm);
+		LeaveLaterButton.onClick.AddListener(OnCancel);
 	}
 
 	public void ShowPawtalDialogue()
@@ -52,6 +57,10 @@ public class PawtalDialogue : MonoBehaviour
 	private void OnConfirm()
 	{
 		AdvanceStory();
+		gameObject.SetActive(false);
+	}
+	void OnCancel()
+	{
 		gameObject.SetActive(false);
 	}
 
@@ -69,9 +78,11 @@ public class PawtalDialogue : MonoBehaviour
 
 	private void SetStoryDialogue()
 	{
+		LeaveLaterButton.gameObject.SetActive(false);
 		///first meeting, giving schwartz
 		if (!Global.Instance.Upgrades.SuperCruiseUnlocked)
 		{
+			PawtalRadar.IgnoreDistanceLimit = true;
 			StartTalking(dialogue_firsttime);
 			ButtonText.SetText("Thanks Master Meowgurt!");
 		}
@@ -83,13 +94,14 @@ public class PawtalDialogue : MonoBehaviour
 			)
 		{
 			StartTalking(dialogue_questing);
-			ButtonText.SetText("I will continue searching!");
+			ButtonText.SetText("I will continue my search!");
 		}
 		///Game win
 		else
 		{
 			StartTalking(dialogue_win);
 			ButtonText.SetText("<Enter the lit Pawtal>");
+			LeaveLaterButton.gameObject.SetActive(true);
 		}
 	}
 
