@@ -17,6 +17,8 @@
 
 		RadarRange,
 		SpaceShipSuperCruiseSpeed, 
+		//unused
+		SpaceShipSuperCruiseAccelleration,
 		SpaceShipRotationSpeed, 
 	}
 }
