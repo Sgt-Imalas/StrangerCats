@@ -1,5 +1,6 @@
 using Assets.Scripts;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -101,6 +102,27 @@ public class MapGenerator : MonoBehaviour
 		//DestructibleTerrain.Instance.ApplyNewMap(materials);
 	}
 
+	bool ShouldSpawnGizmo(PlanetDescriptor descriptor)
+	{
+		if (descriptor == null)
+			return false;
+		if (descriptor.gizmoPrefab == null)
+			return false;
+
+		switch (descriptor.resourceType)
+		{
+			case ResourceType.Meat:
+				return !Global.Instance.Upgrades.MeatWorldItemFound;
+			case ResourceType.Rust:
+				return !Global.Instance.Upgrades.RadarUnlocked;
+			case ResourceType.Ball:
+				return !Global.Instance.Upgrades.TennisWorldItemFound;
+			case ResourceType.Dust:
+				return !Global.Instance.Upgrades.DesertWorldItemFound;
+		}
+		return true;
+	}
+
 	private void SpawnEnemies(Dictionary<Vector3Int, int> materials, Tilemap tilemap, Vector2 center, int size, PlanetDescriptor descriptor)
 	{
 		var enemiesSpawned = 0;
@@ -108,7 +130,7 @@ public class MapGenerator : MonoBehaviour
 
 		HashSet<Vector3Int> claimedPositions = new();
 
-		if (descriptor.gizmoPrefab != null)
+		if (ShouldSpawnGizmo(descriptor))
 		{
 			var randomSpot = 0.35f * size * Random.insideUnitCircle;
 			randomSpot += center;
