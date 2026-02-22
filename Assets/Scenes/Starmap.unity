@@ -1409,7 +1409,7 @@ Transform:
   m_GameObject: {fileID: 314561617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.95, y: 1.52, z: 0}
+  m_LocalPosition: {x: -5430, y: -1270, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3a0a02bfba48a41ba184f185a4a78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RadarTarget
-  Tint: {r: 1, g: 0.86387616, b: 0.051886797, a: 1}
+  Tint: {r: 0.6925311, g: 0.4669811, b: 1, a: 1}
   IgnoreDistanceLimit: 0
 --- !u!212 &314561622
 SpriteRenderer:
@@ -1569,7 +1569,7 @@ Transform:
   m_GameObject: {fileID: 328265337}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalPosition: {x: 0.47, y: 7.5, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1639,7 +1639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3a0a02bfba48a41ba184f185a4a78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RadarTarget
-  Tint: {r: 0.4481132, g: 0.6253971, b: 1, a: 1}
+  Tint: {r: 1, g: 0.80166054, b: 0, a: 1}
   IgnoreDistanceLimit: 0
 --- !u!212 &328265342
 SpriteRenderer:
@@ -2450,7 +2450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.89, y: -1.2}
+  m_AnchoredPosition: {x: -130, y: -270}
   m_SizeDelta: {x: 66, y: 91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &522250032
@@ -2465,7 +2465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3a0a02bfba48a41ba184f185a4a78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RadarTarget
-  Tint: {r: 0.7169812, g: 0.0033819948, b: 0.6169658, a: 1}
+  Tint: {r: 0.6792453, g: 0.016019935, b: 0.5578475, a: 1}
   IgnoreDistanceLimit: 0
 --- !u!114 &522250034
 MonoBehaviour:
@@ -5398,7 +5398,7 @@ Transform:
   m_GameObject: {fileID: 1037043826}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.63, y: -5.44, z: 0}
+  m_LocalPosition: {x: 1400, y: 2191, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5468,7 +5468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3a0a02bfba48a41ba184f185a4a78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RadarTarget
-  Tint: {r: 1, g: 0.86387616, b: 0.051886797, a: 1}
+  Tint: {r: 0.616769, g: 1, b: 0.05098039, a: 1}
   IgnoreDistanceLimit: 0
 --- !u!212 &1037043831
 SpriteRenderer:
@@ -6292,6 +6292,14 @@ PrefabInstance:
     - target: {fileID: 6740822786564916747, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
       propertyPath: baseValues.Array.data[1].value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6740822786564916747, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
+      propertyPath: baseValues.Array.data[9].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6740822786564916747, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
+      propertyPath: baseValues.Array.data[9].maxValue
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7733904875685831268, guid: 10bfd0a973a1c704a85bdc85472899fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8320,7 +8328,7 @@ Transform:
   m_GameObject: {fileID: 1661253607}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: -0.06, z: 0}
+  m_LocalPosition: {x: 520, y: -300, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

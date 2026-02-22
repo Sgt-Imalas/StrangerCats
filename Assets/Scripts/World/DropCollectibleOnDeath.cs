@@ -1,5 +1,4 @@
 using Assets.Scripts;
-using UnityEditor.Toolbars;
 using UnityEngine;
 
 public class DropCollectibleOnDeath : MonoBehaviour

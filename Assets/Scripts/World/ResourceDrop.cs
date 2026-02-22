@@ -1,7 +1,5 @@
 
 using Assets.Scripts;
-using System.Collections.Generic;
-using UnityEditor.Compilation;
 using UnityEngine;
 
 public class ResourceDrop : Collectible
