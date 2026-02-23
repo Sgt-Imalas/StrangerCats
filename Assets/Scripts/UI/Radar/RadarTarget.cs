@@ -5,7 +5,7 @@ public class RadarTarget : MonoBehaviour
 {
 	public Color Tint = Color.red;
 	public bool IgnoreDistanceLimit = false;
-	public float CutoffDistanceThreshold = 5;
+	public float CutoffDistanceThreshold = 10;
 
 	public void SetIgnoreDistanceLimit(bool value)
 	{

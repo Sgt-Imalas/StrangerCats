@@ -1,6 +1,7 @@
 using Assets.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class LaserCanon : MonoBehaviour
@@ -31,6 +32,7 @@ public class LaserCanon : MonoBehaviour
 	private float _timeSinceLastProjectile;
 
 	bool ControllerAim;
+	bool FireHeldDown;
 
 
 	private float cachedLaserRange = 10.0f;
@@ -41,6 +43,8 @@ public class LaserCanon : MonoBehaviour
 
 		controls.Player.Look.performed += OnLook;
 		controls.Player.LookController.performed += OnLook;
+		controls.Player.Attack.performed += OnAttack;
+		controls.Player.Attack.canceled += OnAttack;
 	}
 	void OnLook(InputAction.CallbackContext context)
 	{
@@ -87,6 +91,11 @@ public class LaserCanon : MonoBehaviour
 	}
 
 	private void OnAttack(InputAction.CallbackContext context)
+	{
+		FireHeldDown = !context.canceled;
+	}
+
+	private void Attack()
 	{
 		/*		var bullet = Object.Instantiate(projectilePrefab);
 				bullet.transform.position = tipMarker.position;
@@ -135,7 +144,7 @@ public class LaserCanon : MonoBehaviour
 		aimingLine.SetPosition(0, tipMarker.position);
 		aimingLine.SetPosition(1, mousePosition);
 
-		var dir = (Vector2)(mousePosition - tipMarker.position);
+		var dir = (Vector2)(mousePosition - transform.position);
 
 		var hit = Physics2D.BoxCast(
 					transform.position,
@@ -159,7 +168,7 @@ public class LaserCanon : MonoBehaviour
 			selectionMarker.gameObject.SetActive(false);
 		}
 
-		var isMouseDown = controls.Player.Attack.IsPressed() && Time.timeScale > 0;
+		var isMouseDown = FireHeldDown && Time.timeScale > 0;
 
 		if (isMouseDown)
 		{
@@ -207,7 +216,7 @@ public class LaserCanon : MonoBehaviour
 
 		if (isMouseDown && _timeSinceLastProjectile > projectileCooldown && isMouseDown)
 		{
-			OnAttack(default);
+			Attack();
 		}
 
 		_timeSinceLastProjectile += Time.deltaTime;
