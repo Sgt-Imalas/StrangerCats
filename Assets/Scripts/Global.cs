@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 [ExecuteAlways]
@@ -20,8 +21,39 @@ public class Global
 			return _instance;
 		}
 	}
+	const string saveKey = "SaveGame";
+	public static void DeleteSaveFile()
+	{
+		Debug.Log("Deleting Savefile");
+		PlayerPrefs.DeleteKey(saveKey);
+		_instance = null;
+	}
+	public static void WriteSaveFile()
+	{
+		Debug.Log("Saving the Game");
+		//var saveData = JsonUtility.ToJson(Instance);
+		//PlayerPrefs.SetString(saveKey, saveData);
+	}
+	internal void LoadAndApplyAttributes(Attributes attributes)
+	{
+		//Todo: store attribute modifiers in the serialized global item, and apply them here
+	}
+	internal static void LoadPersistantInstance()
+	{
 
-	public static void Reset() => _instance = null;
+		//this is broken af lol
+
+
+		//if (PlayerPrefs.HasKey(saveKey))
+		//{
+		//	Debug.Log("Loading savefile");
+		//	string data = PlayerPrefs.GetString(saveKey);
+		//	_instance = JsonUtility.FromJson<Global>(data);
+		//}
+		//else
+
+		//	Debug.Log("No save file found!");
+	}
 
 	public List<GameObject> entities = new();
 
@@ -56,13 +88,12 @@ public class Global
 		LoadingScene = true;
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
 		SceneManager.LoadScene("Starmap");
-
-
 	}
 
 	internal void UpgradePurchased()
 	{
 		OnUpgradePurchased?.Invoke();
+		WriteSaveFile();
 	}
 	public event Action OnUpgradePurchased;
 	public void StartLoadingMainMenu()
@@ -92,7 +123,6 @@ public class Global
 
 		return $"{number:0.#}{suffixes[suffixIndex]}";
 	}
-
 }
 
 public class StarmapShip
@@ -279,6 +309,8 @@ public class GameUpgrades
 				break;
 		}
 		OnItemCollected?.Invoke(item);
+
+		Global.WriteSaveFile();
 	}
 
 	public event Action<FindableItem> OnItemCollected;

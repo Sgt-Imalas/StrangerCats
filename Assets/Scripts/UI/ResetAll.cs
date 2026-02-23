@@ -8,12 +8,13 @@ public class ResetAll : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		HoldButton.onClick.AddListener(ResetEverything);
+		HoldButton.onHoldComplete.AddListener(ResetEverything);
 	}
 
 	private void ResetEverything()
 	{
-		Global.Reset();
+		Debug.Log("Resetting all Progress");
+		Global.DeleteSaveFile();
 		if (PersistentPlayer.Instance != null)
 			Destroy(PersistentPlayer.Instance.gameObject);
 		if(GlobalEvents.Instance != null)

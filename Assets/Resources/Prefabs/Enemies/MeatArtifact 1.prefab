@@ -4941,6 +4941,7 @@ GameObject:
   - component: {fileID: 5502198428076240498}
   - component: {fileID: 6645403193580793314}
   - component: {fileID: 1769373145534170683}
+  - component: {fileID: 5676370760224716403}
   m_Layer: 8
   m_Name: MeatArtifact 1
   m_TagString: Untagged
@@ -4961,13 +4962,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5948379654541426116}
-  - {fileID: 8230315123098466573}
-  - {fileID: 6279225677182212704}
   - {fileID: 1432105774462980926}
   - {fileID: 1508813603264000281}
   - {fileID: 6221602070183069967}
   - {fileID: 4981815527899513233}
+  - {fileID: 5948379654541426116}
+  - {fileID: 8230315123098466573}
+  - {fileID: 6279225677182212704}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &7133836362430794744
@@ -5185,6 +5186,20 @@ PolygonCollider2D:
       - {x: -0.08729398, y: -4.0541496}
       - {x: 3.7698164, y: 0.0247764}
   m_UseDelaunayMesh: 1
+--- !u!114 &5676370760224716403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322849706372164715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c83778760dd8f7141bf41217e26f28c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ContactDamageInformation
+  ContactDamagePercentage: 0.33
+  ContactDamageFlat: 0
 --- !u!1001 &1648426126966092346
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -220,6 +220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4809479428377314671}
   - component: {fileID: 5921736359521919788}
+  - component: {fileID: 3128534152687436136}
   - component: {fileID: 1583153516284695441}
   - component: {fileID: 7819921555157251925}
   - component: {fileID: 6026193124433562177}
@@ -280,6 +281,20 @@ MonoBehaviour:
   slideForce: 10
   idleSlideForce: 5
   starfish: 0
+--- !u!114 &3128534152687436136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265589927645441340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c83778760dd8f7141bf41217e26f28c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ContactDamageInformation
+  ContactDamagePercentage: 0.2
+  ContactDamageFlat: 0
 --- !u!58 &1583153516284695441
 CircleCollider2D:
   m_ObjectHideFlags: 0

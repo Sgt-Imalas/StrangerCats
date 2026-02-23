@@ -14,7 +14,13 @@ public class HurtablePlayer : MonoBehaviour
 		if (!collision.gameObject.CompareTag("Enemy"))
 			return;
 
-		PersistentPlayer.Instance.DamageEnergy(10.0f);
+		if(collision.gameObject.TryGetComponent<ContactDamageInformation>(out var information))
+		{
+			PersistentPlayer.Instance.DamageEnergyPercentage(information.ContactDamagePercentage);
+			PersistentPlayer.Instance.DamageEnergy(information.ContactDamageFlat);
+		}
+		else
+			PersistentPlayer.Instance.DamageEnergyPercentage(0.1f);
 		// ????????????????
 
 		/*		var idx = Random.Range(0, sounds.Length - 1);

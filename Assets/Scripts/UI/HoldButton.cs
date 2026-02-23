@@ -19,6 +19,8 @@ public class HoldButton : CatPawButton
 	public Image FillImage;
 	bool HeldLongEnough;
 
+	public bool ReleaseToTrigger = true;
+
 	protected override void OnEnable()
 	{
 		base.OnEnable();
@@ -153,9 +155,17 @@ public class HoldButton : CatPawButton
 
 	void CompleteAction()
 	{
-		HeldLongEnough = true;
-		if(!MouseMode)
-			StartCoroutine(WaitForRelease());
+		if (ReleaseToTrigger)
+		{
+			HeldLongEnough = true;
+			if (!MouseMode)
+				StartCoroutine(WaitForRelease());
+		}
+		else
+		{
+			OnHeldLongEnough();
+			StartHold();
+		}
 	}
 
 	private bool IsSubmitStillPressed()

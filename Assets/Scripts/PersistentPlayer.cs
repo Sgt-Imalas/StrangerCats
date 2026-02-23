@@ -39,6 +39,9 @@ namespace Assets.Scripts
 
 			attributes = GetComponent<Attributes>();
 			SceneManager.sceneLoaded += OnSceneLoaded;
+
+
+			Global.Instance.LoadAndApplyAttributes(attributes);
 		}
 
 		void Start()
@@ -80,10 +83,24 @@ namespace Assets.Scripts
 			lastDamageTaken += Time.deltaTime;
 		}
 
-		public void DamageEnergy(float damage)
+		public void DamageEnergyPercentage(float damagePercentage)
 		{
 			if (iframes < lastDamageTaken)
 			{
+				float damage = damagePercentage * MaxLanderEnergy;
+
+				LanderEnergy = Mathf.Clamp(LanderEnergy - damage, 0, MaxLanderEnergy);
+				lastDamageTaken = 0.0f;
+			}
+		}
+		public void DamageEnergy(float damage)
+		{
+			if (damage <= 0)
+				return;
+
+			if (iframes < lastDamageTaken)
+			{
+
 				LanderEnergy = Mathf.Clamp(LanderEnergy - damage, 0, MaxLanderEnergy);
 				lastDamageTaken = 0.0f;
 			}

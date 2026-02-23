@@ -15,6 +15,14 @@ public class CatPawHoldButtonEditor : CatPawButtonEditor
 
 		EditorGUILayout.PropertyField(fillImage);
 
+		SerializedProperty holdTime =
+			serializedObject.FindProperty("holdTime");
+
+		EditorGUILayout.PropertyField(holdTime);
+
+		SerializedProperty ReleaseToTrigger = serializedObject.FindProperty("ReleaseToTrigger");
+		EditorGUILayout.PropertyField(ReleaseToTrigger);
+
 		serializedObject.ApplyModifiedProperties();
 	}
 }
