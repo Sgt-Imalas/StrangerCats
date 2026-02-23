@@ -7,7 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class RadarController : MonoBehaviour
 {
     static RadarController Instance;
-    public Dictionary<GameObject, RadarPointer> TrackedTargets = new();
+    public Dictionary<RadarTarget, RadarPointer> TrackedTargets = new();
     [SerializeField] GameObject PointerPrefab;
     [SerializeField] GameObject PlayerGO;
 
@@ -54,8 +54,8 @@ public class RadarController : MonoBehaviour
 		}
 	}
 
-	public static void AddPointer(GameObject target, Color? optionalTint, bool ignoreRadarLimit = false) => Instance?.AddPointerInternal(target, optionalTint, ignoreRadarLimit);
-	void AddPointerInternal(GameObject target, Color? optionalTint, bool ignoreRadarLimit = false)
+	public static void AddPointer(RadarTarget target, Color? optionalTint, bool ignoreRadarLimit = false) => Instance?.AddPointerInternal(target, optionalTint, ignoreRadarLimit);
+	void AddPointerInternal(RadarTarget target, Color? optionalTint, bool ignoreRadarLimit = false)
     {
         if(PointerPrefab == null)
            Debug.LogError("Pointer prefab is not set on RadarController??");
@@ -80,8 +80,8 @@ public class RadarController : MonoBehaviour
 	}
 
 
-    public static void RemovePointer(GameObject target) => Instance?.RemovePointerÌnternal(target);
-	void RemovePointerÌnternal(GameObject target)
+    public static void RemovePointer(RadarTarget target) => Instance?.RemovePointerÌnternal(target);
+	void RemovePointerÌnternal(RadarTarget target)
     {
         if(TrackedTargets.TryGetValue(target, out var pointer))
         {
