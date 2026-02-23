@@ -256,6 +256,8 @@ MonoBehaviour:
   decal: {fileID: 0}
   decal0: {x: 0, y: 0}
   decal1: {x: 0, y: 0}
+  FillAmount: 1
+  PixelOffset: 0
 --- !u!1 &3515809849961932263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,10 +1053,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7681224425634017719}
     m_Modifications:
-    - target: {fileID: 1403332087571290963, guid: fa1277f3d8e3e8f43a0988431144df16, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3303523610829661013, guid: fa1277f3d8e3e8f43a0988431144df16, type: 3}
       propertyPath: m_Name
       value: Meter
@@ -1155,9 +1153,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5933183987308958736, guid: fa1277f3d8e3e8f43a0988431144df16, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
+    - target: {fileID: 6984565434297227812, guid: fa1277f3d8e3e8f43a0988431144df16, type: 3}
+      propertyPath: m_text
+      value: 100%
       objectReference: {fileID: 0}
     - target: {fileID: 8153490673028797286, guid: fa1277f3d8e3e8f43a0988431144df16, type: 3}
       propertyPath: m_AnchoredPosition.x

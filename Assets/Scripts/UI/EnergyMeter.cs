@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class EnergyMeter : MonoBehaviour
 {
 	[SerializeField] Image FillMeter;
@@ -13,21 +14,26 @@ public class EnergyMeter : MonoBehaviour
 	[SerializeField] Vector2 decal1;
 
 	Color defaultColor = new Color32(0, 217, 214, 255);
+	Color warningColor = new Color32(255, 65, 77, 255);
+	public float FillAmount = 1f;
+	public float PixelOffset = 0f;
 	// Update is called once per frame
 	void Update()
 	{
-		var fillAmount = PersistentPlayer.Instance.EnergyPercentage;
+
+		if (Application.isPlaying)
+			FillAmount = PersistentPlayer.Instance.EnergyPercentage;
 
 		var fill = (double)FillMeter.mainTexture.width;
 		var increment = 1.0d / fill;
-		var snapFill = (float)(Math.Ceiling(fillAmount / increment) * increment);
+		var snapFill = (float)(Math.Ceiling(FillAmount / increment) * increment);
 
 		//decal.transform.position = 
 		FillMeter.fillAmount = snapFill;
-		FillMeter.color = fillAmount < 0.20f ? Color.red : defaultColor;
+		FillMeter.color = FillAmount < 0.20f ? warningColor : defaultColor;
 
-		decal.anchoredPosition = new Vector2(Mathf.RoundToInt(Mathf.Lerp(0, decal1.x, fillAmount)), decal0.y);
+		decal.anchoredPosition = new Vector2(Mathf.RoundToInt(PixelOffset + Mathf.Lerp(0, decal1.x, snapFill)), decal0.y);
 
-		Text.SetText(string.Format("{0:P0}", fillAmount));
+		Text.SetText(string.Format("{0:P0}", FillAmount));
 	}
 }

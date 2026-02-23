@@ -21,6 +21,8 @@ public class MapGenerator : MonoBehaviour
 	public PlanetDescriptor debugPlanetGen;
 
 	public bool generateEnemies = false;
+	public GroundRadarTarget RadarTargetPrefab;
+
 
 	public void Apply(Dictionary<Vector3Int, int> materials, Vector2 center, int size, PlanetDescriptor descriptor)
 	{
@@ -93,7 +95,7 @@ public class MapGenerator : MonoBehaviour
 		Shader.SetGlobalVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
 		Shader.SetGlobalVector("_TilemapMax", new Vector4(max.x, max.y, 0, 0));
 
-		//SpawnRadarPointer(tilemap, center);
+		SpawnRadarPointer(tileMap, center, size);
 
 		if (asteroidBg != null)
 		{
@@ -114,16 +116,20 @@ public class MapGenerator : MonoBehaviour
 		//DestructibleTerrain.Instance.ApplyNewMap(materials);
 	}
 
-	private void SpawnRadarPointer(Tilemap tilemap, Vector2 center)
+	private void SpawnRadarPointer(Tilemap tilemap, Vector2 center, int size)
 	{
-		//var enemy = Object.Instantiate(descriptor.gizmoPrefab);
-		//enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
-		//enemy.gameObject.SetActive(true);
-	}
+		if(RadarTargetPrefab == null)
+		{
+			Debug.LogWarning(name + " tried spawning a radar target, but the prefab was null!");
+			return;
+		}
 
-	private void SpawnRadarPointer(Vector2 center)
-	{
-		throw new System.NotImplementedException();
+
+		//RadarController.AddPointer
+		var radarTarget = Object.Instantiate(RadarTargetPrefab);
+		radarTarget.transform.position = tileMap.CellToWorld(new((int)center.x, (int)center.y,0)) + new Vector3(0.5f, 0);
+		radarTarget.CutoffDistanceThreshold = size/2 +8;
+		radarTarget.gameObject.SetActive(true);
 	}
 
 	bool ShouldSpawnGizmo(PlanetDescriptor descriptor)
