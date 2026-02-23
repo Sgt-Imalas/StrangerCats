@@ -16,5 +16,5 @@ MonoBehaviour:
   hardness: 5000
   textureIdx: 8
   resourceType: 3
-  resourceAmount: 100
+  resourceAmount: 10
   particlesColor: {r: 0.38313335, g: 0.256675, b: 0.5283019, a: 0}
