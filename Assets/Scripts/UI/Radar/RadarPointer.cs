@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class RadarPointer : MonoBehaviour
 {
 	public GameObject Player;
-	public GameObject Target;
+	public RadarTarget Target;
 	public Color? Tint;
 	/// <summary>
 	/// this can be used to point to a specific position in space instead of a GameObject
@@ -19,7 +19,6 @@ public class RadarPointer : MonoBehaviour
 	Image Image;
 	TextMeshProUGUI DistanceText;
 	//hide pointer below
-	public float CutofffDistanceThreshold = 50;
 	public bool IgnoreDistanceLimit = false;
 
 	private void Start()
@@ -43,7 +42,7 @@ public class RadarPointer : MonoBehaviour
 
 	protected virtual void ToggleVisBelowThreshold()
 	{
-		bool distanceBigEnough = CurrentDistance >= CutofffDistanceThreshold;
+		bool distanceBigEnough = CurrentDistance >= Target.CutoffDistanceThreshold;
 		ImageGO.SetActive(distanceBigEnough);
 		DistanceTextGO.SetActive(distanceBigEnough);
 	}

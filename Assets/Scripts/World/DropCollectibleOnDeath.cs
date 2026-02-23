@@ -9,7 +9,7 @@ public class DropCollectibleOnDeath : MonoBehaviour
 	{
 		if (ToDrop != FindableItem.None)
 		{
-			GlobalEvents.Instance.OnFindableItemRevealed?.Invoke(transform.position, ToDrop);
+			GlobalEvents.Instance.DropProgressionItem?.Invoke(transform.position, ToDrop);
 		}
 	}
 }

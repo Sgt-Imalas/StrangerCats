@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 [ExecuteAlways]
 public class MapGenerator : MonoBehaviour
@@ -92,6 +93,8 @@ public class MapGenerator : MonoBehaviour
 		Shader.SetGlobalVector("_TilemapMin", new Vector4(min.x, min.y, 0, 0));
 		Shader.SetGlobalVector("_TilemapMax", new Vector4(max.x, max.y, 0, 0));
 
+		//SpawnRadarPointer(tilemap, center);
+
 		if (asteroidBg != null)
 		{
 			if (descriptor.bg != null)
@@ -109,6 +112,18 @@ public class MapGenerator : MonoBehaviour
 			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials, descriptor);
 
 		//DestructibleTerrain.Instance.ApplyNewMap(materials);
+	}
+
+	private void SpawnRadarPointer(Tilemap tilemap, Vector2 center)
+	{
+		//var enemy = Object.Instantiate(descriptor.gizmoPrefab);
+		//enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
+		//enemy.gameObject.SetActive(true);
+	}
+
+	private void SpawnRadarPointer(Vector2 center)
+	{
+		throw new System.NotImplementedException();
 	}
 
 	bool ShouldSpawnGizmo(PlanetDescriptor descriptor)

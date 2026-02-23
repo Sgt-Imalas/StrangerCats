@@ -12,14 +12,14 @@ public class ItemDropManager : MonoBehaviour
 	private void Start()
 	{
 		GlobalEvents.Instance.OnTileDestroyed += HandleTileDestroyed;
-		GlobalEvents.Instance.OnFindableItemRevealed += HandleCollectibleContainerDestroyed;
+		GlobalEvents.Instance.DropProgressionItem += HandleCollectibleContainerDestroyed;
 		GlobalEvents.Instance.OnEnemyKilled += HandleEnemyKilled;
 	}
 
 	private void OnDestroy()
 	{
 		GlobalEvents.Instance.OnTileDestroyed -= HandleTileDestroyed;
-		GlobalEvents.Instance.OnFindableItemRevealed -= HandleCollectibleContainerDestroyed;
+		GlobalEvents.Instance.DropProgressionItem -= HandleCollectibleContainerDestroyed;
 		GlobalEvents.Instance.OnEnemyKilled -= HandleEnemyKilled;
 	}
 

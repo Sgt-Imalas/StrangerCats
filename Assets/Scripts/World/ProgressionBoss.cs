@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -18,7 +19,7 @@ namespace Assets.Scripts
 		public AudioClip deconstructSound;
 
 		public Color dustColor;
-		public FindableItem findableItem;
+		public FindableItem findableItem = FindableItem.None;
 		public bool floating;
 		public TerrainMaterial frame;
 
@@ -97,6 +98,12 @@ namespace Assets.Scripts
 			audioSource.Play();
 
 			particles.Emit(40);
+
+
+			if (findableItem != FindableItem.None)
+			{
+				GlobalEvents.Instance.DropProgressionItem?.Invoke(transform.position, findableItem);
+			}
 
 			GetComponentInChildren<SpriteRenderer>().gameObject.SetActive(false);
 
