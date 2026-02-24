@@ -12,6 +12,8 @@ public class HoldButton : CatPawButton
 {
 	bool Selected;
 	public float holdTime = 1f;
+	public float minimumHoldTime = 0.2f;
+	float HoldTimeInternal;
 	public UnityEvent onHoldComplete;
 
 	private bool isHolding;
@@ -99,6 +101,8 @@ public class HoldButton : CatPawButton
 		controls = new();
 		if (FillImage == null)
 			FillImage = transform.Find("Fill").GetComponent<Image>();
+
+		HoldTimeInternal = holdTime;
 	}
 	public override void OnPointerDown(PointerEventData eventData)
 	{
@@ -122,10 +126,11 @@ public class HoldButton : CatPawButton
 		CancelHold();
 	}
 
-	private void StartHold()
+	private void StartHold(bool resetTime = false)
 	{
 		if (isHolding)
 			return;
+
 
 		isHolding = true;
 		holdRoutine = StartCoroutine(HoldCoroutine());
@@ -135,7 +140,7 @@ public class HoldButton : CatPawButton
 	{
 		if (!isHolding)
 			return;
-
+		HoldTimeInternal = holdTime;
 		isHolding = false;
 
 		if (holdRoutine != null)
@@ -150,7 +155,7 @@ public class HoldButton : CatPawButton
 	{
 		float timer = 0f;
 
-		while (timer < holdTime)
+		while (timer < HoldTimeInternal)
 		{
 			if (!IsSubmitStillPressed())
 			{
@@ -159,7 +164,7 @@ public class HoldButton : CatPawButton
 			}
 
 			timer += Time.unscaledDeltaTime;
-			FillImage.fillAmount = timer / holdTime;
+			FillImage.fillAmount = timer / HoldTimeInternal;
 			yield return null;
 		}
 		CompleteAction();
@@ -198,7 +203,10 @@ public class HoldButton : CatPawButton
 		{
 			OnHeldLongEnough();
 			if (this.IsInteractable() && BuyingAllowed)
+			{
+				HoldTimeInternal = Mathf.Clamp(HoldTimeInternal * 0.90f, minimumHoldTime, holdTime);
 				StartHold();
+			}
 		}
 	}
 	private bool IsSubmitStillPressed()

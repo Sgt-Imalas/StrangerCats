@@ -1430,6 +1430,7 @@ GameObject:
   - component: {fileID: 314561621}
   - component: {fileID: 314561620}
   - component: {fileID: 314561619}
+  - component: {fileID: 314561623}
   m_Layer: 0
   m_Name: World_DustPlanet
   m_TagString: Untagged
@@ -1516,7 +1517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3a0a02bfba48a41ba184f185a4a78f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RadarTarget
-  Tint: {r: 0.6925311, g: 0.4669811, b: 1, a: 1}
+  Tint: {r: 0.4666667, g: 0.5594198, b: 1, a: 1}
   IgnoreDistanceLimit: 0
   CutoffDistanceThreshold: 10
 --- !u!212 &314561622
@@ -1578,6 +1579,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &314561623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314561617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fbb336bbb025d49acb225190efd056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlanetRandomPosition
+  MedDistance: 6000
+  Variance: 100
+  MinAngle: 225
+  MaxAngle: 315
 --- !u!1 &328265337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2466,6 +2483,7 @@ GameObject:
   - component: {fileID: 522250034}
   - component: {fileID: 522250036}
   - component: {fileID: 522250037}
+  - component: {fileID: 522250038}
   m_Layer: 0
   m_Name: SchwartzPawtal
   m_TagString: Untagged
@@ -2582,6 +2600,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PortalIgniter
   RekindlePortal: {fileID: 8300000, guid: 2a9136a2dd0a0ab419e9205ba28d2a7c, type: 3}
   PortalLight: {fileID: 348059308}
+--- !u!114 &522250038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522250030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fbb336bbb025d49acb225190efd056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlanetRandomPosition
+  MedDistance: 300
+  Variance: 30
+  MinAngle: 0
+  MaxAngle: 359
 --- !u!1001 &626639864
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5372,6 +5406,7 @@ GameObject:
   - component: {fileID: 1037043830}
   - component: {fileID: 1037043829}
   - component: {fileID: 1037043828}
+  - component: {fileID: 1037043832}
   m_Layer: 0
   m_Name: World_BallPlanet
   m_TagString: Untagged
@@ -5520,6 +5555,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1037043832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037043826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fbb336bbb025d49acb225190efd056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlanetRandomPosition
+  MedDistance: 2500
+  Variance: 100
+  MinAngle: 45
+  MaxAngle: 135
 --- !u!1 &1045476043
 GameObject:
   m_ObjectHideFlags: 0
@@ -8019,6 +8070,7 @@ GameObject:
   - component: {fileID: 1661253610}
   - component: {fileID: 1661253612}
   - component: {fileID: 1661253613}
+  - component: {fileID: 1661253614}
   m_Layer: 0
   m_Name: World_MeatPlanet
   m_TagString: Untagged
@@ -8167,6 +8219,22 @@ MonoBehaviour:
   InteractHint: {fileID: 1083939571}
   SceneToLoad: MineableTerrain
   planetDescriptor: {fileID: 11400000, guid: 6db87838a52429149843fb7351c67d71, type: 2}
+--- !u!114 &1661253614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661253607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fbb336bbb025d49acb225190efd056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlanetRandomPosition
+  MedDistance: 650
+  Variance: 50
+  MinAngle: 0
+  MaxAngle: 359
 --- !u!1001 &1670685556
 PrefabInstance:
   m_ObjectHideFlags: 0

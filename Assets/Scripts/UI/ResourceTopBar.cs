@@ -267,7 +267,7 @@ public class ResourceTopBar : MonoBehaviour
 		bool soundPlayed = false;
 		while (time < duration)
 		{
-			time += Time.deltaTime;
+			time += Time.unscaledDeltaTime;
 			float t = time / duration;
 
 			t = t * t;

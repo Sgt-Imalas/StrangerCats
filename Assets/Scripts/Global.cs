@@ -13,24 +13,44 @@ public class Global
 	public const float StickDeadzone = 0.3f;
 	private static Global _instance;
 
+	public int Seed = UnityEngine.Random.Range(0, int.MaxValue);
 	public static Global Instance
 	{
 		get
 		{
-			_instance ??= new Global();
+			if(_instance == null)
+			{
+				_instance = new Global();
+				Debug.Log("initializing Global, seed: " + _instance.Seed);
+			}
 			return _instance;
 		}
 	}
+
+	public Vector2 GetPlanetPosition(string name, int distance, int variance, int minAngle = 0, int maxAngle = 359)
+	{
+		int nameHash = name.GetHashCode();
+		var rando = new System.Random(Seed ^ nameHash);
+
+		float angle = rando.Next(minAngle, maxAngle);
+		var rotatedVector = Quaternion.AngleAxis(angle, Vector3.forward) * Vector3.down;
+		//Debug.Log("Random Angle for " + name + ": " + angle);
+		var varianceOffset = rando.Next(-variance, +variance);
+		rotatedVector.Normalize();
+		distance += varianceOffset;
+		return rotatedVector * distance;
+	}
+
 	const string saveKey = "SaveGame";
 	public static void DeleteSaveFile()
 	{
-		Debug.Log("Deleting Savefile");
+		//Debug.Log("Deleting Savefile");
 		PlayerPrefs.DeleteKey(saveKey);
 		_instance = null;
 	}
 	public static void WriteSaveFile()
 	{
-		Debug.Log("Saving the Game");
+		//Debug.Log("Saving the Game");
 		//var saveData = JsonUtility.ToJson(Instance);
 		//PlayerPrefs.SetString(saveKey, saveData);
 	}
