@@ -44,30 +44,39 @@ public class UpgradeScreen : MonoBehaviour
 	{
 		Radar = GO_Radar.GetComponent<UpgradeItem>();
 		Radar.SetUpgrade(Global.Instance.Upgrades.RadarRange);
+		//Radar.OnInteractableChanged += OnInteractableChanged;
 
 		RotationSpeed = GO_RotationSpeed.GetComponent<UpgradeItem>();
 		RotationSpeed.SetUpgrade(Global.Instance.Upgrades.RotationSpeed);
+		//RotationSpeed.OnInteractableChanged += OnInteractableChanged;
 
 		SuperCruise = GO_SuperCruise.GetComponent<UpgradeItem>();
 		SuperCruise.SetUpgrade(Global.Instance.Upgrades.SuperCruise);
+		//SuperCruise.OnInteractableChanged += OnInteractableChanged;
 
 		LifeSupport = GO_LifeSupport.GetComponent<UpgradeItem>();
 		LifeSupport.SetUpgrade(Global.Instance.Upgrades.LifeSupport);
+		//LifeSupport.OnInteractableChanged += OnInteractableChanged;
 
 		LaserDamage = GO_LaserDamage.GetComponent<UpgradeItem>();
 		LaserDamage.SetUpgrade(Global.Instance.Upgrades.LaserDamage);
+		//LaserDamage.OnInteractableChanged += OnInteractableChanged;
 
 		LaserSpeed = GO_LaserSpeed.GetComponent<UpgradeItem>();
 		LaserSpeed.SetUpgrade(Global.Instance.Upgrades.LaserSpeed);
+		//LaserSpeed.OnInteractableChanged += OnInteractableChanged;
 
 		LaserRange = GO_LaserRange.GetComponent<UpgradeItem>();
 		LaserRange.SetUpgrade(Global.Instance.Upgrades.LaserRange);
+		//LaserRange.OnInteractableChanged += OnInteractableChanged;
 
 		PodSpeed = GO_ManeuveringThrusters.GetComponent<UpgradeItem>();
 		PodSpeed.SetUpgrade(Global.Instance.Upgrades.PodSpeed);
+		//PodSpeed.OnInteractableChanged += OnInteractableChanged;
 
 		ResourceYield = GO_ResourceYield.GetComponent<UpgradeItem>();
 		ResourceYield.SetUpgrade(Global.Instance.Upgrades.ResourceYield);
+		//ResourceYield.OnInteractableChanged += OnInteractableChanged;
 
 		Items = new List<UpgradeItem>
 		{
@@ -83,6 +92,25 @@ public class UpgradeScreen : MonoBehaviour
 		};
 
 	}
+	void OnInteractableChanged(bool cardIsInteractable)
+	{
+		if (cardIsInteractable)
+			return;
+
+		SelectFirstInteractable();
+	}
+	void SelectFirstInteractable()
+	{
+		foreach (var item in Items)
+		{
+			if (item.BuyingAllowed)
+			{
+				item.Select();
+				break;
+			}
+		}
+	}
+
 
 	private void OnEnable()
 	{
@@ -90,14 +118,7 @@ public class UpgradeScreen : MonoBehaviour
 		{
 			item.Refresh();
 		}
-		foreach(var item in Items)
-		{
-			if (item.Interactable)
-			{
-				item.Select();
-				break;
-			}
-		}
+		SelectFirstInteractable();
 		Global.Instance.InUpgradeMenu = true;
 		Time.timeScale = 0;
 		Global.Instance.OnUpgradePurchased += OnItemBought;
@@ -106,6 +127,9 @@ public class UpgradeScreen : MonoBehaviour
 	{
 		if (BuySound != null)
 			MusicManager.PlayFx(BuySound);
+
+		foreach (var item in Items)
+			item.Refresh();
 	}
 
 	private void OnDisable()

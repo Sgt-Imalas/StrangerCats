@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -13,35 +16,57 @@ public class UpgradeItem : MonoBehaviour
 	[SerializeField]public BuyableUpgrade CurrentUpgrade = null;
 	TextMeshProUGUI CostA, CostB, CostC, CostD;
 	bool woke = false;
+	//public Color Default = new Color32(64, 64, 64, byte.MaxValue);
+	//public Color Forbidden = new Color32(126, 39, 10, byte.MaxValue);
+	Image BG;
+
+
 	private void Awake()
 	{
+		BG = GetComponent<Image>();
+
 		if (A != null)
 			CostA = A.transform.GetComponentInChildren<TextMeshProUGUI>();
 		else
-			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource A");
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource Meat");
 		if (B != null)
 			CostB = B.transform.GetComponentInChildren<TextMeshProUGUI>();
 		else
-			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource B");
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource Rust");
 		if (C != null)
 			CostC = C.transform.GetComponentInChildren<TextMeshProUGUI>();
 		else
-			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource C");
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource Ball");
 		if (D != null)
 			CostD = D.transform.GetComponentInChildren<TextMeshProUGUI>();
 		else
-			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource D");
+			Debug.LogWarning("Upgrade item " + name + " is missing cost display for resource Dust");
 		UnlockButton.onHoldComplete.AddListener(BuyUpgrade);
 		woke = true;
-		Title.fontSizeMin = 12;
 	}
 
-	public System.Action<Selectable> OnSelect;
-	public bool Interactable
+	public bool BuyingAllowed
 	{
-		get => UnlockButton.interactable;
-		set => UnlockButton.interactable = value;
+		get => UnlockButton.BuyingAllowed;
+		set
+		{
+			if(value != UnlockButton.BuyingAllowed)
+			{
+				UnlockButton.BuyingAllowed = value;
+				OnInteractableChanged?.Invoke(value);
+			}
+			//SetInteractionColoring(value);
+		}
 	}
+	public event Action<bool> OnInteractableChanged;
+
+	//void SetInteractionColoring(bool interactable)
+	//{
+	//	if (BG)
+	//		BG.color = interactable ? Default : Forbidden;
+	//}
+
+
 	public void Select() => UnlockButton.Select();
 	void BuyUpgrade()
 	{
@@ -64,7 +89,7 @@ public class UpgradeItem : MonoBehaviour
 	{
 		if (CurrentUpgrade == null || CurrentUpgrade.IsMaxed() || !CurrentUpgrade.IsUnlocked())
 		{
-			UnlockButton.interactable = false;
+			BuyingAllowed = false;
 			return;
 		}
 
@@ -72,11 +97,11 @@ public class UpgradeItem : MonoBehaviour
 		{
 			if (!Global.Instance.SpaceshipResources.CanAfford(cost.Key, cost.Value))
 			{
-				UnlockButton.interactable = false;
+				BuyingAllowed = false;
 				return;
 			}
 		}
-		UnlockButton.interactable = true;
+		BuyingAllowed = true;
 		RefreshText();
 	}
 	

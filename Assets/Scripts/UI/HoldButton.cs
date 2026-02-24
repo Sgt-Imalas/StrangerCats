@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -20,6 +21,21 @@ public class HoldButton : CatPawButton
 	bool HeldLongEnough;
 
 	public bool ReleaseToTrigger = true;
+	Image bgImage;
+	bool _buyingAllowed = true;
+	public bool BuyingAllowed
+	{
+		get => _buyingAllowed && interactable;
+		set
+		{
+			_buyingAllowed = value;
+			image.color = value ? RegularButtonColor : LockedButtonColor;
+		}
+	}
+	Color RegularButtonColor = new Color32(200, 200, 200, byte.MaxValue);
+	Color LockedButtonColor = new Color32(235, 157, 152, byte.MaxValue);
+
+	
 
 	protected override void OnEnable()
 	{
@@ -49,15 +65,17 @@ public class HoldButton : CatPawButton
 	}
 	public override void OnDeselect(BaseEventData eventData)
 	{
+		Selected = false;
+		CancelHold();
 		if (!interactable)
 			return;
-		Selected = false;
 		base.OnDeselect(eventData);
 	}
 
+
 	void StartHoldIfSelected()
 	{
-		if (Selected && interactable)
+		if (Selected && interactable && BuyingAllowed)
 		{
 			MouseMode = false;
 			StartHold();
@@ -68,12 +86,12 @@ public class HoldButton : CatPawButton
 	{
 		base.Awake();
 		controls = new();
-		if(FillImage == null)
+		if (FillImage == null)
 			FillImage = transform.Find("Fill").GetComponent<Image>();
 	}
 	public override void OnPointerDown(PointerEventData eventData)
 	{
-		if (!interactable)
+		if (!interactable || !BuyingAllowed)
 			return;
 		MouseMode = true;
 		StartHold();
@@ -82,7 +100,7 @@ public class HoldButton : CatPawButton
 
 	public override void OnPointerUp(PointerEventData eventData)
 	{
-		if (!interactable)
+		if (!interactable || !BuyingAllowed)
 			return;
 
 		CancelHold();
@@ -164,12 +182,13 @@ public class HoldButton : CatPawButton
 		else
 		{
 			OnHeldLongEnough();
-			StartHold();
+			if (this.IsInteractable() && BuyingAllowed)
+				StartHold();
 		}
 	}
-
 	private bool IsSubmitStillPressed()
 	{
 		return MouseMode || controls.UI.Submit.IsPressed();
 	}
+
 }
