@@ -1904,7 +1904,7 @@ PrefabInstance:
       objectReference: {fileID: 870740498}
     - target: {fileID: 5025427664832829319, guid: 3aef9b039f7d0ff4299ac7b3f23f48c7, type: 3}
       propertyPath: item
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5025427664832829319, guid: 3aef9b039f7d0ff4299ac7b3f23f48c7, type: 3}
       propertyPath: TargetSprite
@@ -86140,7 +86140,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 12.535714
+  orthographic size: 11.821428
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
