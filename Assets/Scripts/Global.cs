@@ -73,6 +73,8 @@ public class Global
 		writer.Write(Seed);
 		writer.Write(Spaceship.Position.x);
 		writer.Write(Spaceship.Position.y);
+		writer.Write(Spaceship.PositionMining.x);
+		writer.Write(Spaceship.PositionMining.y);
 		writer.Write(Spaceship.Rotation.eulerAngles.z);
 
 		writer.Write(SpaceshipResources.Current.Count);
@@ -103,6 +105,7 @@ public class Global
 	{
 		Seed = reader.ReadInt32();
 		Spaceship.Position = new(reader.ReadSingle(), reader.ReadSingle());
+		Spaceship.PositionMining = new(reader.ReadSingle(), reader.ReadSingle());
 		Debug.Log("Loaded Player POs:" + Spaceship.Position);
 		Spaceship.Rotation = Quaternion.AngleAxis(reader.ReadSingle() * 360, Vector3.forward);
 
@@ -233,6 +236,7 @@ public class Global
 public class StarmapShip
 {
 	public Vector2 Position = new(0, 0);
+	public Vector2 PositionMining = new(0, 0);
 	public Quaternion Rotation = new();
 
 	public FlightStats PrecisionMode = new()
@@ -563,7 +567,7 @@ public class BuyableUpgrade
 			return "Not found yet";
 
 		if (!Global.Instance.SpaceshipResources.CanAfford(GetCurrentScaledCosts()))
-			return "Can't affort";
+			return "Can't afford";
 
 		return string.Empty;
 	}
