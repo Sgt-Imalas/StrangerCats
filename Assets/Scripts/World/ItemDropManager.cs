@@ -119,6 +119,7 @@ public class ItemDropManager : MonoBehaviour
 		}
 
 		var itemDrop = Instantiate(prefab);
+		itemDrop.item = item;
 		itemDrop.gameObject.SetActive(true);
 		itemDrop.transform.position = pos;		
 
