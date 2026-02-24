@@ -37,6 +37,7 @@ public class PauseScreen : MonoBehaviour
 		Resume.onClick.AddListener( () => PauseGame(false));
 
 		Exit.onClick.AddListener( Global.Instance.StartLoadingMainMenu);
+
 		PauseGame(false);
 	}
 	void OnMusicVolumeChanged(float newValue)

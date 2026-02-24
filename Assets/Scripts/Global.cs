@@ -2,10 +2,12 @@ using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 [ExecuteAlways]
 public class Global
@@ -18,7 +20,7 @@ public class Global
 	{
 		get
 		{
-			if(_instance == null)
+			if (_instance == null)
 			{
 				_instance = new Global();
 				Debug.Log("initializing Global, seed: " + _instance.Seed);
@@ -44,35 +46,118 @@ public class Global
 	const string saveKey = "SaveGame";
 	public static void DeleteSaveFile()
 	{
-		//Debug.Log("Deleting Savefile");
+		Debug.Log("Deleting Savefile");
 		PlayerPrefs.DeleteKey(saveKey);
 		_instance = null;
 	}
 	public static void WriteSaveFile()
 	{
-		//Debug.Log("Saving the Game");
-		//var saveData = JsonUtility.ToJson(Instance);
-		//PlayerPrefs.SetString(saveKey, saveData);
+		Debug.Log("Saving the Game");
+		try
+		{
+			using var ms = new MemoryStream();
+			using var writer = new BinaryWriter(ms);
+			Instance.Serialize(writer);
+			byte[] data = ms.ToArray();
+			var base64String = Convert.ToBase64String(data);
+			PlayerPrefs.SetString(saveKey, base64String);
+		}
+		catch (Exception e)
+		{
+			Debug.LogWarning(e.Message);
+		}
+	}
+
+	public void Serialize(BinaryWriter writer)
+	{
+		writer.Write(Seed);
+		writer.Write(Spaceship.Position.x);
+		writer.Write(Spaceship.Position.y);
+		writer.Write(Spaceship.Rotation.eulerAngles.z);
+
+		writer.Write(SpaceshipResources.Current.Count);
+		foreach (var resource in SpaceshipResources.Current)
+		{
+			writer.Write((int)resource.Key);
+			writer.Write(resource.Value);
+		}
+		writer.Write(Upgrades.RadarUnlocked);
+		writer.Write(Upgrades.SuperCruiseUnlocked);
+		writer.Write(Upgrades.MeatWorldItemFound);
+		writer.Write(Upgrades.TennisWorldItemFound);
+		writer.Write(Upgrades.DesertWorldItemFound);
+
+		writer.Write(Upgrades.RadarRange.Level);
+		writer.Write(Upgrades.SuperCruise.Level);
+		writer.Write(Upgrades.RotationSpeed.Level);
+
+		writer.Write(Upgrades.LifeSupport.Level);
+		writer.Write(Upgrades.PodSpeed.Level);
+		writer.Write(Upgrades.LaserRange.Level);
+		writer.Write(Upgrades.LaserDamage.Level);
+		writer.Write(Upgrades.LaserSpeed.Level);
+		writer.Write(Upgrades.ResourceYield.Level);
+	}
+
+	public void Deserialize(BinaryReader reader)
+	{
+		Seed = reader.ReadInt32();
+		Spaceship.Position = new(reader.ReadSingle(), reader.ReadSingle());
+		Debug.Log("Loaded Player POs:" + Spaceship.Position);
+		Spaceship.Rotation = Quaternion.AngleAxis(reader.ReadSingle() * 360, Vector3.forward);
+
+		int resourceCount = reader.ReadInt32();
+		for (int i = 0; i < resourceCount; ++i)
+		{
+			var res = (ResourceType)reader.ReadInt32();
+			SpaceshipResources.Current[res] = reader.ReadUInt32();
+		}
+		Upgrades.RadarUnlocked = reader.ReadBoolean();
+		Upgrades.SuperCruiseUnlocked = reader.ReadBoolean();
+		Upgrades.MeatWorldItemFound = reader.ReadBoolean();
+		Upgrades.TennisWorldItemFound = reader.ReadBoolean();
+		Upgrades.DesertWorldItemFound = reader.ReadBoolean();
+
+
+		Upgrades.RadarRange.BuyLevelsFromSave(reader.ReadInt32());
+		Upgrades.SuperCruise.BuyLevelsFromSave(reader.ReadInt32());
+		Upgrades.RotationSpeed.BuyLevelsFromSave(reader.ReadInt32());
+
+		Upgrades.LifeSupport.BuyLevelsFromSave(reader.ReadInt32());
+		Upgrades.PodSpeed.BuyLevelsFromSave(reader.ReadInt32());
+		Upgrades.LaserRange.BuyLevelsFromSave(reader.ReadInt32());
+		Upgrades.LaserDamage.BuyLevelsFromSave(reader.ReadInt32());
+		Upgrades.LaserSpeed.BuyLevelsFromSave(reader.ReadInt32());
+		Upgrades.ResourceYield.BuyLevelsFromSave(reader.ReadInt32());
 	}
 	internal void LoadAndApplyAttributes(Attributes attributes)
 	{
 		//Todo: store attribute modifiers in the serialized global item, and apply them here
 	}
+
 	internal static void LoadPersistantInstance()
 	{
+		if (PlayerPrefs.HasKey(saveKey))
+		{
+			try
+			{
+				//Debug.Log("Loading savefile");
+				string data = PlayerPrefs.GetString(saveKey);
+				byte[] dataBytes = Convert.FromBase64String(data);
 
-		//this is broken af lol
-
-
-		//if (PlayerPrefs.HasKey(saveKey))
-		//{
-		//	Debug.Log("Loading savefile");
-		//	string data = PlayerPrefs.GetString(saveKey);
-		//	_instance = JsonUtility.FromJson<Global>(data);
-		//}
-		//else
-
-		//	Debug.Log("No save file found!");
+				using var ms = new MemoryStream(dataBytes);
+				using var reader = new BinaryReader(ms);
+				_instance = new();
+				_instance.Deserialize(reader);
+			}
+			catch(Exception e)
+			{
+				Debug.LogWarning(e.Message);
+				PlayerPrefs.DeleteKey(saveKey);
+			}
+		}
+		else
+			Debug.Log("No save file found!");
 	}
 
 	public List<GameObject> entities = new();
@@ -329,7 +414,6 @@ public class GameUpgrades
 				break;
 		}
 		OnItemCollected?.Invoke(item);
-
 		Global.WriteSaveFile();
 	}
 
@@ -495,8 +579,12 @@ public class BuyableUpgrade
 		{
 			Global.Instance.SpaceshipResources.SpendResource(cost.Key, cost.Value);
 		}
+		IncreaseLevelInternal();
+		Global.Instance.UpgradePurchased();
+	}
+	void IncreaseLevelInternal()
+	{
 		Level++;
-		OnPurchase?.Invoke();
 		if (Modifiers != null)
 		{
 			foreach (var mod in Modifiers)
@@ -504,8 +592,8 @@ public class BuyableUpgrade
 				PersistentPlayer.AddModifier(mod);
 			}
 		}
-		Global.Instance.UpgradePurchased();
 	}
+
 
 	public bool IsMaxed()
 	{
@@ -514,6 +602,19 @@ public class BuyableUpgrade
 	public bool IsUnlocked()
 	{
 		return UnlockedCondition();
+	}
+
+	internal void BuyLevelsFromSave(int targetLevel)
+	{
+		if (Level >= targetLevel)
+		{
+			Debug.LogWarning(Name+" level is already at or higher than requested "+targetLevel);
+			return;
+		}
+		for(int i = Level; i < targetLevel; i++)
+		{
+			IncreaseLevelInternal();
+		}
 	}
 
 	public string Name;
@@ -526,7 +627,6 @@ public class BuyableUpgrade
 	public Dictionary<ResourceType, int> CostAdditionThresholds = new();
 
 	public List<AttributeModifier> Modifiers;
-	public Action OnPurchase;
 }
 public struct ResourceLevel : IEnumerable
 {

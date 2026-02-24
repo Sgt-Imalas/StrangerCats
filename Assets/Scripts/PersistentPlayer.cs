@@ -54,6 +54,9 @@ namespace Assets.Scripts
 		void OnSceneLoaded(Scene s, LoadSceneMode mode)
 		{
 			InLander = s.name == "MineableTerrain";
+
+			if(s.name == "Starmap")
+				Global.WriteSaveFile();
 		}
 
 		private void OnAttributesChanged(AttributeType type, float finalValue)
