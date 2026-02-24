@@ -23,6 +23,11 @@ public class CatPawHoldButtonEditor : CatPawButtonEditor
 		SerializedProperty ReleaseToTrigger = serializedObject.FindProperty("ReleaseToTrigger");
 		EditorGUILayout.PropertyField(ReleaseToTrigger);
 
+		SerializedProperty BuyingProhibitedNotification = serializedObject.FindProperty("BuyingProhibitedNotification");
+		EditorGUILayout.PropertyField(BuyingProhibitedNotification);
+
+
+		
 		serializedObject.ApplyModifiedProperties();
 	}
 }

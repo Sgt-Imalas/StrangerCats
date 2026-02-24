@@ -527,6 +527,7 @@ MonoBehaviour:
       m_Calls: []
   FillImage: {fileID: 6589197036534322038}
   ReleaseToTrigger: 0
+  BuyingProhibitedNotification: {fileID: 8300000, guid: b569cd13ea4ef014aab1eee501603a65, type: 3}
 --- !u!1 &1959594410705731425
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,7 +44,7 @@ public class UpgradeScreen : MonoBehaviour
 	{
 		Radar = GO_Radar.GetComponent<UpgradeItem>();
 		Radar.SetUpgrade(Global.Instance.Upgrades.RadarRange);
-		//Radar.OnInteractableChanged += OnInteractableChanged;
+		Radar.OnInteractableChanged += OnInteractableChanged;
 
 		RotationSpeed = GO_RotationSpeed.GetComponent<UpgradeItem>();
 		RotationSpeed.SetUpgrade(Global.Instance.Upgrades.RotationSpeed);

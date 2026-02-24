@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -23,9 +24,12 @@ public class HoldButton : CatPawButton
 	public bool ReleaseToTrigger = true;
 	Image bgImage;
 	bool _buyingAllowed = true;
+
+	public AudioClip BuyingProhibitedNotification;
+
 	public bool BuyingAllowed
 	{
-		get => _buyingAllowed && interactable;
+		get => _buyingAllowed;
 		set
 		{
 			_buyingAllowed = value;
@@ -58,28 +62,35 @@ public class HoldButton : CatPawButton
 
 	public override void OnSelect(BaseEventData eventData)
 	{
+		base.OnSelect(eventData);
 		if (!interactable)
 			return;
 		Selected = true;
-		base.OnSelect(eventData);
 	}
 	public override void OnDeselect(BaseEventData eventData)
 	{
+		base.OnDeselect(eventData);
 		Selected = false;
 		CancelHold();
-		if (!interactable)
-			return;
-		base.OnDeselect(eventData);
 	}
-
+	
 
 	void StartHoldIfSelected()
 	{
+		if (!BuyingAllowed && Selected)
+			PlayErrorNotification();
+
 		if (Selected && interactable && BuyingAllowed)
 		{
 			MouseMode = false;
 			StartHold();
 		}
+	}
+
+	private void PlayErrorNotification()
+	{
+		if(BuyingProhibitedNotification != null)
+			MusicManager.PlayFx(BuyingProhibitedNotification,0.2f);
 	}
 
 	protected override void Awake()
@@ -91,20 +102,24 @@ public class HoldButton : CatPawButton
 	}
 	public override void OnPointerDown(PointerEventData eventData)
 	{
+		base.OnPointerDown(eventData);
+
+		if (!BuyingAllowed)
+			PlayErrorNotification();
+
 		if (!interactable || !BuyingAllowed)
 			return;
 		MouseMode = true;
 		StartHold();
-		base.OnPointerDown(eventData);
 	}
 
 	public override void OnPointerUp(PointerEventData eventData)
 	{
+		base.OnPointerUp(eventData);
+
 		if (!interactable || !BuyingAllowed)
 			return;
-
 		CancelHold();
-		base.OnPointerUp(eventData);
 	}
 
 	private void StartHold()
