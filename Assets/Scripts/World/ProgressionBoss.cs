@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -81,7 +80,7 @@ namespace Assets.Scripts
 			main.startColor = dustColor;
 		}
 
-		private void OnHurt(bool fatal)
+		private void OnHurt(bool fatal, Health.DamageInfo data)
 		{
 			var idx = Random.Range(0, pickSounds.Length - 1);
 			audioSource.clip = pickSounds[idx];

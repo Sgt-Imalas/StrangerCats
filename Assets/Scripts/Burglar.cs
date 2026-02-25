@@ -12,30 +12,38 @@ public class Burglar : MonoBehaviour, ISpawnRules
 	public Animator animator;
 	public ParticleSystem deathSplat;
 	public AudioSource audioSource;
-	public AudioClip deathSound, slideSound, hitSound;
+	public AudioClip deathSound, slideSound;
+	public AudioClip[] hitSounds;
 	public float slideCoolDown = 4.0f;
-	public LayerMask layerMask;
 	public ResourceType resourceType = ResourceType.Meat;
 
-	public PlayerDetection detection;
 
-	public Transform overrideTarget;
-	public Transform body;
 
 	private Rigidbody2D rb;
 
-	private float lastSlide = 0.0f;
-	private bool isChasing;
+	[Header("Chasing Parameters")]
+	public Transform overrideTarget;
+	public Transform body;
+	public LayerMask layerMask;
+
+	public PlayerDetection detection;
+	private TagHandle _targetTag;
+
 	public float chaseRange = 7.0f;
 
 	public float slideForce = 10.0f;
 	public float idleSlideForce = 5.0f;
+	public float movementSmoothing = 0.5f;
 
-	private Vector3 targetVelocity;
 
 	public bool starfish;
 
-	bool isFollowingPlayer;
+	private Vector3 _targetVelocity;
+	private bool _isFollowingPlayer;
+	private float _lastSlide = 0.0f;
+	private Vector2 _lastDamageDir;
+
+	private static readonly int DEAD = Animator.StringToHash("Dead");
 
 	public bool CanSpawnHere(Vector3Int coord, Dictionary<Vector3Int, int> materials, out object data)
 	{
@@ -52,25 +60,51 @@ public class Burglar : MonoBehaviour, ISpawnRules
 	{
 		audioSource = GetComponent<AudioSource>();
 		//animator.SetFloat("Offset", Random.Range(0.0f, 1.0f));
+		animator = GetComponent<Animator>();
 		if (animator != null)
 			animator.Play("cell enemy");
 		rb = GetComponent<Rigidbody2D>();
 
-		GetComponent<Health>().OnDeath += OnDeath;
+
+		var health = GetComponent<Health>();
+		health.OnDeath += OnDeath;
+		health.OnHurt += OnHurt;
+
+		_targetTag = TagHandle.GetExistingTag("Player");
+	}
+
+	private void OnHurt(bool fatal, Health.DamageInfo data)
+	{
+		audioSource.clip = hitSounds.GetRandom();
+		audioSource.pitch = Random.Range(0.9f, 1.1f);
+		audioSource.volume = 0.5f;
+		audioSource.Play();
+
+		_lastDamageDir = data.direction;
+	}
+
+	public void Pop()
+	{
+		audioSource.clip = deathSound;
+		audioSource.pitch = Random.Range(0.9f, 1.1f);
+		audioSource.volume = 0.85f;
+		audioSource.Play();
+
+		//var force = deathSplat.forceOverLifetime;
+		//var dir = _lastDamageDir.normalized;
+
+		//force.x = dir.x * 5.0f;
+		//force.y = dir.y * 5.0f;
+
+		deathSplat.Emit(20);
+
+		StartCoroutine(DieLater());
 	}
 
 	private void OnDeath()
 	{
-		audioSource.pitch = Random.Range(0.9f, 1.1f);
-		audioSource.Play();
-		deathSplat.Emit(20);
-		if (animator != null)
-			animator.gameObject.SetActive(false);
 		GetComponent<CircleCollider2D>().enabled = false;
-
-		StartCoroutine(DieLater());
-
-		GlobalEvents.Instance.OnEnemyKilled?.Invoke(transform.position, resourceType);
+		animator.SetBool(DEAD, true);
 	}
 
 
@@ -78,12 +112,13 @@ public class Burglar : MonoBehaviour, ISpawnRules
 	{
 		yield return _waitForSecondsRealtime1_0;
 
+		GlobalEvents.Instance.OnEnemyKilled?.Invoke(transform.position, resourceType);
 		Object.Destroy(gameObject);
 	}
 
 	private void TrySlide()
 	{
-		isFollowingPlayer = false;
+		_isFollowingPlayer = false;
 
 		if (detection.currentPlayer != null)
 		{
@@ -96,32 +131,33 @@ public class Burglar : MonoBehaviour, ISpawnRules
 						layerMask
 					);
 
-			Debug.DrawLine(transform.position, transform.position + (Vector3)dir.normalized * 16.0f);
 			if (hit.collider != null && (hit.collider.CompareTag("Player")))
 			{
 				//rb.AddForce(dir.normalized * slideForce);
-				targetVelocity = dir.normalized * slideForce;
-				isFollowingPlayer = true;
+				_targetVelocity = dir.normalized * slideForce;
+				_isFollowingPlayer = true;
 			}
+
+			Debug.DrawLine(transform.position, transform.position + (Vector3)dir.normalized * 16.0f, _isFollowingPlayer ? Color.green : Color.red);
 
 		}
 
-		if (!isFollowingPlayer && lastSlide > slideCoolDown)
+		if (!_isFollowingPlayer && _lastSlide > slideCoolDown)
 		{
 			var direction = (Vector3)Random.insideUnitCircle.normalized;
 			//rb.AddForce(direction * idleSlideForce);
-			targetVelocity = direction * idleSlideForce;
+			_targetVelocity = direction * idleSlideForce;
 
-			lastSlide = 0.0f;
+			_lastSlide = 0.0f;
 		}
 
-		rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, targetVelocity, 0.5f);
+		rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, _targetVelocity, movementSmoothing * Time.fixedDeltaTime);
 	}
 
 
 	private void FixedUpdate()
 	{
-		lastSlide += Time.fixedDeltaTime;
+		_lastSlide += Time.fixedDeltaTime;
 
 		//
 		TrySlide();
@@ -130,7 +166,7 @@ public class Burglar : MonoBehaviour, ISpawnRules
 
 
 		if (body != null)
-			body.Rotate(Vector3.forward, isFollowingPlayer ? 3f : 10f);
+			body.Rotate(Vector3.forward, _isFollowingPlayer ? 3f : 10f);
 		else
 		{
 			var angle = Mathf.Atan2(rb.linearVelocity.y, rb.linearVelocity.x) * Mathf.Rad2Deg;

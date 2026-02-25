@@ -1,7 +1,6 @@
 using Assets.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class LaserCanon : MonoBehaviour
@@ -15,6 +14,7 @@ public class LaserCanon : MonoBehaviour
 	public Transform tipMarker;
 	public float projectileSpeed = 600;
 	float explosionRadius = 0;
+	public float knockbackForce = 1.0f;
 
 	public LayerMask layerMask;
 
@@ -126,7 +126,17 @@ public class LaserCanon : MonoBehaviour
 			var damage = PersistentPlayer.GetAttribute(AttributeType.DigDamage);
 			if (hit.collider.TryGetComponent(out Health health) && !health.IsDestroyed())
 			{
-				health.Damage(damage);
+				health.Damage(damage, new Health.DamageInfo()
+				{
+					direction = dir
+				});
+
+				// apply knockback
+				if (hit.collider.TryGetComponent(out Rigidbody2D targetRb))
+				{
+					targetRb.linearVelocity += ((Vector2)dir.normalized * knockbackForce);
+					//targetRb.AddForce(dir.normalized * knockbackForce);
+				}
 			}
 			else
 			{

@@ -1,9 +1,7 @@
 using Assets.Scripts;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 [ExecuteAlways]
 public class MapGenerator : MonoBehaviour
@@ -118,7 +116,7 @@ public class MapGenerator : MonoBehaviour
 
 	private void SpawnRadarPointer(Tilemap tilemap, Vector2 center, int size)
 	{
-		if(RadarTargetPrefab == null)
+		if (RadarTargetPrefab == null)
 		{
 			Debug.LogWarning(name + " tried spawning a radar target, but the prefab was null!");
 			return;
@@ -127,8 +125,8 @@ public class MapGenerator : MonoBehaviour
 
 		//RadarController.AddPointer
 		var radarTarget = Object.Instantiate(RadarTargetPrefab);
-		radarTarget.transform.position = tileMap.CellToWorld(new((int)center.x, (int)center.y,0)) + new Vector3(0.5f, 0);
-		radarTarget.CutoffDistanceThreshold = size/2 +8;
+		radarTarget.transform.position = tileMap.CellToWorld(new((int)center.x, (int)center.y, 0)) + new Vector3(0.5f, 0);
+		radarTarget.CutoffDistanceThreshold = size / 2 + 8;
 		radarTarget.gameObject.SetActive(true);
 	}
 
@@ -203,10 +201,12 @@ public class MapGenerator : MonoBehaviour
 					{
 						var enemy = Object.Instantiate(descriptor.enemyPreset);
 						enemy.transform.position = tileMap.CellToWorld(position) + new Vector3(0.5f, 0);
-						enemy.gameObject.SetActive(true);
+						enemy.SetActive(true);
 
 						enemy.GetComponent<ISpawnRules>().ConfigureSpawn(position, materials, claimedPositions, data);
 						Global.Instance.entities.Add(enemy);
+
+						enemiesSpawned++;
 					}
 				}
 			}

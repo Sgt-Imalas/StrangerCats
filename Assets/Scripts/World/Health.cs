@@ -12,12 +12,12 @@ namespace Assets.Scripts
 
 		public delegate void OnHealthChangedEventHandler(float healthDelta);
 		public delegate void OnDeathEventHandler();
-		public delegate void OnHurtEventHandler(bool fatal);
+		public delegate void OnHurtEventHandler(bool fatal, DamageInfo data);
 
-		[SerializeField] public float maxHP;
-		[SerializeField] public float currentHP;
-		[SerializeField] public bool isDead;
-		[SerializeField] public HPBar healthIndicator;
+		public float maxHP;
+		public float currentHP;
+		public bool isDead;
+		public HPBar healthIndicator;
 
 		public float GetHealthPercent() => currentHP / maxHP;
 
@@ -54,9 +54,14 @@ namespace Assets.Scripts
 			return currentHP - previousHP;
 		}
 
+		public struct DamageInfo
+		{
+			public Vector2 direction;
+		}
+
 		private float AddHP(float hp) => SetHP(currentHP + hp);
 
-		public void Damage(float damage)
+		public void Damage(float damage, DamageInfo data)
 		{
 			if (damage == 0)
 				return;
@@ -66,9 +71,9 @@ namespace Assets.Scripts
 
 			AddHP(-damage);
 
-			OnHurt?.Invoke(GetTotalHealth() <= 0);
+			OnHurt?.Invoke(GetTotalHealth() <= 0, data);
 
-			if(healthIndicator != null) 
+			if (healthIndicator != null)
 				healthIndicator.SetPercent(GetHealthPercent());
 		}
 
