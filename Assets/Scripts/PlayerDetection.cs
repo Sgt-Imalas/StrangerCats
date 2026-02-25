@@ -1,10 +1,11 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class PlayerDetection : MonoBehaviour
 {
 	public Collider2D currentPlayer = null;
 
-	private void OnTriggerExit2D(Collider2D collision)
+	protected virtual void OnTriggerExit2D(Collider2D collision)
 	{
 		if (!collision.gameObject.CompareTag("Player"))
 			return;
@@ -12,7 +13,7 @@ public class PlayerDetection : MonoBehaviour
 		currentPlayer = null;
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision)
+	protected virtual void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (!collision.gameObject.CompareTag("Player"))
 			return;

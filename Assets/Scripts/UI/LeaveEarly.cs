@@ -12,7 +12,7 @@ public class LeaveEarly : MonoBehaviour
 		HoldButton.holdTime = 1.4f;
 		HoldButton.onHoldComplete.AddListener(() =>
 		{
-			Global.Instance.StartLoadingStarmapScene();
+			Global.StartLoadingStarmapScene();
 		});
 		controls.Player.LeaveLevelEarly.started += ctx =>
 		{
@@ -36,7 +36,7 @@ public class LeaveEarly : MonoBehaviour
 		HoldButton.FillImage.fillAmount = 0f;
 
 		if(HeldEnough)
-			Global.Instance.StartLoadingStarmapScene();
+			Global.StartLoadingStarmapScene();
 		HeldEnough = false;
 	}
 

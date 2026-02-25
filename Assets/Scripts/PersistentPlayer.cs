@@ -19,7 +19,7 @@ namespace Assets.Scripts
 		float LanderEnergyDecayPerSecond = 1f;
 		float LaserEnergyDrainPerSecond = 0.75f;
 
-		public bool InLander, LaserFiring;
+		public bool InLander, LaserFiring, InHangar;
 
 		public float iframes = 0.5f;
 		public float lastDamageTaken;
@@ -111,7 +111,7 @@ namespace Assets.Scripts
 
 		private void FixedUpdate()
 		{
-			if (!InLander)
+			if (!InLander || InHangar)
 			{
 				var rechargeAmount = MaxLanderEnergy * 0.334f * Time.deltaTime;
 				LanderEnergy = Mathf.Clamp(LanderEnergy + rechargeAmount, 0, MaxLanderEnergy);
@@ -132,7 +132,7 @@ namespace Assets.Scripts
 		public static void LoadStarmap()
 		{
 
-			Global.Instance.StartLoadingStarmapScene();
+			Global.StartLoadingStarmapScene();
 		}
 
 		public static void AddModifier(AttributeModifier mod)

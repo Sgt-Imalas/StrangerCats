@@ -48,6 +48,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Hangar
+    uniqueID: 408966187
+    locked: 0
   - name: Cracks
     uniqueID: 1338694193
     locked: 0

@@ -106,7 +106,6 @@ public class Global
 		Seed = reader.ReadInt32();
 		Spaceship.Position = new(reader.ReadSingle(), reader.ReadSingle());
 		Spaceship.PositionMining = new(reader.ReadSingle(), reader.ReadSingle());
-		Debug.Log("Loaded Player POs:" + Spaceship.Position);
 		Spaceship.Rotation = Quaternion.AngleAxis(reader.ReadSingle() * 360, Vector3.forward);
 
 		int resourceCount = reader.ReadInt32();
@@ -153,7 +152,7 @@ public class Global
 				_instance = new();
 				_instance.Deserialize(reader);
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Debug.LogWarning(e.Message);
 				PlayerPrefs.DeleteKey(saveKey);
@@ -181,21 +180,26 @@ public class Global
 	public bool PortalOpened = false;
 
 
-	public void StartLoadingStarmapScene()
+	public static void StartLoadingStarmapScene()
 	{
-		if (Global.Instance != null && Global.Instance.entities != null)
-		{
-			for (var i = Global.Instance.entities.Count - 1; i >= 0; i--)
-			{
-				var entity = Global.Instance.entities[i];
-				UnityEngine.Object.Destroy(entity);
-			}
-		}
-
+		CleanupEntities();
 		LoadOverlay.ShowOverlay();
-		LoadingScene = true;
+		Instance.LoadingScene = true;
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
 		SceneManager.LoadScene("Starmap");
+	}
+
+	static void CleanupEntities()
+	{
+		if (Global.Instance.entities == null || !Global.Instance.entities.Any())
+			return;
+
+		for (var i = Global.Instance.entities.Count - 1; i >= 0; i--)
+		{
+			var entity = Global.Instance.entities[i];
+			UnityEngine.Object.Destroy(entity);
+		}
+		Global.Instance.entities.Clear();
 	}
 
 	internal void UpgradePurchased()
@@ -208,19 +212,21 @@ public class Global
 	{
 		Debug.Log("Loading Main Menu");
 		LoadOverlay.ShowOverlay();
+		CleanupEntities();
 		LoadingScene = true;
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
 		SceneManager.LoadScene("MainMenu");
 	}
-	void OnSceneLoadFinished(Scene s, LoadSceneMode mode)
+	static void OnSceneLoadFinished(Scene s, LoadSceneMode mode)
 	{
 		LoadOverlay.ShowOverlay(false);
-		LoadingScene = false;
+		if (Instance != null)
+			Instance.LoadingScene = false;
 		SceneManager.sceneLoaded -= OnSceneLoadFinished;
 	}
 	public static string ToShortNumber(double number)
 	{
-		string[] suffixes = { "", "K", "M", "B", "T" };
+		string[] suffixes = { "", "K", "M", "B", "T", "Q" };
 		var suffixIndex = 0;
 
 		while (number >= 1000 && suffixIndex < suffixes.Length - 1)
@@ -384,6 +390,29 @@ public class MiningResourceStorage
 	}
 }
 
+/// <summary>
+/// this is going to replace the progression in GameUpgrades
+/// </summary>
+public class StoryProgression
+{
+	public bool RadarItemFound;
+	public bool SpaceFlightRestored;
+	public bool RadarUnlocked;
+	public bool PawtalFound;
+	public bool SuperCruiseUnlocked;
+
+	public bool MeatItemFound;
+	public bool MeatItemGiven;
+
+	public bool BallItemFound;
+	public bool BallItemGiven;
+
+	public bool DustItemFound;
+	public bool DustItemGiven;
+
+
+	public bool PortalOpened;
+}
 
 public class GameUpgrades
 {
@@ -612,10 +641,10 @@ public class BuyableUpgrade
 	{
 		if (Level >= targetLevel)
 		{
-			Debug.LogWarning(Name+" level is already at or higher than requested "+targetLevel);
+			Debug.LogWarning(Name + " level is already at or higher than requested " + targetLevel);
 			return;
 		}
-		for(int i = Level; i < targetLevel; i++)
+		for (int i = Level; i < targetLevel; i++)
 		{
 			IncreaseLevelInternal();
 		}

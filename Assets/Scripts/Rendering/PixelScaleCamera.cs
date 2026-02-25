@@ -32,8 +32,8 @@ namespace Assets.Scripts.Rendering
 			var value = context.ReadValue<Vector2>();
 			_targetZoom = zoom - (value.y * zoomSpeed);
 			_targetZoom = Mathf.Clamp(_targetZoom, minZoom, maxZoom);
-
-			_camera.orthographicSize = zoom;
+			if (_camera)
+				_camera.orthographicSize = zoom;
 		}
 
 		void Start()
