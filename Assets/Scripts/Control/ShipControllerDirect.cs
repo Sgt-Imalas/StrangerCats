@@ -59,6 +59,7 @@ public class ShipControllerDirect : MonoBehaviour
 				break;
 		}
 	}
+
 	float CachedSpeedIncrease = 0f;
 
 	void OnMove(InputAction.CallbackContext context)
@@ -88,6 +89,7 @@ public class ShipControllerDirect : MonoBehaviour
 	{
 		if (Global.Instance.LockedInputs) return;
 
+		var force = (AccellerationSpeed + CachedSpeedIncrease) * rb.mass * movementDirection;
 		rb.AddForce((AccellerationSpeed + CachedSpeedIncrease) * rb.mass * movementDirection);
 
 		if (rb.linearVelocity.magnitude > MaxVelocity)
@@ -99,5 +101,6 @@ public class ShipControllerDirect : MonoBehaviour
 		shipBody.rotation = Quaternion.Euler(0f, 0f, targetRotation);
 
 		Global.Instance.Spaceship.CurrentVelocity = rb.linearVelocity.magnitude;
+		Global.Instance.Spaceship.CurrentVelocityVectorClamped = rb.linearVelocity;
 	}
 }

@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 [ExecuteAlways]
 public class Global
@@ -31,7 +29,7 @@ public class Global
 
 	public Vector2 GetPlanetPosition(string name, int distance, int variance, int minAngle = 0, int maxAngle = 359)
 	{
-		int nameHash = name.GetHashCode();
+		var nameHash = name.GetHashCode();
 		var rando = new System.Random(Seed ^ nameHash);
 
 		float angle = rando.Next(minAngle, maxAngle);
@@ -58,7 +56,7 @@ public class Global
 			using var ms = new MemoryStream();
 			using var writer = new BinaryWriter(ms);
 			Instance.Serialize(writer);
-			byte[] data = ms.ToArray();
+			var data = ms.ToArray();
 			var base64String = Convert.ToBase64String(data);
 			PlayerPrefs.SetString(saveKey, base64String);
 		}
@@ -108,8 +106,8 @@ public class Global
 		Spaceship.PositionMining = new(reader.ReadSingle(), reader.ReadSingle());
 		Spaceship.Rotation = Quaternion.AngleAxis(reader.ReadSingle() * 360, Vector3.forward);
 
-		int resourceCount = reader.ReadInt32();
-		for (int i = 0; i < resourceCount; ++i)
+		var resourceCount = reader.ReadInt32();
+		for (var i = 0; i < resourceCount; ++i)
 		{
 			var res = (ResourceType)reader.ReadInt32();
 			SpaceshipResources.Current[res] = reader.ReadUInt32();
@@ -144,8 +142,8 @@ public class Global
 			try
 			{
 				//Debug.Log("Loading savefile");
-				string data = PlayerPrefs.GetString(saveKey);
-				byte[] dataBytes = Convert.FromBase64String(data);
+				var data = PlayerPrefs.GetString(saveKey);
+				var dataBytes = Convert.FromBase64String(data);
 
 				using var ms = new MemoryStream(dataBytes);
 				using var reader = new BinaryReader(ms);
@@ -269,6 +267,16 @@ public class StarmapShip
 	};
 
 	public float CurrentVelocity;
+	private Vector2 _currentVelocityVectorClamped;
+
+	private const float MAX_VELOCITY_MGN = 100.0f;
+
+	public Vector2 CurrentVelocityVectorClamped
+	{
+		get => _currentVelocityVectorClamped;
+		set => _currentVelocityVectorClamped = Vector2.ClampMagnitude(value, MAX_VELOCITY_MGN);
+	}
+
 	public bool InPrecisionFlightMode = true;
 	public bool CanLand = true;
 	public bool TooFastToLand => CurrentVelocity > 15f;
@@ -644,7 +652,7 @@ public class BuyableUpgrade
 			Debug.LogWarning(Name + " level is already at or higher than requested " + targetLevel);
 			return;
 		}
-		for (int i = Level; i < targetLevel; i++)
+		for (var i = Level; i < targetLevel; i++)
 		{
 			IncreaseLevelInternal();
 		}

@@ -193,15 +193,15 @@ public class ShipControllerStarmap2 : MonoBehaviour
 			direction = movementInput;
 		}
 
-		bool stillRotating = false;
+		var stillRotating = false;
 		if (direction != Vector2.zero)
 		{
-			float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-			float currentAngle = transform.eulerAngles.z;
-			float diff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, targetAngle));
+			var targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+			var currentAngle = transform.eulerAngles.z;
+			var diff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, targetAngle));
 			if (diff > 45f)
 				stillRotating = true;
-			float newAngle = Mathf.MoveTowardsAngle(
+			var newAngle = Mathf.MoveTowardsAngle(
 				currentAngle,
 				targetAngle,
 				RotationSpeed * Time.fixedDeltaTime
@@ -237,18 +237,19 @@ public class ShipControllerStarmap2 : MonoBehaviour
 			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
 		}
 		Global.Instance.Spaceship.CurrentVelocity = rb.linearVelocity.magnitude;
+		Global.Instance.Spaceship.CurrentVelocityVectorClamped = rb.linearVelocity;
 
 	}
 	void RefreshEngineParticles()
 	{
-		float emissionRate = Mathf.Clamp(CurrentThrust.magnitude,0,100);
-		for (int i = 0; i < PrecisionEngineEmissions.Count; i++)
+		var emissionRate = Mathf.Clamp(CurrentThrust.magnitude, 0, 100);
+		for (var i = 0; i < PrecisionEngineEmissions.Count; i++)
 		{
 			var emission = PrecisionEngineEmissions[i].emission;
 			emission.rateOverTime = 0; // PrecisionFlyMode ? emissionRate : 0;
 			emission.rateOverDistance = PrecisionFlyMode ? emissionRate : 0;
 		}
-		for (int i = 0; i < CruiseEngineEmissions.Count; i++)
+		for (var i = 0; i < CruiseEngineEmissions.Count; i++)
 		{
 			var emission = CruiseEngineEmissions[i].emission;
 			emission.rateOverTime = 0; // PrecisionFlyMode ? 0 : emissionRate;
