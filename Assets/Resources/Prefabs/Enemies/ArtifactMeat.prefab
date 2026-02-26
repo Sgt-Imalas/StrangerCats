@@ -4943,7 +4943,7 @@ GameObject:
   - component: {fileID: 1769373145534170683}
   - component: {fileID: 8816895403770316961}
   m_Layer: 8
-  m_Name: MeatArtifact
+  m_Name: ArtifactMeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

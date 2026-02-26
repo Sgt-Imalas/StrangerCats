@@ -1,6 +1,8 @@
 using Assets.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 [ExecuteAlways]
@@ -10,17 +12,18 @@ public class MapGenerator : MonoBehaviour
 	public Tilemap tileMap;
 	public TileBase terrainTile;
 	public bool refresh;
-	public MeshRenderer asteroidBg;
+	public Transform asteroidBg;
 
 	public Texture terrainTexture;
 	public Texture2D boneMap;
-	public Texture2D backgroundTextureMask;
 
 	public PlanetDescriptor debugPlanetGen;
 
 	public bool generateEnemies = false;
 	public GroundRadarTarget RadarTargetPrefab;
 
+	public Volume volume;
+	public Light2D globalLight;
 
 	public void Apply(Dictionary<Vector3Int, int> materials, Vector2 center, int size, PlanetDescriptor descriptor)
 	{
@@ -29,7 +32,7 @@ public class MapGenerator : MonoBehaviour
 			Materials.Load();
 		}
 
-		if (Global.Instance != null && Global.Instance.entities != null)
+		if (Global.Instance != null && Global.Instance.entities != null && !Application.isEditor)
 		{
 			for (var i = Global.Instance.entities.Count - 1; i >= 0; i--)
 			{
@@ -97,16 +100,38 @@ public class MapGenerator : MonoBehaviour
 
 		if (asteroidBg != null)
 		{
-			if (descriptor.bg != null)
+			for (var i = asteroidBg.childCount - 1; i >= 0; --i)
+			{
+				var child = asteroidBg.GetChild(i).gameObject;
+				if (Application.isEditor)
+					DestroyImmediate(child);
+				else
+					Destroy(child);
+			}
+
+			if (descriptor.backGround != null)
 			{
 				asteroidBg.gameObject.SetActive(true);
-				asteroidBg.material.mainTexture = descriptor.bg;
+				var bg = Instantiate(descriptor.backGround, asteroidBg);
+				bg.SetActive(true);
+				bg.transform.position = center;
 			}
 			else
 			{
 				asteroidBg.gameObject.SetActive(false);
 			}
 		}
+
+		var profile = volume.profile;
+
+		if (volume.profile.TryGet(out Bloom bloom))
+		{
+			bloom.tint.overrideState = true;
+			bloom.tint.value = descriptor.postFxBloomTint;
+		}
+
+		globalLight.color = descriptor.globalLightColor;
+		globalLight.intensity = descriptor.glovalLightIntensity;
 
 		if (GlobalEvents.Instance != null)
 			GlobalEvents.Instance.OnNewMapGenerated?.Invoke(materials, descriptor);

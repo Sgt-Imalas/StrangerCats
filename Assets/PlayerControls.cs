@@ -235,6 +235,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Cheat_PowerUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d0d90f0-5b6a-4bc8-8a44-bbccd90ab378"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -697,6 +706,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8eecd964-701d-4006-a701-ada9aa412ead"",
+                    ""path"": ""<Keyboard>/f3"",
+                    ""interactions"": ""Hold(duration=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cheat_PowerUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1300,6 +1320,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Cheat_Unlocks = m_Player.FindAction("Cheat_Unlocks", throwIfNotFound: true);
         m_Player_CloseAllScreens = m_Player.FindAction("CloseAllScreens", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
+        m_Player_Cheat_PowerUp = m_Player.FindAction("Cheat_PowerUp", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1409,6 +1430,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Cheat_Unlocks;
     private readonly InputAction m_Player_CloseAllScreens;
     private readonly InputAction m_Player_Zoom;
+    private readonly InputAction m_Player_Cheat_PowerUp;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1485,6 +1507,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Cheat_PowerUp".
+        /// </summary>
+        public InputAction @Cheat_PowerUp => m_Wrapper.m_Player_Cheat_PowerUp;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1558,6 +1584,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started += instance.OnZoom;
             @Zoom.performed += instance.OnZoom;
             @Zoom.canceled += instance.OnZoom;
+            @Cheat_PowerUp.started += instance.OnCheat_PowerUp;
+            @Cheat_PowerUp.performed += instance.OnCheat_PowerUp;
+            @Cheat_PowerUp.canceled += instance.OnCheat_PowerUp;
         }
 
         /// <summary>
@@ -1617,6 +1646,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Zoom.started -= instance.OnZoom;
             @Zoom.performed -= instance.OnZoom;
             @Zoom.canceled -= instance.OnZoom;
+            @Cheat_PowerUp.started -= instance.OnCheat_PowerUp;
+            @Cheat_PowerUp.performed -= instance.OnCheat_PowerUp;
+            @Cheat_PowerUp.canceled -= instance.OnCheat_PowerUp;
         }
 
         /// <summary>
@@ -2029,6 +2061,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnZoom(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cheat_PowerUp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCheat_PowerUp(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

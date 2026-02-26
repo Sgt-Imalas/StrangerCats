@@ -1,4 +1,4 @@
-using System;
+using Assets.Scripts;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -24,6 +24,7 @@ public class ResourceTopBar : MonoBehaviour
 		controls = new();
 		controls.Player.ToggleUpgradeScreen.performed += OnToggleUpgradeScreen;
 		controls.Player.Cheat_Resources.performed += CHEAT_AddResources;
+		controls.Player.Cheat_PowerUp.performed += CHEAT_PowerUp;
 		controls.Player.Cheat_Unlocks.performed += CHEAT_AddNextItem;
 		controls.Player.CloseAllScreens.performed += DEBUG_CloseAllMenus;
 
@@ -41,6 +42,13 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceCollected += OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent += OnResourceSpent;
 		Global.Instance.Upgrades.OnItemCollected += OnItemCollected;
+	}
+
+	private void CHEAT_PowerUp(InputAction.CallbackContext context)
+	{
+		Debug.Log("CHEAT powering up");
+
+		GlobalEvents.Instance.OnPowerUp?.Invoke();
 	}
 
 	void CHEAT_AddResources(InputAction.CallbackContext context)
@@ -86,7 +94,7 @@ public class ResourceTopBar : MonoBehaviour
 			case FindableItem.None:
 				yield break;
 			case FindableItem.Radar:
-				Card_Radar?.gameObject.SetActive(true); 
+				Card_Radar?.gameObject.SetActive(true);
 				break;
 			case FindableItem.SuperCruise:
 				Card_SuperCruise?.gameObject.SetActive(true);
@@ -114,7 +122,7 @@ public class ResourceTopBar : MonoBehaviour
 		if (!UpgradesInteractable || !UpgradeButton.activeSelf)
 			return;
 
-		if(UpgradeScreen == null)
+		if (UpgradeScreen == null)
 			return;
 
 		if (!Global.Instance.SpaceshipResources.AnyResourceDiscovered())
@@ -141,7 +149,7 @@ public class ResourceTopBar : MonoBehaviour
 	}
 	void PlayCollectSound()
 	{
-		if(Collecc != null)
+		if (Collecc != null)
 			MusicManager.PlayFx(Collecc, 0.3f);
 	}
 	void OnResourceCollected(ResourceType type, uint amount)
@@ -237,9 +245,9 @@ public class ResourceTopBar : MonoBehaviour
 	IEnumerator AnimateCollection(ResourceType type, uint amount, float duration = 0.5f)
 	{
 		yield return new WaitForSeconds(0.1f); // Wait to ensure the resource counter has repositioned if it was just discovered
-		var startPos = Canvas.position; 
+		var startPos = Canvas.position;
 		startPos.z = 0;
-		Vector3 endPos = transform.position;
+		var endPos = transform.position;
 		switch (type)
 		{
 			case ResourceType.Meat:
@@ -259,20 +267,20 @@ public class ResourceTopBar : MonoBehaviour
 		resourceGO.SetActive(true);
 		if (resourceGO.TryGetComponent<Image>(out var image))
 			image.color = MiningResourceStorage.ResourceInfos[type];
-		RectTransform rect = resourceGO.GetComponent<RectTransform>();
+		var rect = resourceGO.GetComponent<RectTransform>();
 		var size = Mathf.Clamp(10 + amount * 3, 15, 30);
 		rect.sizeDelta = new Vector2(size, size);
 
-		float time = 0f;
-		bool soundPlayed = false;
+		var time = 0f;
+		var soundPlayed = false;
 		while (time < duration)
 		{
 			time += Time.unscaledDeltaTime;
-			float t = time / duration;
+			var t = time / duration;
 
 			t = t * t;
 
-			if(t>0.6f && !soundPlayed)
+			if (t > 0.6f && !soundPlayed)
 			{
 				PlayCollectSound();
 				soundPlayed = true;

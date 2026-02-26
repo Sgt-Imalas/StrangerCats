@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class HurtablePlayer : MonoBehaviour
 {
-
 	void Start()
 	{
 
@@ -14,7 +13,7 @@ public class HurtablePlayer : MonoBehaviour
 		if (!collision.gameObject.CompareTag("Enemy"))
 			return;
 
-		if(collision.gameObject.TryGetComponent<ContactDamageInformation>(out var information))
+		if (collision.gameObject.TryGetComponent<ContactDamageInformation>(out var information))
 		{
 			PersistentPlayer.Instance.DamageEnergyPercentage(information.ContactDamagePercentage);
 			PersistentPlayer.Instance.DamageEnergy(information.ContactDamageFlat);

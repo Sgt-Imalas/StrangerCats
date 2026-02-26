@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 158452144863500503}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: 2.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -7027653440247301625, guid: 81b0a30e69191d340a9ad593b3e187d3, type: 3}
+  m_Sprite: {fileID: 9220558973565729258, guid: 448a2bf2f47321442a5a8db3717f1338, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4936,13 +4936,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 579474171032301830}
-  - component: {fileID: 1568463656737502725}
   - component: {fileID: 7133836362430794744}
   - component: {fileID: 5434479471971316735}
   - component: {fileID: 5502198428076240498}
   - component: {fileID: 6645403193580793314}
+  - component: {fileID: 1769373145534170683}
+  - component: {fileID: 1505729931652426759}
   m_Layer: 8
-  m_Name: Satellite
+  m_Name: Artifactiridium
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4966,72 +4967,6 @@ Transform:
   - {fileID: 6279225677182212704}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &1568463656737502725
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6322849706372164715}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.2538681, y: 1.3534317}
-      - {x: 1.8073921, y: 1.4022369}
-      - {x: 2.2054176, y: 2.1529236}
-      - {x: 1.709362, y: 3.0853577}
-      - {x: 1.3514023, y: 4.666458}
-      - {x: -0.095214844, y: 4.475609}
-      - {x: -1.3827248, y: 4.379982}
-      - {x: -1.6168127, y: 4.0987053}
-      - {x: -1.6489639, y: 3.2001953}
-      - {x: -0.7266731, y: 1.671402}
-      - {x: -1.3190308, y: 1.4994965}
-      - {x: -1.2483559, y: 1.3081589}
-      - {x: -0.7525406, y: 1.1822739}
-      - {x: -2.0114899, y: -0.067359924}
-      - {x: -0.61247253, y: -0.08381653}
-      - {x: -0.3776703, y: 1.0276184}
-      - {x: -0.024449766, y: 1.0858346}
-      - {x: 0.63899386, y: -0.07497764}
-      - {x: 1.0022688, y: -0.066539824}
-  m_UseDelaunayMesh: 1
 --- !u!50 &7133836362430794744
 Rigidbody2D:
   serializedVersion: 5
@@ -5071,8 +5006,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd71f4299d5839d43a5356a24653928f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.DiceyTiles.Scripts.Health
-  maxHP: 250
-  currentHP: 250
+  maxHP: 350000
+  currentHP: 350000
   isDead: 0
   healthIndicator: {fileID: 2337424748670720770}
 --- !u!114 &5502198428076240498
@@ -5093,10 +5028,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3e13b8fcf38503647ad56363cda50c67, type: 3}
   - {fileID: 8300000, guid: a74389ec926b06d4c9f4574bb7035344, type: 3}
   deconstructSound: {fileID: 8300000, guid: 79eda2b514fe41c45a6d5c5d080409a3, type: 3}
-  dustColor: {r: 0.509434, g: 0.27538088, b: 0.1994482, a: 0}
-  findableItem: 0
-  floating: 0
-  frame: {fileID: 11400000, guid: 4293b3455c83b884f933773d970924c1, type: 2}
+  dustColor: {r: 0.5352036, g: 0.3820755, b: 1, a: 0}
+  findableItem: 4
+  floating: 1
+  frame: {fileID: 11400000, guid: 405f6910bebf8a94d8217677db58c026, type: 2}
   particles: {fileID: 3835505222059213662}
 --- !u!82 &6645403193580793314
 AudioSource:
@@ -5195,6 +5130,72 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!60 &1769373145534170683
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322849706372164715}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 4.043785}
+      - {x: -1.9695997, y: 2.0973928}
+      - {x: -3.79738, y: 0.079250455}
+      - {x: -0.08729398, y: -4.0541496}
+      - {x: 3.7698164, y: 0.0247764}
+  m_UseDelaunayMesh: 1
+--- !u!114 &1505729931652426759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322849706372164715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c83778760dd8f7141bf41217e26f28c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ContactDamageInformation
+  ContactDamagePercentage: 0.33
+  ContactDamageFlat: 0
 --- !u!1001 &1648426126966092346
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5225,7 +5226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4738957410872092762, guid: 1103db607739ca144879896241facb6f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.78
+      value: -0.59
       objectReference: {fileID: 0}
     - target: {fileID: 4738957410872092762, guid: 1103db607739ca144879896241facb6f, type: 3}
       propertyPath: m_LocalPosition.z

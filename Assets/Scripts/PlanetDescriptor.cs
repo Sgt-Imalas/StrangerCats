@@ -7,7 +7,11 @@ namespace Assets.Scripts
 	public class PlanetDescriptor : ScriptableObject
 	{
 		public Texture2D icon;
-		public Texture2D bg;
+		public Sprite bg;
+		public GameObject backGround;
+		public Color globalLightColor = Color.gray;
+		public float glovalLightIntensity = 1.24f;
+		public Color postFxBloomTint = Color.white;
 		public ResourceType resourceType;
 		public float noiseScale = 1.2f;
 		public float noiseThreshold = 0.01f;
@@ -219,7 +223,10 @@ namespace Assets.Scripts
 				{
 					var dist = Vector2.Distance(new Vector2(x, y), center);
 
-					var noise2 = noise.GetNoise(x * bumpinessFrequency, y * bumpinessFrequency) * bumpinessAmplitude;
+					var noise2 = noise.GetNoise(x * bumpinessFrequency, y * bumpinessFrequency);
+					//noise2 -= 1f;
+					noise2 *= bumpinessAmplitude;
+
 					if (dist + noise2 > radius)
 						continue;
 

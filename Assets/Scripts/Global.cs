@@ -609,17 +609,23 @@ public class BuyableUpgrade
 		return string.Empty;
 	}
 
-	public void PurchaseLevel()
+	public void PurchaseLevel(bool free = false)
 	{
 		if (Level >= MaxLevel || !UnlockedCondition())
 			return;
-		var costs = GetCurrentScaledCosts();
-		if (!Global.Instance.SpaceshipResources.CanAfford(costs))
-			return;
-		foreach (var cost in costs)
+
+		if (!free)
 		{
-			Global.Instance.SpaceshipResources.SpendResource(cost.Key, cost.Value);
+			var costs = GetCurrentScaledCosts();
+			if (!Global.Instance.SpaceshipResources.CanAfford(costs))
+				return;
+
+			foreach (var cost in costs)
+			{
+				Global.Instance.SpaceshipResources.SpendResource(cost.Key, cost.Value);
+			}
 		}
+
 		IncreaseLevelInternal();
 		Global.Instance.UpgradePurchased();
 	}

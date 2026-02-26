@@ -10,6 +10,8 @@ public class ShipControllerDirect : MonoBehaviour
 {
 	private PlayerControls controls;
 	public Camera mainCamera;
+
+	[Header("Physics")]
 	public float RotationSpeed = 180;
 	public float MaxTilt = 10.0f;
 	public float TiltSpeed = 10.0f;
@@ -17,6 +19,9 @@ public class ShipControllerDirect : MonoBehaviour
 	public float MaxVelocity = 60f;
 	public Vector2 movementDirection, LookPosition;
 	public Transform shipBody;
+
+	[Header("Graphics")]
+	public GameObject jetFlame;
 
 	private Rigidbody2D rb;
 
@@ -27,10 +32,22 @@ public class ShipControllerDirect : MonoBehaviour
 		controls = new();
 
 		controls.Player.Move.performed += OnMove;
+		controls.Player.Move.started += OnBeginMove;
 		controls.Player.Move.canceled += OnMove;
+		controls.Player.Move.canceled += OnStopMove;
 
 		GlobalEvents.Instance.OnNewMapGenerated += OnNewMapGenerated;
 		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
+	}
+
+	private void OnStopMove(InputAction.CallbackContext context)
+	{
+		jetFlame.SetActive(false);
+	}
+
+	private void OnBeginMove(InputAction.CallbackContext context)
+	{
+		jetFlame.SetActive(true);
 	}
 
 	private void OnDestroy()

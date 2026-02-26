@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PlanetDescriptor
   icon: {fileID: 0}
   bg: {fileID: 0}
+  backGround: {fileID: 0}
+  globalLightColor: {r: 0.67058825, g: 0.6392157, b: 0.62352943, a: 1}
+  glovalLightIntensity: 1
+  postFxBloomTint: {r: 0.69411767, g: 0.9764706, b: 1, a: 1}
   resourceType: 1
   noiseScale: 3.99
   noiseThreshold: 0.25
@@ -25,6 +29,9 @@ MonoBehaviour:
   enemyPreset: {fileID: 5437528579922202710, guid: 6a05335163c83bf4098e3ea1ad5b42d1, type: 3}
   gizmoPrefab: {fileID: 6322849706372164715, guid: 0d7b2eb6b2ba51a45907979ef5f86fb2, type: 3}
   enemiesToSpawn: 32
+  playerSpawnPoint: {x: 53, y: 116, z: 0}
+  fractalGain: 1
+  octaves: 3
   boneNoiseScale: 1.45
   boneAmpl: 7.78
   boneThreshold: 0.1

@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Stardust
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PlanetDescriptor
   icon: {fileID: 2800000, guid: 4252f91318cf03643ba9d131dd642682, type: 3}
-  bg: {fileID: 2800000, guid: 66a3e6627dc13d1418cc3120bcf5f788, type: 3}
+  bg: {fileID: 0}
+  backGround: {fileID: 0}
+  globalLightColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  glovalLightIntensity: 1.24
+  postFxBloomTint: {r: 1, g: 1, b: 1, a: 1}
   resourceType: 3
   noiseScale: 3.12
   noiseThreshold: 0.012

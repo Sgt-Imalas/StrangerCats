@@ -15,6 +15,7 @@ namespace Assets.Scripts
 		public Action<Vector3, ResourceType> OnEnemyKilled;
 		public Action<Vector3, FindableItem> DropProgressionItem;
 		public Action<Vector3> ShipReceivedImpact;
+		public Action OnPowerUp;
 
 		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor);
 

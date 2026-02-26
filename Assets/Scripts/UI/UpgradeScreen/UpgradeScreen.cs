@@ -1,8 +1,6 @@
+using Assets.Scripts;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class UpgradeScreen : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class UpgradeScreen : MonoBehaviour
 		SuperCruise //unlockable, upgrades increase speed
 		;
 	//lander
-	UpgradeItem		
+	UpgradeItem
 		LifeSupport, //energy, duration of landing
 		LaserDamage, //mob damage, tile damage
 		LaserSpeed, //laser fire rate
@@ -78,6 +76,7 @@ public class UpgradeScreen : MonoBehaviour
 		ResourceYield.SetUpgrade(Global.Instance.Upgrades.ResourceYield);
 		//ResourceYield.OnInteractableChanged += OnInteractableChanged;
 
+		GlobalEvents.Instance.OnPowerUp += PowerUp;
 		Items = new List<UpgradeItem>
 		{
 			Radar,
@@ -92,6 +91,21 @@ public class UpgradeScreen : MonoBehaviour
 		};
 
 	}
+
+	private void PowerUp()
+	{
+		foreach (var item in Items)
+		{
+			for (var i = 0; i < 100; i++)
+			{
+				if (item.CurrentUpgrade.IsMaxed())
+					break;
+
+				item.CurrentUpgrade.PurchaseLevel(true);
+			}
+		}
+	}
+
 	void OnInteractableChanged(bool cardIsInteractable)
 	{
 		if (cardIsInteractable)
@@ -114,7 +128,7 @@ public class UpgradeScreen : MonoBehaviour
 
 	private void OnEnable()
 	{
-		foreach(var item in Items)
+		foreach (var item in Items)
 		{
 			item.Refresh();
 		}

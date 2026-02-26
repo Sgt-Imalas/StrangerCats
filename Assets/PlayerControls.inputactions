@@ -149,6 +149,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Cheat_PowerUp",
+                    "type": "Button",
+                    "id": "3d0d90f0-5b6a-4bc8-8a44-bbccd90ab378",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -611,6 +620,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8eecd964-701d-4006-a701-ada9aa412ead",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "Hold(duration=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cheat_PowerUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
