@@ -1,5 +1,4 @@
 using Assets.Scripts;
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -14,32 +13,33 @@ public class PawtalDialogue : MonoBehaviour
 	[SerializeField] Button LeaveLaterButton;
 
 	const string dialogue_firsttime =
-		"Far away from home you are, little one.\r\n\r\n" +
-		"Master Meowgurt I am\r\n\r\n" +
-		"getting you home this pawtal will.\r\n\r\n" +
-		"powered down, the it is however. \r\n\r\n" +
-		"rekindle it, only 3 legendary items can.\r\n\r\n" +
-		"find them, you must!\r\n\r\n" +
-		"helping you I will.\r\n\r\n" +
-		"Aiding you in your travels, this liquid schwartz will";
+		"Far away from home you are, little one.\r\n" +
+		"Master Meowgurt, am I.\r\n" +
+		"Getting you home this pawtal will.\r\n" +
+		"Powered down however, it is. \r\n" +
+		"Rekindle it, only 3 legendary items can.\r\n" +
+		"Find them, you must!\r\n" +
+		"Helping you, will I.\r\n" +
+		"Aiding you in your travels, will this Liquid Schwartz.";
 
 	//todo a bit
 	const string dialogue_questing =
-		"Your quest incomplete still is.\r\n\r\n" +
-		"All the legendary items, you have not.\r\n\r\n" +
-		"Collecting them, you must!\r\n\r\n" +
-		"Revealing themselves, they will in time.\r\n\r\n" +
-		"Improving your spaceship, you should!\r\n\r\n\r\n" +
+
+		"Your quest incomplete, it still is.\r\n" +
+		"All the legendary items, you have not.\r\n" +
+		"Collect them, you must!\r\n" +
+		"Reveal themselves, they will in time.\r\n" +
+		"Improve your spaceship, you should!\r\n\r\n" +
 		"Better chances it will give you in finding them!";
 
 	//todo a bit
 	const string dialogue_win =
-		"Achieved your goal, you have!\r\n\r\n" +
-		"All the items you have found.\r\n\r\n" +
-		"the pawtal reignited it has.\r\n\r\n" +
-		"Your quest complete now is.\r\n\r\n" +
-		"Had fun on this quest I hope!\r\n\r\n" +
-		"Leave, you will now?";
+		"Achieved your goal, you have!\r\n" +
+		"All the items, you have found.\r\n" +
+		"Been reignited, the Pawtal has.\r\n" +
+		"Now complete, your quest is.\r\n" +
+		"Had fun on this quest I hope!\r\n" +
+		"Leave, you will now? Hmm?";
 
 	private void Awake()
 	{

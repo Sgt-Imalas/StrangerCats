@@ -3795,6 +3795,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3710552497589597200, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710552497589597200, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.35545483
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710552497589597200, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3254717
+      objectReference: {fileID: 0}
     - target: {fileID: 4763062079504952766, guid: 4a47a8f34316fcf4b964508d41f38e2b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -5175,7 +5187,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.00055075, y: -48.685764}
-  m_SizeDelta: {x: 130, y: 27.4286}
+  m_SizeDelta: {x: 130, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1014534051
 MonoBehaviour:
@@ -15494,7 +15506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3226409826427441104, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 258
+      value: 234
       objectReference: {fileID: 0}
     - target: {fileID: 4592223077059142343, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: DeadZone
@@ -15582,7 +15594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000021424355467033, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_text
-      value: 100%
+      value: 90 %
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

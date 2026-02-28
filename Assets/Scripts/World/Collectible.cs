@@ -1,14 +1,16 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Collectible : MonoBehaviour
 {
-	bool turnedOff = false;
+	private bool turnedOff = false;
+
 	public void TurnOff() => turnedOff = true;
+
+	public void TurnOn() => turnedOff = false;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (!collision.gameObject.CompareTag("Player") || !this.isActiveAndEnabled || turnedOff)
+		if (!collision.gameObject.CompareTag("Player") || !isActiveAndEnabled || turnedOff)
 			return;
 
 		DoCollect();
@@ -16,6 +18,6 @@ public class Collectible : MonoBehaviour
 
 	protected virtual void DoCollect()
 	{
-		Destroy(gameObject);
 	}
+
 }

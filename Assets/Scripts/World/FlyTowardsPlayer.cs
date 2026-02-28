@@ -20,13 +20,14 @@ public class FlyTowardsPlayer : MonoBehaviour
 
 
 	float incrementalMultiplier = 1f;
-	private void FixedUpdate()
+
+	private void Update()
 	{
 		if (currentPlayer != null)
 		{
-			rb.AddForce(CollectionSpeed * incrementalMultiplier * Time.fixedDeltaTime * (currentPlayer.transform.position - rb.transform.position));
+			rb.AddForce(CollectionSpeed * incrementalMultiplier * Time.deltaTime * (currentPlayer.transform.position - rb.transform.position));
 			if (Accellerates)
-				incrementalMultiplier += Time.fixedDeltaTime;
+				incrementalMultiplier += Time.deltaTime;
 		}
 	}
 }

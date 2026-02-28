@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ConfigurableItem : MonoBehaviour
@@ -11,13 +9,13 @@ public class ConfigurableItem : MonoBehaviour
 	public FindableItem item = FindableItem.None;
 	public uint Amount = 1;
 
+	public ItemDrop itemCfg;
+	public ResourceDrop resourceCfg;
+
 	private void Start()
 	{
-		spriteRenderer  = GetComponentInChildren<SpriteRenderer>();
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		spriteRenderer.sprite = TargetSprite;
-
-		var itemCfg = GetComponentInChildren<ItemDrop>();
-		var resourceCfg = GetComponentInChildren<ResourceDrop>();
 
 		if (item != FindableItem.None && itemCfg != null)
 		{
@@ -25,7 +23,7 @@ public class ConfigurableItem : MonoBehaviour
 			if (resourceCfg != null)
 				resourceCfg.TurnOff();
 		}
-		else if (resourceType != ResourceType.None && resourceCfg != null)	
+		else if (resourceType != ResourceType.None && resourceCfg != null)
 		{
 			resourceCfg.ResourceType = resourceType;
 			resourceCfg.Amount = Amount;
@@ -36,7 +34,7 @@ public class ConfigurableItem : MonoBehaviour
 
 	internal void FlyTowards(GameObject player)
 	{
-		if(flyTowards!=null)
+		if (flyTowards != null)
 			flyTowards.currentPlayer = player;
 	}
 }

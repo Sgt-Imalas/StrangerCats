@@ -86,6 +86,8 @@ MonoBehaviour:
   resourceType: 0
   item: -1
   Amount: 1
+  itemCfg: {fileID: 7255149817119787917}
+  resourceCfg: {fileID: 57212418567606137}
 --- !u!114 &3889004456602113497
 MonoBehaviour:
   m_ObjectHideFlags: 0

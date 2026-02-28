@@ -1,9 +1,3 @@
-
-using Assets.Scripts;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class ItemDrop : Collectible
 {
 	public FindableItem item = FindableItem.None;
@@ -12,5 +6,6 @@ public class ItemDrop : Collectible
 	{
 		Global.Instance.Upgrades.CollectFindableItem(item);
 		base.DoCollect();
+		Destroy(gameObject);
 	}
 }
