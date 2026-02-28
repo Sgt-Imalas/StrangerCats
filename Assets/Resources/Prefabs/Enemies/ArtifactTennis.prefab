@@ -5297,6 +5297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ContactDamageInformation
   ContactDamagePercentage: 0.33
   ContactDamageFlat: 0
+  KnockbackStrength: 1
 --- !u!114 &-7646717072797957351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5323,6 +5324,7 @@ MonoBehaviour:
   targetRotation: 0
   _currentAngle: 0
   doSequence: 1
+  _ballPrefab: {fileID: 7421565387650997235, guid: def9d37205fba82449b1df4bdf5d90c8, type: 3}
 --- !u!1 &7781368839485420499
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,8 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AudioSource))]
 public class BallLauncher : MonoBehaviour
 {
 	public GameObject ballPrefab;
@@ -11,6 +14,13 @@ public class BallLauncher : MonoBehaviour
 
 	private Animator _animator;
 	private AudioSource _audioSource;
+
+	private ObjectPool<Ball> _balls;
+
+	public void SetPool(ObjectPool<Ball> pool)
+	{
+		_balls = pool;
+	}
 
 	void Start()
 	{
@@ -27,13 +37,16 @@ public class BallLauncher : MonoBehaviour
 
 	private void Shoot()
 	{
-		var ball = Object.Instantiate(ballPrefab);
+		if (_balls == null)
+		{
+			Debug.LogError("Pool for ball launcher not configured!");
+			return;
+		}
+
+		var ball = _balls.Get();
 
 		ball.transform.position = marker.transform.position;
-
-		var rb = ball.GetComponent<Rigidbody2D>();
-
-		rb.AddForce((Vector2)(transform.rotation * angle) * force);
+		ball.rb.AddForce((Vector2)(transform.rotation * angle) * force);
 
 		_audioSource.pitch = Random.Range(0.9f, 1.1f);
 		_audioSource.Play();

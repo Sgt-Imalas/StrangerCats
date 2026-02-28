@@ -55,7 +55,7 @@ namespace Assets.Scripts
 		{
 			InLander = s.name == "MineableTerrain";
 
-			if(s.name == "Starmap")
+			if (s.name == "Starmap")
 				Global.WriteSaveFile();
 		}
 
@@ -71,26 +71,11 @@ namespace Assets.Scripts
 		}
 
 
-
-		void Update()
-		{
-			if (testMod)
-			{
-				// adding a mod here
-				// randomizing the id, if the id is shared it overrides the previous mod
-				attributes.AddMod("TestMod" + Random.value.ToString(), AttributeType.FireRate, -0.1f);
-				attributes.AddMod("TestMod2" + Random.value.ToString(), AttributeType.PodSpeed, 10f);
-				testMod = false;
-			}
-
-			lastDamageTaken += Time.deltaTime;
-		}
-
 		public void DamageEnergyPercentage(float damagePercentage)
 		{
 			if (iframes < lastDamageTaken)
 			{
-				float damage = damagePercentage * MaxLanderEnergy;
+				var damage = damagePercentage * MaxLanderEnergy;
 
 				LanderEnergy = Mathf.Clamp(LanderEnergy - damage, 0, MaxLanderEnergy);
 				lastDamageTaken = 0.0f;
@@ -109,7 +94,7 @@ namespace Assets.Scripts
 			}
 		}
 
-		private void FixedUpdate()
+		private void Update()
 		{
 			if (!InLander || InHangar)
 			{
@@ -128,7 +113,19 @@ namespace Assets.Scripts
 				if (LanderEnergy == 0)
 					LoadStarmap();
 			}
+
+			if (testMod)
+			{
+				// adding a mod here
+				// randomizing the id, if the id is shared it overrides the previous mod
+				attributes.AddMod("TestMod" + Random.value.ToString(), AttributeType.FireRate, -0.1f);
+				attributes.AddMod("TestMod2" + Random.value.ToString(), AttributeType.PodSpeed, 10f);
+				testMod = false;
+			}
+
+			lastDamageTaken += Time.deltaTime;
 		}
+
 		public static void LoadStarmap()
 		{
 
