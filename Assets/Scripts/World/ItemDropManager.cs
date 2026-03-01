@@ -28,7 +28,7 @@ public class ItemDropManager : MonoBehaviour
 			[ResourceType.Ball] = CreatePool(Res_Drop_Ball),
 		};
 	}
-
+	
 	private void OnResourceCollected(ResourceDrop collectible)
 	{
 		if (itemsPools.TryGetValue(collectible.ResourceType, out var pool))
@@ -77,6 +77,7 @@ public class ItemDropManager : MonoBehaviour
 		GlobalEvents.Instance.OnTileDestroyed -= HandleTileDestroyed;
 		GlobalEvents.Instance.DropProgressionItem -= HandleCollectibleContainerDestroyed;
 		GlobalEvents.Instance.OnEnemyKilled -= HandleEnemyKilled;
+		GlobalEvents.Instance.CollectedResource -= OnResourceCollected;
 	}
 
 	private void HandleEnemyKilled(Vector3 pos, ResourceType type)

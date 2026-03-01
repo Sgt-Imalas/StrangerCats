@@ -107,7 +107,7 @@ namespace Assets.Scripts
 				if (LaserFiring)
 					decayAmount += LaserEnergyDrainPerSecond;
 
-				decayAmount *= Time.fixedDeltaTime;
+				decayAmount *= Time.deltaTime;
 
 				LanderEnergy = Mathf.Clamp(LanderEnergy - decayAmount, 0, MaxLanderEnergy);
 				if (LanderEnergy == 0)
