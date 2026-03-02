@@ -131,7 +131,7 @@ public class PawtalDialogue : MonoBehaviour
 		///Game win
 		else
 		{
-			Global.Instance.StartLoadingMainMenu();
+			Global.Instance.StartLoadingScene("Credits", false);
 		}
 	}
 

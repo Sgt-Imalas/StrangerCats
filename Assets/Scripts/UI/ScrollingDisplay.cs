@@ -7,7 +7,7 @@ public class ScrollingDisplay : MonoBehaviour
 {
 	public Vector3 motion = Vector3.zero;
 	public float speedUpFactor = 10.0f;
-	public float endingY = 4500.0f;
+	public float endingY = 4400.0f;
 	private bool _finished;
 
 	private void OnEnable()
@@ -32,7 +32,7 @@ public class ScrollingDisplay : MonoBehaviour
 
 		if (transform.position.y > endingY)
 		{
-			SceneLoader.Instance.LoadSceneByName("MainMenu");
+			Global.Instance.StartLoadingMainMenu();
 			_finished = true;
 		}
 	}

@@ -206,14 +206,17 @@ public class Global
 		WriteSaveFile();
 	}
 	public event Action OnUpgradePurchased;
-	public void StartLoadingMainMenu()
+
+	public void StartLoadingMainMenu() => StartLoadingScene("MainMenu");
+	public void StartLoadingScene(string scene = "MainMenu", bool showOverlay = true)
 	{
 		Debug.Log("Loading Main Menu");
-		LoadOverlay.ShowOverlay();
+		if(showOverlay)
+			LoadOverlay.ShowOverlay();
 		CleanupEntities();
 		LoadingScene = true;
 		SceneManager.sceneLoaded += OnSceneLoadFinished;
-		SceneManager.LoadScene("MainMenu");
+		SceneManager.LoadScene(scene);
 	}
 	static void OnSceneLoadFinished(Scene s, LoadSceneMode mode)
 	{
