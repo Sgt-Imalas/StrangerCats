@@ -96229,7 +96229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000021424355467033, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_text
-      value: 100 %
+      value: 100%
       objectReference: {fileID: 0}
     - target: {fileID: 8516636288792404436, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_AnchorMax.y
@@ -96633,7 +96633,7 @@ Transform:
   m_GameObject: {fileID: 1976477572}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.58, y: 0.01, z: 0}
+  m_LocalPosition: {x: 6.85, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -96683,7 +96683,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 4}
+  m_Size: {x: 9, y: 6}
   m_EdgeRadius: 0
 --- !u!1001 &1990561188
 PrefabInstance:
@@ -101778,7 +101778,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 402.1673, y: 69.62164}
+  m_ConnectedAnchor: {x: 349.56198, y: 46.607788}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
