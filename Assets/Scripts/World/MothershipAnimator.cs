@@ -16,7 +16,8 @@ public class MothershipAnimator : MonoBehaviour
 	public PixelScaleCamera PixelCam;
 	public AnimationCurve scaleCurve2 = AnimationCurve.EaseInOut(0, 0, 1, 1);
 	float animatedTravelDistance = 120;
-	float flyAnimDuration = 3f;
+	float landAnimDuration = 4f;
+	float takeOffAnimDuration = 2.5f;
 
 	Collider2D[] colliders;
 	private void Awake()
@@ -93,7 +94,7 @@ public class MothershipAnimator : MonoBehaviour
 		foreach (var collider in colliders)
 			collider.gameObject.SetActive(false);
 
-		time = 0f; fadeDuration = flyAnimDuration;
+		time = 0f; fadeDuration = takeOffAnimDuration;
 		var pos = transform.position;
 		var targetPos = transform.position;
 		targetPos.x += animatedTravelDistance;
@@ -135,7 +136,7 @@ public class MothershipAnimator : MonoBehaviour
 
 		float time = 0f, fadeDuration = 0.75f;
 
-		time = fadeDuration = flyAnimDuration;
+		time = fadeDuration = landAnimDuration;
 		var pos = transform.position;
 		var targetPos = transform.position;
 		targetPos.x -= animatedTravelDistance;
