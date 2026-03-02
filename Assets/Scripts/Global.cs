@@ -168,10 +168,11 @@ public class Global
 
 	public bool LoadingScene = false;
 	public bool InCameraTransition = false;
+	public bool InShipAnimation = false;
 	public bool InPauseMenu = false;
 	public bool InUpgradeMenu = false;
 	public bool InDialogue = false;
-	public bool LockedInputs => InCameraTransition || InPauseMenu || InUpgradeMenu || InDialogue;
+	public bool LockedInputs => InCameraTransition || InPauseMenu || InUpgradeMenu || InDialogue || InShipAnimation;
 	public int WorldSeed;
 	public PlanetDescriptor generateWorld;
 	public PlanetDescriptor loadPlanet;
@@ -495,18 +496,18 @@ public class GameUpgrades
 		.IncrementalCostThreshold(ResourceType.Dust, 15)
 		.Modifier(AttributeType.LifeTime, 60f);
 
-	//flat +0.25
+	//flat percentage increase; +15%
 	public BuyableUpgrade PodSpeed = new BuyableUpgrade("Thruster Strength", 40, 1.125f)
 		.IncrementalCostThreshold(ResourceType.Rust, 0)
 		.IncrementalCostThreshold(ResourceType.Ball, 10)
-		.Modifier(AttributeType.PodSpeed, 0.25f);
+		.Modifier(AttributeType.PodSpeed, 0.15f);
 
 	//flat +2 tiles
 	public BuyableUpgrade LaserRange = new BuyableUpgrade("Laser Reach", 40, 1.2f)
 		.IncrementalCostThreshold(ResourceType.Ball, 0)
 		.IncrementalCostThreshold(ResourceType.Dust, 0)
 		.Modifier(AttributeType.LaserRange, 2)
-		.Modifier(AttributeType.ExplosionRadius, 0.25f);
+		.Modifier(AttributeType.ExplosionRadius, 0.334f);
 
 	//funny scaling
 	public BuyableUpgrade LaserDamage = new BuyableUpgrade("Laser Damage", 50, 1.2f)

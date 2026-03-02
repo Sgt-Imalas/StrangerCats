@@ -11,7 +11,6 @@ public class Landable : Interactable
 	public override void OnRadiusEnter(Collider2D collision)
 	{
 		base.OnRadiusEnter(collision);
-
 		InteractHint.SetText("Land here");
 	}
 	public override void OnInteractPressed()

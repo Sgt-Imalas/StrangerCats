@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class ShipControllerStarmap2 : MonoBehaviour
 	public GameObject CruiseFire, SmolFire;
 
 	Rigidbody2D rb;
-	Vector2 CurrentThrust;
+	public Vector2 CurrentThrust;
 
 	List<ParticleSystem> CruiseEngineEmissions;
 	List<ParticleSystem> PrecisionEngineEmissions;
@@ -47,7 +48,7 @@ public class ShipControllerStarmap2 : MonoBehaviour
 			.Where(ps => ps.tag == "CruiseModeEngine")
 			.ToList();
 
-		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
+
 
 	}
 
@@ -74,13 +75,20 @@ public class ShipControllerStarmap2 : MonoBehaviour
 		}
 	}
 
+	IEnumerator FetchInitialAttributes()
+	{
+		yield return null;
+		OnPlayerAttributesChanged(AttributeType.SpaceShipSuperCruiseSpeed, PersistentPlayer.GetAttribute(AttributeType.SpaceShipSuperCruiseSpeed));
+		OnPlayerAttributesChanged(AttributeType.SpaceShipRotationSpeed, PersistentPlayer.GetAttribute(AttributeType.SpaceShipRotationSpeed));
+	}
+
 
 	private void Start()
 	{
+		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
+		StartCoroutine(FetchInitialAttributes());
 		CameraAnimator.SetCameraOffset(-0.3f);
 		CameraAnimator.AnimateOffsetChange(Global.Instance.Spaceship.CurrentMode.CameraOffset, 0.5f);
-		CachedRotationSpeedMultiplier = PersistentPlayer.GetAttribute(AttributeType.SpaceShipRotationSpeed);
-		CachedSupercruiseBoostMultiplier = PersistentPlayer.GetAttribute(AttributeType.SpaceShipSuperCruiseSpeed);
 	}
 	private void OnEnable()
 	{
@@ -178,53 +186,25 @@ public class ShipControllerStarmap2 : MonoBehaviour
 	{
 		if (Global.Instance.LockedInputs) return;
 
+
 		// rotation
-		var direction = LookPosition;
-		if (PrecisionFlyMode)
-		{
-			if (!ControllerAim)
-			{
-				var mouseWorld = mainCamera.ScreenToWorldPoint(new(LookPosition.x, LookPosition.y, -mainCamera.transform.position.z));
-				direction = mouseWorld - transform.position;
-			}
-		}
-		else
-		{
-			direction = movementInput;
-		}
+		float rotateTowards = -movementInput.x;
 
-		var stillRotating = false;
-		if (direction != Vector2.zero)
+		if (rotateTowards != 0)
 		{
-			var targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-			var currentAngle = transform.eulerAngles.z;
-			var diff = Mathf.Abs(Mathf.DeltaAngle(currentAngle, targetAngle));
-			if (diff > 45f)
-				stillRotating = true;
-			var newAngle = Mathf.MoveTowardsAngle(
-				currentAngle,
-				targetAngle,
-				RotationSpeed * Time.fixedDeltaTime
-			);
-			transform.rotation = Quaternion.Euler(0f, 0f, newAngle);
-
+			float rotationDelta = rotateTowards * RotationSpeed * Time.fixedDeltaTime;
+			transform.Rotate(Vector3.forward, rotationDelta);
 		}
 
 		//movement
-		CurrentThrust = Vector2.zero;
-		if (!PrecisionFlyMode && !stillRotating)
-		{
-			if (movementInput != Vector2.zero)
-				CurrentThrust = 60 * Time.fixedDeltaTime * AccellerationSpeed * rb.mass * movementInput;
-			//else
-			//rb.linearVelocity *= 1f - (1f/20f) * Time.fixedDeltaTime;
+		float thrustStrength = movementInput.y;
+		if (thrustStrength < 0)
+			thrustStrength /= 4f;
 
-		}
-		else if (PrecisionFlyMode)
-		{
-			var rotatedDirection = Quaternion.Euler(0, 0, -90) * (transform.rotation * movementInput);
-			CurrentThrust = 60 * Time.fixedDeltaTime * AccellerationSpeed * rb.mass * rotatedDirection;
-		}
+		var direction = transform.right * thrustStrength;
+
+		CurrentThrust = 60 * Time.fixedDeltaTime * AccellerationSpeed * rb.mass * direction;
+
 
 		if (CurrentThrust != Vector2.zero)
 		{

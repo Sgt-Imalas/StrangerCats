@@ -55,6 +55,9 @@ public class Interactable : MonoBehaviour
 	}
 	public virtual void OnRadiusEnter(Collider2D collision)
 	{
+		if (!Global.Instance.Spaceship.InPrecisionFlightMode)
+			return;
+
 		ToggleInteract(true);
 		CanInteract = true;
 	}

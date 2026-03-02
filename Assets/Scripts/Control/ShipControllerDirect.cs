@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -40,13 +41,25 @@ public class ShipControllerDirect : MonoBehaviour
 		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributesChanged;
 	}
 
+	private void Start()
+	{
+		StartCoroutine(GetAttributes());
+	}
+	IEnumerator GetAttributes()
+	{
+		yield return null;
+		CachedSpeedIncreaseMultiplier = PersistentPlayer.GetAttribute(AttributeType.PodSpeed);
+	}
+
 	private void OnStopMove(InputAction.CallbackContext context)
 	{
+		if (Global.Instance.LockedInputs) return;
 		jetFlame.SetActive(false);
 	}
 
 	private void OnBeginMove(InputAction.CallbackContext context)
 	{
+		if (Global.Instance.LockedInputs) return;
 		jetFlame.SetActive(true);
 	}
 
@@ -61,23 +74,17 @@ public class ShipControllerDirect : MonoBehaviour
 		transform.position = descriptor.playerSpawnPoint;
 	}
 
-	void OnExit(InputAction.CallbackContext context)
-	{
-		SceneManager.LoadScene("Starmap");
-
-	}
-
 	private void OnPlayerAttributesChanged(AttributeType type, float finalValue)
 	{
 		switch (type)
 		{
 			case AttributeType.PodSpeed:
-				CachedSpeedIncrease = finalValue;
+				CachedSpeedIncreaseMultiplier = finalValue;
 				break;
 		}
 	}
 
-	float CachedSpeedIncrease = 0f;
+	float CachedSpeedIncreaseMultiplier = 1f;
 
 	void OnMove(InputAction.CallbackContext context)
 	{
@@ -102,16 +109,17 @@ public class ShipControllerDirect : MonoBehaviour
 		controls.Player.Disable();
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
 		if (Global.Instance.LockedInputs) return;
 
-		var force = (AccellerationSpeed + CachedSpeedIncrease) * rb.mass * movementDirection;
-		rb.AddForce((AccellerationSpeed + CachedSpeedIncrease) * rb.mass * movementDirection);
+		var force = AccellerationSpeed * CachedSpeedIncreaseMultiplier * rb.mass * movementDirection;
+		force *= (60 * Time.fixedDeltaTime);
+		rb.AddForce(force);
 
 		if (rb.linearVelocity.magnitude > MaxVelocity)
 		{
-			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity + CachedSpeedIncrease);
+			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity * CachedSpeedIncreaseMultiplier);
 		}
 
 		var targetRotation = -rb.linearVelocityX;

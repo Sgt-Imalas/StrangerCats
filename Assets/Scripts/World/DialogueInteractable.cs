@@ -6,7 +6,6 @@ public class DialogueInteractable : Interactable
 	public override void OnRadiusEnter(Collider2D collision)
 	{
 		base.OnRadiusEnter(collision);
-
 		InteractHint.SetText("Call On Radio");
 	}
 	public override void OnInteractPressed()
