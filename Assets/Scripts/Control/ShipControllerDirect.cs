@@ -10,10 +10,8 @@ using UnityEngine.SceneManagement;
 public class ShipControllerDirect : MonoBehaviour
 {
 	private PlayerControls controls;
-	public Camera mainCamera;
 
 	[Header("Physics")]
-	public float RotationSpeed = 180;
 	public float MaxTilt = 10.0f;
 	public float TiltSpeed = 10.0f;
 	public float AccellerationSpeed = 28f;

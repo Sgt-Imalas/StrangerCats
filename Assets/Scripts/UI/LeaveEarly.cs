@@ -6,13 +6,18 @@ public class LeaveEarly : MonoBehaviour
 {
 	public HoldButton HoldButton;
 	private PlayerControls controls;
+	public MothershipAnimator ShipAnim;
+
 	private void Awake()
 	{
-        controls = new();
+		controls = new();
 		HoldButton.holdTime = 1.4f;
 		HoldButton.onHoldComplete.AddListener(() =>
 		{
-			Global.StartLoadingStarmapScene();
+			if (ShipAnim == null)
+				Global.StartLoadingStarmapScene();
+			else
+				ShipAnim.AnimateLeaving();
 		});
 		controls.Player.LeaveLevelEarly.started += ctx =>
 		{
@@ -35,8 +40,13 @@ public class LeaveEarly : MonoBehaviour
 		StopCoroutine(handle);
 		HoldButton.FillImage.fillAmount = 0f;
 
-		if(HeldEnough)
-			Global.StartLoadingStarmapScene();
+		if (HeldEnough)
+		{
+			if (ShipAnim == null)
+				Global.StartLoadingStarmapScene();
+			else
+				ShipAnim.AnimateLeaving(true);
+		}
 		HeldEnough = false;
 	}
 

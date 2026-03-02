@@ -15,6 +15,7 @@ public class Leavable : MonoBehaviour
 			return;
 		if (Global.Instance.LoadingScene)
 			return;
-		Global.StartLoadingStarmapScene();
+
+		//	Global.StartLoadingStarmapScene();
 	}
 }

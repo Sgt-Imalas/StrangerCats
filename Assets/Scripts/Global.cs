@@ -181,6 +181,7 @@ public class Global
 
 	public static void StartLoadingStarmapScene()
 	{
+		Debug.Log("Starting to load starmap");
 		CleanupEntities();
 		LoadOverlay.ShowOverlay();
 		Instance.LoadingScene = true;

@@ -162,7 +162,7 @@ public class ResourceTopBar : MonoBehaviour
 	}
 	void RefreshUpgradeButton()
 	{
-		UpgradeBtn.interactable = Global.Instance.SpaceshipResources.AnyResourceDiscovered();
+		UpgradeBtn.interactable = Global.Instance.SpaceshipResources.AnyResourceDiscovered() && (PersistentPlayer.Instance.InHangar || !PersistentPlayer.Instance.InLander);
 	}
 	private void RefreshVisibility(ResourceType type)
 	{
@@ -228,7 +228,7 @@ public class ResourceTopBar : MonoBehaviour
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
 	{
-		UpgradeButton.SetActive(UpgradesInteractable && UpgradeScreen != null);
+		UpgradeButton.SetActive(UpgradesInteractable && UpgradeScreen != null && Global.Instance.SpaceshipResources.AnyResourceDiscovered());
 		RefreshVisibility(ResourceType.Meat);
 		RefreshVisibility(ResourceType.Rust);
 		RefreshVisibility(ResourceType.Ball);

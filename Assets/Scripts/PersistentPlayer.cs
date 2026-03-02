@@ -128,7 +128,7 @@ namespace Assets.Scripts
 
 		public static void LoadStarmap()
 		{
-
+			Debug.Log("Persistent Player Load starmap");
 			Global.StartLoadingStarmapScene();
 		}
 
