@@ -15532,6 +15532,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD
       objectReference: {fileID: 0}
+    - target: {fileID: 313999912250434012, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3226409826427441104, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.2
@@ -15626,7 +15630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000021424355467033, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_text
-      value: 90%
+      value: 26 %
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

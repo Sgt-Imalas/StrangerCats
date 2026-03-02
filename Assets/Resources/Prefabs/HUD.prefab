@@ -1084,9 +1084,8 @@ MonoBehaviour:
   stiffness: 20
   damping: 1
   velocityInfluence: 14.73
-  rotationalStiffness: 10
-  rotationalDamping: 0.5
-  mass: 1
+  rotStiffness: 10
+  rotDamping: 0.5
 --- !u!1001 &1147257202146985277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1109,7 +1108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 31477867906631893, guid: fa1277f3d8e3e8f43a0988431144df16, type: 3}
       propertyPath: m_FillAmount
-      value: 0.904
+      value: 0.289
       objectReference: {fileID: 0}
     - target: {fileID: 2534791001293409005, guid: fa1277f3d8e3e8f43a0988431144df16, type: 3}
       propertyPath: m_AnchoredPosition.x

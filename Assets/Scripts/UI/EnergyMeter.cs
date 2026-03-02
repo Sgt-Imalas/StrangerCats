@@ -1,5 +1,4 @@
 using Assets.Scripts;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,31 +8,42 @@ public class EnergyMeter : MonoBehaviour
 {
 	[SerializeField] Image FillMeter;
 	[SerializeField] TextMeshProUGUI Text;
-	[SerializeField] RectTransform decal;
-	[SerializeField] Vector2 decal0;
-	[SerializeField] Vector2 decal1;
+	[SerializeField] RectTransform ActualFill;
+	[SerializeField] RectTransform DepleteFill;
+	[SerializeField] float catchUpSpeed;
+	[SerializeField] float minWidth, maxWidth;
+	[SerializeField]
+	Color
+		defaultColor = new Color32(0, 217, 214, 255),
+		warningColor = new Color32(255, 65, 77, 255);
 
-	Color defaultColor = new Color32(0, 217, 214, 255);
-	Color warningColor = new Color32(255, 65, 77, 255);
-	public float FillAmount = 1f;
-	public float PixelOffset = 0f;
-	// Update is called once per frame
+	public float TargetFillAmount = 1f, CurrentFillAmount = 1f;
+
+
 	void Update()
 	{
-
 		if (Application.isPlaying)
-			FillAmount = PersistentPlayer.Instance.EnergyPercentage;
+		{
+			TargetFillAmount = PersistentPlayer.Instance.EnergyPercentage;
+		}
 
-		var fill = (double)FillMeter.mainTexture.width;
-		var increment = 1.0d / fill;
-		var snapFill = (float)(Math.Ceiling(FillAmount / increment) * increment);
+		if (FillMeter == null)
+			return;
 
-		//decal.transform.position = 
-		FillMeter.fillAmount = snapFill;
-		FillMeter.color = FillAmount < 0.20f ? warningColor : defaultColor;
+		if (TargetFillAmount > CurrentFillAmount)
+			CurrentFillAmount = TargetFillAmount;
+		else
+			CurrentFillAmount = Mathf.MoveTowards(CurrentFillAmount, TargetFillAmount, Time.deltaTime * catchUpSpeed);
 
-		decal.anchoredPosition = new Vector2(Mathf.RoundToInt(PixelOffset + Mathf.Lerp(0, decal1.x, snapFill)), decal0.y);
+		var fillRange = maxWidth - minWidth;
+		var totalFill = fillRange * TargetFillAmount;
+		var tempFill = fillRange * CurrentFillAmount;
 
-		Text.SetText(string.Format("{0:P0}", FillAmount));
+		FillMeter.color = TargetFillAmount < 0.20f ? warningColor : defaultColor;
+
+		ActualFill.sizeDelta = new Vector2(Mathf.Round(totalFill + minWidth), 51);
+		DepleteFill.sizeDelta = new Vector2(Mathf.Round(tempFill + minWidth), 51);
+
+		Text.SetText(string.Format("{0:P0}", TargetFillAmount));
 	}
 }
