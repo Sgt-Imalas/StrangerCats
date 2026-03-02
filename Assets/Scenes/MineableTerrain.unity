@@ -2331,6 +2331,7 @@ MonoBehaviour:
   Player: {fileID: 870740498}
   Colliders: {fileID: 999454633}
   HangarOverlay: {fileID: 1972432356}
+  PixelCam: {fileID: 2102457985}
   scaleCurve2:
     serializedVersion: 2
     m_Curve:
@@ -8559,7 +8560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShipControllerDirect
   MaxTilt: 10
   TiltSpeed: 10
-  AccellerationSpeed: 25
+  AccellerationSpeed: 30
   MaxVelocity: 15
   movementDirection: {x: 0, y: 0}
   LookPosition: {x: 0, y: 0}
