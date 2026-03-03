@@ -70,27 +70,28 @@ namespace Assets.Scripts
 			}
 		}
 
-
-		public void DamageEnergyPercentage(float damagePercentage)
+		public void DamageEnergy(float totalDamage, Vector3 from)
 		{
-			if (iframes < lastDamageTaken)
-			{
-				var damage = damagePercentage * MaxLanderEnergy;
-
-				LanderEnergy = Mathf.Clamp(LanderEnergy - damage, 0, MaxLanderEnergy);
-				lastDamageTaken = 0.0f;
-			}
-		}
-		public void DamageEnergy(float damage)
-		{
-			if (damage <= 0)
+			if (totalDamage <= 0.0f)
 				return;
 
+			LanderEnergy = Mathf.Clamp(LanderEnergy - totalDamage, 0, MaxLanderEnergy);
+
+			lastDamageTaken = 0.0f;
+
+			GlobalEvents.Instance.OnPlayerHurt?.Invoke(totalDamage, LanderEnergy <= 0.0f, from);
+		}
+
+		public void DamageEnergy(ContactDamageInformation info, Vector3 from)
+		{
 			if (iframes < lastDamageTaken)
 			{
+				var totalDamage = 0.0f;
 
-				LanderEnergy = Mathf.Clamp(LanderEnergy - damage, 0, MaxLanderEnergy);
-				lastDamageTaken = 0.0f;
+				totalDamage += info.ContactDamagePercentage * MaxLanderEnergy;
+				totalDamage += info.ContactDamageFlat;
+
+				DamageEnergy(totalDamage, from);
 			}
 		}
 

@@ -17,8 +17,10 @@ namespace Assets.Scripts
 		public Action<Vector3> ShipReceivedImpact;
 		public Action OnPowerUp;
 		public Action<ResourceDrop> CollectedResource;
+		public OnPlayerHurtDelegate OnPlayerHurt;
 
 		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor);
+		public delegate void OnPlayerHurtDelegate(float damage, bool lethal, Vector3 fromDirection);
 
 		private void Awake()
 		{
