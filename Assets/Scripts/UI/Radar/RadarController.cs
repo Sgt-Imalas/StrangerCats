@@ -26,7 +26,7 @@ public class RadarController : MonoBehaviour
 		GlobalEvents.Instance.OnPlayerAttributesChanged += OnPlayerAttributeChanged;
 		MaximumRadarRange = PersistentPlayer.GetAttribute(AttributeType.RadarRange);
 
-		InvokeRepeating("RefreshRadarTargetsVisibility", 0, 0.2f);
+		InvokeRepeating(nameof(RefreshRadarTargetsVisibility), 0, 0.2f);
 	}
 
 	void RefreshRadarTargetsVisibility()
