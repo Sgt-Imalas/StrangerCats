@@ -15,10 +15,14 @@ public class Ball : MonoBehaviour
 
 	public Action<Ball> onBreak;
 
+	void Awake()
+	{
+		rb = GetComponent<Rigidbody>();
+	}
+
 	void Start()
 	{
 		audioSource = GetComponent<AudioSource>();
-		rb = GetComponent<Rigidbody>();
 	}
 
 	void Update()
