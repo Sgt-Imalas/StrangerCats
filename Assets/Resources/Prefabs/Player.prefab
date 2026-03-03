@@ -50,6 +50,9 @@ MonoBehaviour:
   LanderEnergy: 120
   InLander: 0
   LaserFiring: 0
+  InHangar: 0
+  iframes: 0.5
+  lastDamageTaken: 0
 --- !u!114 &6740822786564916747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +75,7 @@ MonoBehaviour:
     tooltip: 
     minValue: 1
     maxValue: 3000
-    value: 100
+    value: 1
   - id: 1
     tooltip: 
     minValue: 0
@@ -87,7 +90,7 @@ MonoBehaviour:
     tooltip: 
     minValue: 0
     maxValue: 9999999
-    value: 0
+    value: 500
   - id: 10
     tooltip: 
     minValue: 1

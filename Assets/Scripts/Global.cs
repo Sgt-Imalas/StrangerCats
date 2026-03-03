@@ -213,7 +213,7 @@ public class Global
 	public void StartLoadingScene(string scene = "MainMenu", bool showOverlay = true)
 	{
 		Debug.Log("Loading Main Menu");
-		if(showOverlay)
+		if (showOverlay)
 			LoadOverlay.ShowOverlay();
 		CleanupEntities();
 		LoadingScene = true;
@@ -440,11 +440,7 @@ public class GameUpgrades
 		switch (item)
 		{
 			case FindableItem.Radar:
-				if (!RadarUnlocked)
-				{
-					RadarUnlocked = true;
-					PersistentPlayer.AddModifier(new AttributeModifier("RadarUnlock", AttributeType.RadarRange, 500));
-				}
+				RadarUnlocked = true;
 				break;
 			case FindableItem.SuperCruise:
 				SuperCruiseUnlocked = true;

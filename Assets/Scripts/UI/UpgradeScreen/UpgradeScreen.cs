@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UpgradeScreen : MonoBehaviour
 {
+	public GameObject CantBuyOverlay;
+
+
 	public AudioClip BuySound;
 	//starship
 	UpgradeItem
@@ -132,10 +135,18 @@ public class UpgradeScreen : MonoBehaviour
 		{
 			item.Refresh();
 		}
+		RefreshCanBuy();
 		SelectFirstInteractable();
 		Global.Instance.InUpgradeMenu = true;
 		Time.timeScale = 0;
 		Global.Instance.OnUpgradePurchased += OnItemBought;
+
+	}
+	void RefreshCanBuy()
+	{
+		if (CantBuyOverlay == null)
+			return;
+
 	}
 	void OnItemBought()
 	{

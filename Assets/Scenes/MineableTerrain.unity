@@ -1576,15 +1576,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: MeatMaterial (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
-    (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
+    (Instance) (Instance)
   m_Shader: {fileID: -6465566751694194690, guid: c6a14c21fc7b479489fcc4c12739d5b2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 4
@@ -1753,7 +1754,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1351.1111, y: -760}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &419673924
 CanvasGroup:
@@ -2744,8 +2745,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e6c9833da7889443aae65f1a443c65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MothershipAnimator
-  EngineAnimations: [{fileID: 105508512}, {fileID: 720521590}, {fileID: 463584533},
-    {fileID: 456135533}]
+  EngineAnimations:
+  - {fileID: 105508512}
+  - {fileID: 720521590}
+  - {fileID: 463584533}
+  - {fileID: 456135533}
   ToDisableDuringAnim:
   - {fileID: 511759694}
   - {fileID: 99470272}
@@ -2779,6 +2783,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &511759694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3468082444126479488, guid: 4774325c30b0b774183823c80f6d0bc1, type: 3}
+  m_PrefabInstance: {fileID: 1877916114}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &518258186
 GameObject:
   m_ObjectHideFlags: 0
@@ -7615,11 +7624,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!1 &511759694 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3468082444126479488, guid: 4774325c30b0b774183823c80f6d0bc1, type: 3}
-  m_PrefabInstance: {fileID: 1877916114}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &518655088
 GameObject:
   m_ObjectHideFlags: 0
@@ -100770,7 +100774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000021424355467033, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_text
-      value: 26 %
+      value: 26%
       objectReference: {fileID: 0}
     - target: {fileID: 8516636288792404436, guid: 5f2d1d0aac25e5741bf8f184d7af9d1e, type: 3}
       propertyPath: m_AnchorMax.y
@@ -101634,7 +101638,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 402.1673, y: 69.62164}
+  m_ConnectedAnchor: {x: 349.56198, y: 46.607788}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:

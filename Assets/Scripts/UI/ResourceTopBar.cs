@@ -162,7 +162,7 @@ public class ResourceTopBar : MonoBehaviour
 	}
 	void RefreshUpgradeButton()
 	{
-		UpgradeBtn.interactable = Global.Instance.SpaceshipResources.AnyResourceDiscovered() && (PersistentPlayer.Instance.InHangar || !PersistentPlayer.Instance.InLander);
+		UpgradeBtn.interactable = Global.Instance.SpaceshipResources.AnyResourceDiscovered();
 	}
 	private void RefreshVisibility(ResourceType type)
 	{
