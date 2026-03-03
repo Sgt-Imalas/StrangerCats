@@ -13,6 +13,7 @@ public class MothershipAnimator : MonoBehaviour
 	public GameObject Player;
 	public GameObject Colliders;
 	public SpriteRenderer HangarOverlay;
+	public GameObject Hangar;
 	public PixelScaleCamera PixelCam;
 	public AnimationCurve scaleCurve2 = AnimationCurve.EaseInOut(0, 0, 1, 1);
 	float animatedTravelDistance = 120;
@@ -61,7 +62,7 @@ public class MothershipAnimator : MonoBehaviour
 	IEnumerator LeaveAnim(bool forcePlayerPositionNow)
 	{
 		if (forcePlayerPositionNow)
-			Player.transform.position = HangarOverlay.transform.position;
+			Player.transform.position = Hangar.transform.position;
 		Global.Instance.InShipAnimation = true;
 
 
@@ -82,7 +83,7 @@ public class MothershipAnimator : MonoBehaviour
 		ToggleAllDisableables(false);
 		yield return new WaitForSecondsRealtime(0.3f);
 
-		Player.transform.position = HangarOverlay.transform.position;
+		Player.transform.position = Hangar.transform.position;
 		Player?.gameObject.SetActive(false);
 		foreach (var anim in EngineAnimations)
 		{
@@ -122,7 +123,7 @@ public class MothershipAnimator : MonoBehaviour
 		ToggleAllDisableables(false);
 		Global.Instance.InShipAnimation = true;
 		Player?.gameObject.SetActive(false);
-		Player.transform.position = HangarOverlay.transform.position;
+		Player.transform.position = Hangar.transform.position;
 		var hangarColor = HangarOverlay.color;
 		hangarColor.a = 1;
 		HangarOverlay.color = hangarColor;
