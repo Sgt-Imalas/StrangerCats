@@ -9,13 +9,33 @@ public class HoverInfo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 	[TextArea]
 	public string Text = string.Empty;
 
+	public float TooltipDelay = 0.2f;
+
+	float hoverTimeEnter;
+	bool entered = false, displayed = false;
+
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		HoverOverlay.OnStartDisplaying(this);
+		entered = true;
+		displayed = false;
+		hoverTimeEnter = 0;
+	}
+	private void Update()
+	{
+		if (!entered || displayed) return;
+
+		hoverTimeEnter += Time.unscaledDeltaTime;
+		if(hoverTimeEnter > TooltipDelay)
+		{
+			HoverOverlay.OnStartDisplaying(this);
+			displayed = true;
+		}
+
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
+		entered = false;
 		HoverOverlay.OnStopDisplaying(this);
 	}
 }

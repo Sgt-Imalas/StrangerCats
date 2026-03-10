@@ -484,7 +484,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
+  m_fontSize: 13
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
@@ -1365,7 +1365,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
+  m_fontSize: 13
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
@@ -2255,6 +2255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59974a50de2e51040bae591fc4d29724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeScreen
+  CantBuyOverlay: {fileID: 0}
   BuySound: {fileID: 8300000, guid: 309e32dba2028ed428588a7f2ad4eb18, type: 3}
   GO_Radar: {fileID: 5937165885481520556}
   GO_RotationSpeed: {fileID: 6904645454503377985}

@@ -39,9 +39,6 @@ namespace Assets.Scripts
 
 			attributes = GetComponent<Attributes>();
 			SceneManager.sceneLoaded += OnSceneLoaded;
-
-
-			Global.Instance.LoadAndApplyAttributes(attributes);
 		}
 
 		void Start()
@@ -61,7 +58,7 @@ namespace Assets.Scripts
 
 		private void OnAttributesChanged(AttributeType type, float finalValue)
 		{
-			GlobalEvents.Instance.OnPlayerAttributesChanged.Invoke(type, finalValue);
+			GlobalEvents.Instance.OnPlayerAttributesChanged?.Invoke(type, finalValue);
 
 			if (type == AttributeType.LifeTime)
 			{
@@ -79,7 +76,10 @@ namespace Assets.Scripts
 
 			lastDamageTaken = 0.0f;
 
-			GlobalEvents.Instance.OnPlayerHurt?.Invoke(totalDamage, LanderEnergy <= 0.0f, from);
+			bool energyDepleted = LanderEnergy <= 0f;
+			GlobalEvents.Instance.OnPlayerHurt?.Invoke(totalDamage, energyDepleted, from);
+			if (energyDepleted)
+				GlobalEvents.Instance.EnergyDepleted();
 		}
 
 		public void DamageEnergy(ContactDamageInformation info, Vector3 from)
@@ -111,8 +111,12 @@ namespace Assets.Scripts
 				decayAmount *= Time.deltaTime;
 
 				LanderEnergy = Mathf.Clamp(LanderEnergy - decayAmount, 0, MaxLanderEnergy);
-				if (LanderEnergy == 0)
-					LoadStarmap();
+				if (LanderEnergy <= 0 && iframes < lastDamageTaken)
+				{
+					lastDamageTaken = 0;
+					EnergyDepletionPenalty();
+					GlobalEvents.Instance.EnergyDepleted();
+				}
 			}
 
 			if (testMod)
@@ -126,6 +130,12 @@ namespace Assets.Scripts
 
 			lastDamageTaken += Time.deltaTime;
 		}
+
+		void EnergyDepletionPenalty()
+		{
+			//TODO: some sort of penalty for dying
+		}
+
 
 		public static void LoadStarmap()
 		{

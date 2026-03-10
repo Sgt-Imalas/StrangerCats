@@ -40,7 +40,7 @@ public class RadarController : MonoBehaviour
 				continue;
 			}
 			var distance = Vector3.Distance(PlayerGO.transform.position, target.Key.transform.position);
-			target.Value.gameObject.SetActive(target.Value.IgnoreDistanceLimit ||( distance <= MaximumRadarRange && Global.Instance.Upgrades.RadarUnlocked));
+			target.Value.gameObject.SetActive(target.Value.IgnoreDistanceLimit || (distance <= MaximumRadarRange && Global.Instance.Upgrades.RadarUnlocked));
 		}
 	}
 

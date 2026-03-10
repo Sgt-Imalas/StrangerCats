@@ -139,7 +139,7 @@ public class UpgradeScreen : MonoBehaviour
 		SelectFirstInteractable();
 		Global.Instance.InUpgradeMenu = true;
 		Time.timeScale = 0;
-		Global.Instance.OnUpgradePurchased += OnItemBought;
+		Global.Instance.Upgrades.OnUpgradePurchased += OnItemBought;
 
 	}
 	void RefreshCanBuy()
@@ -148,7 +148,7 @@ public class UpgradeScreen : MonoBehaviour
 			return;
 
 	}
-	void OnItemBought()
+	void OnItemBought(BuyableUpgrade upgrade)
 	{
 		if (BuySound != null)
 			MusicManager.PlayFx(BuySound);
@@ -161,6 +161,6 @@ public class UpgradeScreen : MonoBehaviour
 	{
 		Global.Instance.InUpgradeMenu = false;
 		Time.timeScale = 1;
-		Global.Instance.OnUpgradePurchased -= OnItemBought;
+		Global.Instance.Upgrades.OnUpgradePurchased -= OnItemBought;
 	}
 }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8eb06f373e2b74458565258ec8f0d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.PersistentPlayer
-  attributes: {fileID: 0}
+  attributes: {fileID: 6740822786564916747}
   testMod: 0
   LanderEnergy: 120
   InLander: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
   - id: 6
     tooltip: 
     minValue: 1
-    maxValue: 10
+    maxValue: 20
     value: 1
   - id: 5
     tooltip: 

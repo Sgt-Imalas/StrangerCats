@@ -21,6 +21,9 @@ namespace Assets.Scripts
 
 		public delegate void OnNewMapGeneratedDelegate(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor);
 		public delegate void OnPlayerHurtDelegate(float damage, bool lethal, Vector3 fromDirection);
+		public event Action OnPlayerEnergyDepleted;
+
+		public void EnergyDepleted() => OnPlayerEnergyDepleted?.Invoke();
 
 		private void Awake()
 		{

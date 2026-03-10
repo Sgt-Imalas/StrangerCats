@@ -29,8 +29,6 @@ public class SceneLoader : MonoBehaviour
 		Global.Instance.StartLoadingMainMenu();
 	}
 
-	public void StartGame() => LoadSceneByName("Starmap");
-
 	public void LoadGame()
 	{
 		Global.LoadPersistantInstance();

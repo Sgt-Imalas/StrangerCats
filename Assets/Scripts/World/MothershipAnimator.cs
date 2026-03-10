@@ -36,6 +36,36 @@ public class MothershipAnimator : MonoBehaviour
 
 		Global.Instance.InShipAnimation = false;
 	}
+	public void TeleportPlayerToHangar(bool instant)
+	{
+		if (instant)
+		{
+			Player.transform.position = Hangar.transform.position;
+		}
+		else
+		{
+			StartCoroutine(AnimateTeleport());
+		}
+	}
+	IEnumerator AnimateTeleport()
+	{
+		float zoom = PixelCam._targetZoom;
+		float speed = PixelCam.zoomSmoothing;
+
+		PixelCam.zoomSmoothing = 40;
+		PixelCam._targetZoom = 1;
+
+		while(PixelCam.zoom != PixelCam._targetZoom)
+			yield return null;
+
+		Player.transform.position = Hangar.transform.position;
+		PixelCam._targetZoom = zoom;
+
+		while (PixelCam.zoom != PixelCam._targetZoom)
+			yield return null;
+
+		PixelCam.zoomSmoothing = speed;
+	}
 
 	private void OnNewMapGenerated(Dictionary<Vector3Int, int> materials, PlanetDescriptor descriptor)
 	{
@@ -45,6 +75,13 @@ public class MothershipAnimator : MonoBehaviour
 
 	public void AnimateArrival()
 	{
+		if (Global.Instance.FlightState == Global.PlayerState.Landed)
+		{
+			Player.transform.position = Hangar.transform.position;
+			return;
+		}
+
+		Global.Instance.FlightState = Global.PlayerState.LandingOnPlanet;
 		StartCoroutine(LandAnim());
 
 	}
@@ -56,13 +93,19 @@ public class MothershipAnimator : MonoBehaviour
 
 	public void AnimateLeaving(bool forcePlayerNow = false)
 	{
+		if (Global.Instance.FlightState == Global.PlayerState.InSpace)
+		{
+			Global.StartLoadingStarmapScene();
+			return;
+		}
+		Global.Instance.FlightState = Global.PlayerState.LeavingFromPlanet;
 		StartCoroutine(LeaveAnim(forcePlayerNow));
 	}
 
 	IEnumerator LeaveAnim(bool forcePlayerPositionNow)
 	{
 		if (forcePlayerPositionNow)
-			Player.transform.position = Hangar.transform.position;
+			TeleportPlayerToHangar(true);
 		Global.Instance.InShipAnimation = true;
 
 
@@ -113,6 +156,9 @@ public class MothershipAnimator : MonoBehaviour
 		Player?.gameObject.SetActive(true);
 
 		ToggleAllDisableables(true);
+		Global.Instance.FlightState = Global.PlayerState.InSpace;
+		Global.Instance.LandedPlanet = -1;
+		Global.WriteSaveFile();
 		Global.StartLoadingStarmapScene();
 
 	}
@@ -178,5 +224,8 @@ public class MothershipAnimator : MonoBehaviour
 
 		Global.Instance.InShipAnimation = false;
 		ToggleAllDisableables(true);
+
+		Global.Instance.FlightState = Global.PlayerState.Landed;
+		Global.WriteSaveFile();
 	}
 }

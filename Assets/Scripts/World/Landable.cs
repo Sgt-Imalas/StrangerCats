@@ -42,9 +42,11 @@ public class Landable : Interactable
 			StartLoadingScene();
 		}
 	}
+	public void LandInstantly() => StartLoadingScene();
 
 	void StartLoadingScene()
 	{
+		Global.Instance.LandedPlanet = transform.GetSiblingIndex();
 		Global.Instance.Spaceship.CanLand = true;
 		LoadOverlay.ShowOverlay();
 		SceneManager.sceneLoaded += OnSceneLoadFinished;

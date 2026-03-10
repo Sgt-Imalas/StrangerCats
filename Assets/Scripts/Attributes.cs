@@ -34,7 +34,8 @@ public class Attributes : MonoBehaviour
 
 	public void BroadCastEvent(AttributeType type)
 	{
-		OnAttributeChanged?.Invoke(type, Get(type));
+		if (OnAttributeChanged != null)
+			OnAttributeChanged.Invoke(type, Get(type));
 	}
 
 	public float Get(AttributeType attribute)
@@ -49,7 +50,6 @@ public class Attributes : MonoBehaviour
 		mod.value = value;
 		mod.multiplier = isMultiplier;
 		mod.attributeId = attributeId;
-
 		AddMod(mod);
 	}
 

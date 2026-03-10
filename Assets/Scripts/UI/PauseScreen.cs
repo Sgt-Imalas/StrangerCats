@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -36,10 +37,28 @@ public class PauseScreen : MonoBehaviour
 		SfxSlider.onValueChanged.AddListener(OnSfxVolumeChanged);
 		Resume.onClick.AddListener( () => PauseGame(false));
 
-		Exit.onClick.AddListener( Global.Instance.StartLoadingMainMenu);
+		Exit.onClick.AddListener(ExitClicked);
 
 		PauseGame(false);
 	}
+
+	void ExitClicked()
+	{
+		switch (SceneManager.GetActiveScene().name)
+		{
+			case "MineableTerrain":
+			case "Starmap":
+				Global.WriteSaveFile();
+				Global.Instance.StartLoadingMainMenu();
+				break;
+			case "MainMenu":
+				PauseMenuUi.SetActive(false);
+				break;
+				
+		}
+
+	}
+
 	void OnMusicVolumeChanged(float newValue)
 	{
 		MusicManager.SetMusicVolume(newValue);

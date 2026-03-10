@@ -20,6 +20,8 @@ public class HangarArea : PlayerDetection
 	void TogglePlayerInside()
 	{
 		PersistentPlayer.Instance.InHangar = Landed;
+		///trigger the upgrade button refresh
+		Global.Instance.FlightState = Global.Instance.FlightState;
 	}
 
 }

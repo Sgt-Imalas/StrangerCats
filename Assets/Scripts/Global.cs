@@ -10,6 +10,13 @@ using UnityEngine.SceneManagement;
 [ExecuteAlways]
 public class Global
 {
+	public enum PlayerState
+	{
+		Landed,
+		InSpace,
+		LandingOnPlanet,
+		LeavingFromPlanet
+	}
 	public const float StickDeadzone = 0.3f;
 	private static Global _instance;
 
@@ -69,6 +76,9 @@ public class Global
 	public void Serialize(BinaryWriter writer)
 	{
 		writer.Write(Seed);
+		writer.Write((int)FlightState);
+		writer.Write(LandedPlanet);
+
 		writer.Write(Spaceship.Position.x);
 		writer.Write(Spaceship.Position.y);
 		writer.Write(Spaceship.PositionMining.x);
@@ -102,6 +112,9 @@ public class Global
 	public void Deserialize(BinaryReader reader)
 	{
 		Seed = reader.ReadInt32();
+		FlightState = (PlayerState)reader.ReadInt32();
+		LandedPlanet = reader.ReadInt32();
+
 		Spaceship.Position = new(reader.ReadSingle(), reader.ReadSingle());
 		Spaceship.PositionMining = new(reader.ReadSingle(), reader.ReadSingle());
 		Spaceship.Rotation = Quaternion.AngleAxis(reader.ReadSingle() * 360, Vector3.forward);
@@ -118,7 +131,6 @@ public class Global
 		Upgrades.TennisWorldItemFound = reader.ReadBoolean();
 		Upgrades.DesertWorldItemFound = reader.ReadBoolean();
 
-
 		Upgrades.RadarRange.BuyLevelsFromSave(reader.ReadInt32());
 		Upgrades.SuperCruise.BuyLevelsFromSave(reader.ReadInt32());
 		Upgrades.RotationSpeed.BuyLevelsFromSave(reader.ReadInt32());
@@ -130,10 +142,6 @@ public class Global
 		Upgrades.LaserSpeed.BuyLevelsFromSave(reader.ReadInt32());
 		Upgrades.ResourceYield.BuyLevelsFromSave(reader.ReadInt32());
 	}
-	internal void LoadAndApplyAttributes(Attributes attributes)
-	{
-		//Todo: store attribute modifiers in the serialized global item, and apply them here
-	}
 
 	internal static void LoadPersistantInstance()
 	{
@@ -141,7 +149,7 @@ public class Global
 		{
 			try
 			{
-				//Debug.Log("Loading savefile");
+				Debug.Log("Loading savefile");
 				var data = PlayerPrefs.GetString(saveKey);
 				var dataBytes = Convert.FromBase64String(data);
 
@@ -162,6 +170,19 @@ public class Global
 
 	public List<GameObject> entities = new();
 
+	private PlayerState _state = PlayerState.Landed;
+	public PlayerState FlightState
+	{
+		get => _state;
+		set
+		{
+			_state = value;
+			FlightStateChanged?.Invoke(_state);
+		}
+	}
+	public event Action<PlayerState> FlightStateChanged;
+
+	public int LandedPlanet = 0; //starter asteroid, see SaveStateLoader in starmap scene for indices
 	public StarmapShip Spaceship = new();
 	public MiningResourceStorage SpaceshipResources = new();
 	public GameUpgrades Upgrades = new GameUpgrades();
@@ -201,13 +222,6 @@ public class Global
 		}
 		Global.Instance.entities.Clear();
 	}
-
-	internal void UpgradePurchased()
-	{
-		OnUpgradePurchased?.Invoke();
-		WriteSaveFile();
-	}
-	public event Action OnUpgradePurchased;
 
 	public void StartLoadingMainMenu() => StartLoadingScene("MainMenu");
 	public void StartLoadingScene(string scene = "MainMenu", bool showOverlay = true)
@@ -261,7 +275,7 @@ public class StarmapShip
 		MaxVelocity = 100f,
 		Accelleration = 30f,
 		RotationSpeed = 135f,
-		LinearDampening = 0.25f,
+		LinearDampening = 0.375f,
 		CameraOffset = -25
 	};
 	public FlightStats PodMode = new()
@@ -284,7 +298,7 @@ public class StarmapShip
 
 	public bool InPrecisionFlightMode = true;
 	public bool CanLand = true;
-	public bool TooFastToLand => CurrentVelocity > 15f;
+	public bool TooFastToLand => false;// CurrentVelocity > 15f;
 	public bool BlockedFromLanding => !CanLand || !InPrecisionFlightMode || TooFastToLand;
 
 	//starts off in precision mode, set by the shipcontroller
@@ -460,8 +474,13 @@ public class GameUpgrades
 	}
 
 	public event Action<FindableItem> OnItemCollected;
+	public event Action<BuyableUpgrade> OnUpgradePurchased;
 
-
+	internal void UpgradePurchased(BuyableUpgrade upgrade)
+	{
+		OnUpgradePurchased?.Invoke(upgrade);
+		Global.WriteSaveFile();
+	}
 
 	public BuyableUpgrade RadarRange = new BuyableUpgrade("Radar Range", 50, 1.2f)
 		.Modifier(AttributeType.RadarRange, 250f)
@@ -628,7 +647,7 @@ public class BuyableUpgrade
 		}
 
 		IncreaseLevelInternal();
-		Global.Instance.UpgradePurchased();
+		Global.Instance.Upgrades.UpgradePurchased(this);
 	}
 	void IncreaseLevelInternal()
 	{
@@ -654,11 +673,14 @@ public class BuyableUpgrade
 
 	internal void BuyLevelsFromSave(int targetLevel)
 	{
+		if(targetLevel == 0) 
+			return;
 		if (Level >= targetLevel)
 		{
 			Debug.LogWarning(Name + " level is already at or higher than requested " + targetLevel);
 			return;
 		}
+		Debug.Log(Name + " loading level " + targetLevel);
 		for (var i = Level; i < targetLevel; i++)
 		{
 			IncreaseLevelInternal();

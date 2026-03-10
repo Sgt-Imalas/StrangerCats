@@ -145,9 +145,6 @@ public class ShipControllerStarmap2 : MonoBehaviour
 		if (!Global.Instance.Upgrades.SuperCruiseUnlocked || Global.Instance.LockedInputs)
 			return;
 
-		if (!PrecisionFlyMode && Global.Instance.Spaceship.CurrentVelocity > Global.Instance.Spaceship.PrecisionMode.MaxVelocity)
-			return;
-
 
 		PrecisionFlyMode = !PrecisionFlyMode;
 		Global.Instance.Spaceship.InPrecisionFlightMode = PrecisionFlyMode;
@@ -212,10 +209,10 @@ public class ShipControllerStarmap2 : MonoBehaviour
 		}
 		RefreshEngineParticles();
 
-		if (rb.linearVelocity.magnitude > MaxVelocity)
-		{
-			rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
-		}
+		//if (rb.linearVelocity.magnitude > MaxVelocity)
+		//{
+		//	rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, MaxVelocity);
+		//}
 		Global.Instance.Spaceship.CurrentVelocity = rb.linearVelocity.magnitude;
 		Global.Instance.Spaceship.CurrentVelocityVectorClamped = rb.linearVelocity;
 

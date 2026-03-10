@@ -1,6 +1,8 @@
 using Assets.Scripts;
+using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -18,6 +20,8 @@ public class ResourceTopBar : MonoBehaviour
 	public GameObject Radar, SuperCruise, MeatWorldItem, TennisWorldItem, DesertWorldItem;
 	public AudioClip Collecc, ColleccItem;
 	public CardAnimation Card_Radar, Card_SuperCruise, Card_MeatWorldItem, Card_TennisWorldItem, Card_DesertWorldItem;
+
+	bool hasUpgradeScreen = false;
 
 	private void Awake()
 	{
@@ -42,7 +46,28 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceCollected += OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent += OnResourceSpent;
 		Global.Instance.Upgrades.OnItemCollected += OnItemCollected;
+		hasUpgradeScreen = UpgradeScreen != null;
+
+		Global.Instance.FlightStateChanged += OnFlightStateChanged;
 	}
+
+	private void OnFlightStateChanged(Global.PlayerState state)
+	{
+		RefreshUpgradeButton();
+		switch (state)
+		{
+			case Global.PlayerState.InSpace:
+				UpgradeBtn.interactable = (true); break;
+			case Global.PlayerState.LeavingFromPlanet:
+			case Global.PlayerState.LandingOnPlanet:
+				break;
+			case Global.PlayerState.Landed:
+				UpgradeBtn.interactable = (PersistentPlayer.Instance.InHangar);
+				break;
+
+		}
+	}
+
 
 	private void CHEAT_PowerUp(InputAction.CallbackContext context)
 	{
@@ -119,7 +144,7 @@ public class ResourceTopBar : MonoBehaviour
 
 	private void OnToggleUpgradeScreen(InputAction.CallbackContext _)
 	{
-		if (!UpgradesInteractable || !UpgradeButton.activeSelf)
+		if (!UpgradesInteractable || !UpgradeButton.activeSelf || !UpgradeBtn.interactable)
 			return;
 
 		if (UpgradeScreen == null)
@@ -137,6 +162,7 @@ public class ResourceTopBar : MonoBehaviour
 		Global.Instance.SpaceshipResources.OnResourceCollected -= OnResourceCollected;
 		Global.Instance.SpaceshipResources.OnResourceSpent -= OnResourceSpent;
 		Global.Instance.Upgrades.OnItemCollected -= OnItemCollected;
+		Global.Instance.FlightStateChanged -= OnFlightStateChanged;
 	}
 	private void OnEnable()
 	{
@@ -162,7 +188,7 @@ public class ResourceTopBar : MonoBehaviour
 	}
 	void RefreshUpgradeButton()
 	{
-		UpgradeBtn.interactable = Global.Instance.SpaceshipResources.AnyResourceDiscovered();
+		UpgradeButton.SetActive(Global.Instance.SpaceshipResources.AnyResourceDiscovered());
 	}
 	private void RefreshVisibility(ResourceType type)
 	{
@@ -240,6 +266,7 @@ public class ResourceTopBar : MonoBehaviour
 		RefreshVisibility(FindableItem.Tennis);
 		RefreshVisibility(FindableItem.Desert);
 
+		OnFlightStateChanged(Global.Instance.FlightState);
 	}
 
 	IEnumerator AnimateCollection(ResourceType type, uint amount, float duration = 0.5f)

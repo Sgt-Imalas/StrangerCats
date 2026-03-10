@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 6364381220635027192}
   - component: {fileID: 8207410732631668885}
   - component: {fileID: 5960851387057104776}
+  - component: {fileID: 6400481813616158458}
   m_Layer: 5
   m_Name: Schwartz
   m_TagString: Untagged
@@ -268,6 +269,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6400481813616158458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355605415684731966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8104af6786a1841ae03969535146f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverInfo
+  Allignment: 0
+  Text: "Liquid Schwartz\u2122, a truly magical substance\n\nAllows overcharging
+    your engines for massively increased flight speed at the cost of maneuverability"
+  TooltipDelay: 0.2
 --- !u!1 &378034711070103118
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,6 +608,7 @@ GameObject:
   - component: {fileID: 3138401043723604318}
   - component: {fileID: 3185177846764547047}
   - component: {fileID: 8333971637746650758}
+  - component: {fileID: 661443791351862618}
   m_Layer: 5
   m_Name: Radar
   m_TagString: Untagged
@@ -655,6 +673,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &661443791351862618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096010347816695375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8104af6786a1841ae03969535146f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverInfo
+  Allignment: 0
+  Text: 'An old radar dish found in a scrapyard.
+
+
+    Reveals far away POIs in space'
+  TooltipDelay: 0.2
 --- !u!1 &2534964155251661885
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,6 +839,7 @@ GameObject:
   - component: {fileID: 5357888816230505269}
   - component: {fileID: 2312799073928740487}
   - component: {fileID: 1462858241913127133}
+  - component: {fileID: 8703125180437951614}
   m_Layer: 5
   m_Name: Dust
   m_TagString: Untagged
@@ -867,6 +904,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8703125180437951614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2676840058460077496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8104af6786a1841ae03969535146f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverInfo
+  Allignment: 0
+  Text: 'Desert Komb
+
+
+    a legendary item required to rekindle the pawtal'
+  TooltipDelay: 0.2
 --- !u!1 &3442593161439799816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1111,6 +1166,7 @@ GameObject:
   - component: {fileID: 1550833413468734805}
   - component: {fileID: 6387284258234013896}
   - component: {fileID: 3679661762285634874}
+  - component: {fileID: 1388289858220468593}
   m_Layer: 5
   m_Name: Meat
   m_TagString: Untagged
@@ -1175,6 +1231,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1388289858220468593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285339488917005907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8104af6786a1841ae03969535146f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverInfo
+  Allignment: 0
+  Text: 'Magic Meat
+
+
+    a legendary item required to rekindle the pawtal'
+  TooltipDelay: 0.2
 --- !u!1 &6117481961556796246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1397,7 @@ GameObject:
   - component: {fileID: 5804987766105469561}
   - component: {fileID: 6045231513957398262}
   - component: {fileID: 5036648618063151172}
+  - component: {fileID: 8684025860467262267}
   m_Layer: 5
   m_Name: Ball
   m_TagString: Untagged
@@ -1387,6 +1462,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8684025860467262267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6340804526498493104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8104af6786a1841ae03969535146f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverInfo
+  Allignment: 0
+  Text: "Ball\xB2\n\na legendary item required to rekindle the pawtal"
+  TooltipDelay: 0.2
 --- !u!1 &6560807126872569492
 GameObject:
   m_ObjectHideFlags: 0
@@ -1858,6 +1948,7 @@ GameObject:
   - component: {fileID: 2536369764646559552}
   - component: {fileID: 8916365634749504086}
   - component: {fileID: 9137339391294111685}
+  - component: {fileID: 786415135070564666}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1967,3 +2058,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &786415135070564666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511521760464711834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8104af6786a1841ae03969535146f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverInfo
+  Allignment: 0
+  Text: 'Spend resources for upgrades.
+
+
+    Can not be used while outside the main
+    ship.'
+  TooltipDelay: 0.2
